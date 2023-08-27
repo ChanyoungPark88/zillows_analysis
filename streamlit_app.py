@@ -42,6 +42,27 @@ def get_listings(listing_url, api_key, email):
     return requests.request("GET", url, params=querystring, headers=headers)
 
 
+def get_properties(api_key, email, zpid=None, address=None):
+    url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
+
+    querystring = {
+        "api_key": api_key,
+        "email": email,
+        "zpid": zpid,
+        "address": address
+    }
+    if zpid is not None:
+        querystring['zpid'] = zpid
+    if address is not None:
+        querystring['address'] = address
+
+    response = requests.request(
+        "GET", url, params=querystring, headers=headers)
+    return response.json()
+
+
 def get_listing_parameters():
 
     st.title("Listings Search")
@@ -110,14 +131,14 @@ def get_property_parameters():
 
     with st.container():
         st.markdown("## 1. Enter a Unique Identifier")
-        uid = st.text_input(
+        zpid = st.text_input(
             'Unique ID',
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
             placeholder='1234567'
         )
         st.text('or')
-        full_address = st.text_input(
+        address = st.text_input(
             'Full Address',
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
@@ -142,6 +163,14 @@ def get_property_parameters():
             placeholder='demo@demo.com',
         )
 
+    if st.button("Run", type="secondary"):
+        result = get_properties(
+            api_key=api_key, email=email, zpid=zpid, address=address)
+        if result.json()['is_success']:
+            df_prop = pd.json_normalize(
+                result.json()['data'])
+            st.write(df_prop)
+
 
 def data_frame_demo():
     pass
@@ -150,7 +179,7 @@ def data_frame_demo():
 page_names_to_funcs = {
     "Home": main,
     "Listings Search": get_listing_parameters,
-    "Mapping Demo": get_property_parameters,
+    "Property Detail": get_property_parameters,
     "DataFrame Demo": data_frame_demo
 }
 
