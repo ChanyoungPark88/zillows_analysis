@@ -27,17 +27,17 @@ def main():
     )
 
 
-def get_listings(listing_url, api_key, email):
+def get_listings():
     st.title("# Listings Search")
 
     st.markdown("## 1. Enter Web Link")
-    st.markdown('url')
+    st.text('url')
 
     st.markdown("## 2. Enter your API Key")
-    st.markdown('API Key')
+    st.text('API Key')
 
     st.markdown("## 3. Enter your E-Mail")
-    st.markdown('E-Mail')
+    st.text('E-Mail')
 
 
 def mapping_demo():
