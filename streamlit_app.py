@@ -27,18 +27,41 @@ def main():
     )
 
 
-def get_listings():
+def get_parameters():
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
+
+    col1, col2, col3 = st.columns(3)
+
     st.title("# Listings Search")
 
-    st.markdown("## 1. Enter Web Link")
-    listing_url = st.text_input(
-        'url', 'https://www.zillow.com/...', key='placeholder')
+    with col1:
+        st.markdown("## 1. Enter Web Link")
+        listing_url = st.text_input(
+            'url',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder=st.session_state.placeholder,
+        )
 
-    st.markdown("## 2. Enter your API Key")
-    st.text('API Key')
+    with col2:
+        st.markdown("## 2. Enter your API Key")
+        api_key = st.text_input(
+            'API Key',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder=st.session_state.placeholder,
+        )
 
-    st.markdown("## 3. Enter your E-Mail")
-    st.text('E-Mail')
+    with col3:
+        st.markdown("## 3. Enter your E-Mail")
+        email = st.text_input(
+            'Email',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder=st.session_state.placeholder,
+        )
 
 
 def mapping_demo():
