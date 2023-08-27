@@ -194,9 +194,9 @@ def data_analystic():
 
         if st.form_submit_button("Go", type="secondary"):
             if option == 'Listings':
-                get_listings
+                pass
             else:
-                get_properties
+                pass
 
 
 page_names_to_funcs = {
