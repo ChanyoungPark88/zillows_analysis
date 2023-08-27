@@ -42,7 +42,7 @@ def get_listings(listing_url, api_key, email):
     return requests.request("GET", url, params=querystring, headers=headers)
 
 
-def get_parameters():
+def get_listing_parameters():
 
     st.title("Listings Search")
     if "visibility" not in st.session_state:
@@ -98,8 +98,49 @@ def get_parameters():
             st.write(df_sale_listings)
 
 
-def mapping_demo():
-    pass
+def get_property_parameters():
+
+    st.title("Property Detail Search")
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
+        st.session_state.placeholder = "Enter value"
+
+    # col1, col2, col3 = st.columns(3)
+
+    with st.container():
+        st.markdown("## 1. Enter a Unique Identifier")
+        uid = st.text_input(
+            'Unique ID',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder='1234567'
+        )
+        st.text('or')
+        full_address = st.text_input(
+            'Full Address',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder='110 1st St, Jersey City, NJ 07302'
+        )
+    with st.container():
+        st.markdown("## 2. Enter your API Key")
+        api_key = st.text_input(
+            'API Key',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder='1234567890',
+            type="password"
+        )
+
+    with st.container():
+        st.markdown("## 3. Enter your E-Mail")
+        email = st.text_input(
+            'Email',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder='demo@demo.com',
+        )
 
 
 def data_frame_demo():
@@ -108,8 +149,8 @@ def data_frame_demo():
 
 page_names_to_funcs = {
     "Home": main,
-    "Listings Search": get_parameters,
-    "Mapping Demo": mapping_demo,
+    "Listings Search": get_listing_parameters,
+    "Mapping Demo": get_property_parameters,
     "DataFrame Demo": data_frame_demo
 }
 
