@@ -174,6 +174,7 @@ def get_property_parameters():
 
 def data_analystic():
     with st.form("my_form"):
+        st.text("Inside the form")
         st.title("Analystics")
         if "visibility" not in st.session_state:
             st.session_state.visibility = "visible"
