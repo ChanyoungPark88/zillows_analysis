@@ -28,13 +28,13 @@ def main():
 
 
 def get_parameters():
+
+    st.title("# Listings Search")
     if "visibility" not in st.session_state:
         st.session_state.visibility = "visible"
         st.session_state.disabled = False
 
     col1, col2, col3 = st.columns(3)
-
-    st.title("# Listings Search")
 
     with col1:
         st.markdown("## 1. Enter Web Link")
