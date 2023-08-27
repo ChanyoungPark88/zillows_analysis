@@ -33,6 +33,7 @@ def get_parameters():
     if "visibility" not in st.session_state:
         st.session_state.visibility = "visible"
         st.session_state.disabled = False
+        st.session_state.placeholder = "Enter value"
 
     col1, col2, col3 = st.columns(3)
 
@@ -42,7 +43,7 @@ def get_parameters():
             'url',
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
-            placeholder=st.session_state.placeholder,
+            placeholder='https://www.zillow.com/...'
         )
         if listing_url:
             st.write(listing_url)
@@ -53,7 +54,7 @@ def get_parameters():
             'API Key',
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
-            placeholder=st.session_state.placeholder,
+            placeholder='1234567890',
         )
         if api_key:
             st.write(api_key)
@@ -64,7 +65,7 @@ def get_parameters():
             'Email',
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
-            placeholder=st.session_state.placeholder,
+            placeholder='demo@demo.com',
         )
         if email:
             st.write(email)
