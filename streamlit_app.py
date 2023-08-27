@@ -71,6 +71,8 @@ def get_parameters():
         if email:
             st.write(email)
 
+    st.button("Run", type="primary")
+
 
 def mapping_demo():
     pass
