@@ -9,7 +9,7 @@ from urllib.error import URLError
 
 
 def main():
-    st.write("# Zillow Analysis Tool")
+    st.title("# Zillow Analysis Tool")
     st.sidebar.success("Select a feature above.")
 
     st.markdown(
@@ -28,16 +28,16 @@ def main():
 
 
 def get_listings(listing_url, api_key, email):
-    st.write("# Listings Search")
+    st.title("# Listings Search")
 
-    st.write("## 1. Enter Web Link")
-    st.write('url')
+    st.markdown("## 1. Enter Web Link")
+    st.markdown('url')
 
-    st.write("## 2. Enter your API Key")
-    st.write('API Key')
+    st.markdown("## 2. Enter your API Key")
+    st.markdown('API Key')
 
-    st.write("## 3. Enter your E-Mail")
-    st.write('E-Mail')
+    st.markdown("## 3. Enter your E-Mail")
+    st.markdown('E-Mail')
 
 
 def mapping_demo():
