@@ -55,6 +55,7 @@ def get_parameters():
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
             placeholder='1234567890',
+            type="password"
         )
         if api_key:
             st.write(api_key)
