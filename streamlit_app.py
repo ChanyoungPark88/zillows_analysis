@@ -27,7 +27,7 @@ def main():
     )
 
 
-def get_listings(listing_url):
+def get_listings():
     st.title("# Listings Search")
 
     st.markdown("## 1. Enter Web Link")
