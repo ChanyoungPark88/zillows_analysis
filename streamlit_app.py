@@ -172,7 +172,7 @@ def get_property_parameters():
             st.write(df_prop)
 
 
-def data_frame_demo():
+def data_analystic():
     pass
 
 
@@ -180,7 +180,7 @@ page_names_to_funcs = {
     "Home": main,
     "Listings Search": get_listing_parameters,
     "Property Detail": get_property_parameters,
-    "DataFrame Demo": data_frame_demo
+    "Analystics": data_analystic
 }
 
 feature_name = st.sidebar.selectbox(
