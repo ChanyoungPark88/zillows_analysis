@@ -27,11 +27,12 @@ def main():
     )
 
 
-def get_listings():
+def get_listings(listing_url):
     st.title("# Listings Search")
 
     st.markdown("## 1. Enter Web Link")
-    st.text('url')
+    listing_url = st.text_input(
+        'url', 'https://www.zillow.com/...', key='placeholder')
 
     st.markdown("## 2. Enter your API Key")
     st.text('API Key')
