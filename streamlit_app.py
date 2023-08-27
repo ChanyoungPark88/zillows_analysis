@@ -83,7 +83,7 @@ def get_parameters():
     if st.button("Run", type="secondary"):
         result = get_listings(listing_url=listing_url,
                               api_key=api_key, email=email)
-        st.write(result.json().keys())
+        st.write(result.json()['is_success'])
 
 
 def mapping_demo():
