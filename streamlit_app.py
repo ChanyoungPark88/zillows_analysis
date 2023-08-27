@@ -83,7 +83,19 @@ def get_parameters():
     if st.button("Run", type="secondary"):
         result = get_listings(listing_url=listing_url,
                               api_key=api_key, email=email)
-        st.write(result.json()['is_success'])
+        if result.json()['is_success']:
+            num_of_properties = result.json(
+            )['data']['categoryTotals']['cat1']['totalResultCount']
+            st.markdown(
+                f"""
+                Successfully retrieved data! Go to the analytics tab to view results.
+                Number of properties matching search: {num_of_properties}
+            """
+            )
+            df_sale_listings = pd.json_normalize(
+                result.json()['data']['cat1']['searchResults']['mapResults'])
+            df_sale_listings.to_csv(
+                './data/zillow_sale_listing.csv', index=False, encoding='utf-8-sig')
 
 
 def mapping_demo():
