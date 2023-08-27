@@ -35,9 +35,9 @@ def get_parameters():
         st.session_state.disabled = False
         st.session_state.placeholder = "Enter value"
 
-    col1, col2, col3 = st.columns(3)
+    # col1, col2, col3 = st.columns(3)
 
-    with col1:
+    with st.container():
         st.markdown("## 1. Enter Web Link")
         listing_url = st.text_input(
             'url',
@@ -48,7 +48,7 @@ def get_parameters():
         if listing_url:
             st.write(listing_url)
 
-    with col2:
+    with st.container():
         st.markdown("## 2. Enter your API Key")
         api_key = st.text_input(
             'API Key',
@@ -59,7 +59,7 @@ def get_parameters():
         if api_key:
             st.write(api_key)
 
-    with col3:
+    with st.container():
         st.markdown("## 3. Enter your E-Mail")
         email = st.text_input(
             'Email',
