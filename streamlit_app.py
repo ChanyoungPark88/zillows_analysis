@@ -89,13 +89,13 @@ def get_parameters():
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
+
                 Number of properties matching search: {num_of_properties}
             """
             )
             df_sale_listings = pd.json_normalize(
                 result.json()['data']['cat1']['searchResults']['mapResults'])
-            df_sale_listings.to_csv(
-                './data/zillow_sale_listing.csv', index=False, encoding='utf-8-sig')
+            st.write(df_sale_listings)
 
 
 def mapping_demo():
