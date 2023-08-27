@@ -9,7 +9,7 @@ from urllib.error import URLError
 
 
 def main():
-    st.title("# Zillow Analysis Tool")
+    st.title("Zillow Analysis Tool")
     st.sidebar.success("Select a feature above.")
 
     st.markdown(
@@ -29,7 +29,7 @@ def main():
 
 def get_parameters():
 
-    st.title("# Listings Search")
+    st.title("Listings Search")
     if "visibility" not in st.session_state:
         st.session_state.visibility = "visible"
         st.session_state.disabled = False
