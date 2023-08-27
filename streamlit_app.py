@@ -44,6 +44,8 @@ def get_parameters():
             disabled=st.session_state.disabled,
             placeholder=st.session_state.placeholder,
         )
+        if listing_url:
+            st.write(listing_url)
 
     with col2:
         st.markdown("## 2. Enter your API Key")
@@ -53,6 +55,8 @@ def get_parameters():
             disabled=st.session_state.disabled,
             placeholder=st.session_state.placeholder,
         )
+        if api_key:
+            st.write(api_key)
 
     with col3:
         st.markdown("## 3. Enter your E-Mail")
@@ -62,6 +66,8 @@ def get_parameters():
             disabled=st.session_state.disabled,
             placeholder=st.session_state.placeholder,
         )
+        if email:
+            st.write(email)
 
 
 def mapping_demo():
