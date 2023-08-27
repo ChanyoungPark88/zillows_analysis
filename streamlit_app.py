@@ -60,7 +60,6 @@ def get_parameters():
             disabled=st.session_state.disabled,
             placeholder='https://www.zillow.com/...'
         )
-        listing_url = listing_url
 
     with st.container():
         st.markdown("## 2. Enter your API Key")
@@ -71,7 +70,6 @@ def get_parameters():
             placeholder='1234567890',
             type="password"
         )
-        api_key = api_key
 
     with st.container():
         st.markdown("## 3. Enter your E-Mail")
@@ -81,9 +79,11 @@ def get_parameters():
             disabled=st.session_state.disabled,
             placeholder='demo@demo.com',
         )
-        email = email
 
-    st.button("Run", type="secondary", on_click=get_listings)
+    if st.button("Run", type="secondary"):
+        result = get_listings(listing_url=listing_url,
+                              api_key=api_key, email=email)
+        st.write(result)
 
 
 def mapping_demo():
