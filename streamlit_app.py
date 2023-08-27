@@ -57,7 +57,7 @@ def get_parameters():
             placeholder='1234567890',
         )
         if api_key:
-            st.write(api_key)
+            st.write(st.secrets(api_key))
 
     with st.container():
         st.markdown("## 3. Enter your E-Mail")
