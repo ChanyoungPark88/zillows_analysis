@@ -74,7 +74,7 @@ def data_frame_demo():
 
 page_names_to_funcs = {
     "Home": main,
-    "Listings Search": get_listings,
+    "Listings Search": get_parameters,
     "Mapping Demo": mapping_demo,
     "DataFrame Demo": data_frame_demo
 }
