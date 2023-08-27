@@ -181,21 +181,20 @@ def data_analystic():
             st.session_state.disabled = False
             st.session_state.placeholder = "Enter value"
 
-        with st.container():
-            st.markdown("## Enter your E-Mail")
-            email = st.text_input(
-                'Email',
-                label_visibility=st.session_state.visibility,
-                disabled=st.session_state.disabled,
-                placeholder='demo@demo.com',
-            )
+        st.markdown("## Enter your E-Mail")
+        email = st.text_input(
+            'Email',
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder='demo@demo.com')
 
-        with st.container():
-            option = st.selectbox(
-                'Search Type (select below 👇)',
-                ('Listings', 'Property Detail'))
+        option = st.selectbox(
+            'Search Type (select below 👇)',
+            ('Listings', 'Property Detail'))
 
-            st.write('You selected:', option)
+        submitted = st.form_submit_button("Go")
+        if submitted:
+            st.write(email, option)
 
 
 page_names_to_funcs = {
