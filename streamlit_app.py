@@ -4,6 +4,7 @@ import pydeck as pdk
 import time
 import numpy as np
 import altair as alt
+import requests
 
 from urllib.error import URLError
 
@@ -25,6 +26,20 @@ def main():
         - Analystics
     """
     )
+
+
+def get_listings(listing_url, api_key, email):
+    url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
+
+    querystring = {
+        "api_key": api_key,
+        "url": listing_url,
+        "email": email
+    }
+
+    return requests.request("GET", url, params=querystring, headers=headers)
 
 
 def get_parameters():
@@ -71,7 +86,7 @@ def get_parameters():
         if email:
             st.write(email)
 
-    st.button("Run", type="primary")
+    st.button("Run", type="secondary", on_click=get_listings)
 
 
 def mapping_demo():
