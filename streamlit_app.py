@@ -173,27 +173,28 @@ def get_property_parameters():
 
 
 def data_analystic():
-    st.title("Analystics")
-    if "visibility" not in st.session_state:
-        st.session_state.visibility = "visible"
-        st.session_state.disabled = False
-        st.session_state.placeholder = "Enter value"
+    with st.form("my_form"):
+        st.title("Analystics")
+        if "visibility" not in st.session_state:
+            st.session_state.visibility = "visible"
+            st.session_state.disabled = False
+            st.session_state.placeholder = "Enter value"
 
-    with st.container():
-        st.markdown("## Enter your E-Mail")
-        email = st.text_input(
-            'Email',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='demo@demo.com',
-        )
+        with st.container():
+            st.markdown("## Enter your E-Mail")
+            email = st.text_input(
+                'Email',
+                label_visibility=st.session_state.visibility,
+                disabled=st.session_state.disabled,
+                placeholder='demo@demo.com',
+            )
 
-    with st.container():
-        option = st.selectbox(
-            'Search Type (select below 👇)',
-            ('Listings', 'Property Detail'))
+        with st.container():
+            option = st.selectbox(
+                'Search Type (select below 👇)',
+                ('Listings', 'Property Detail'))
 
-        st.write('You selected:', option)
+            st.write('You selected:', option)
 
 
 page_names_to_funcs = {
