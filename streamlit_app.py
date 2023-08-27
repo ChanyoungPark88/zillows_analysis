@@ -192,9 +192,12 @@ def data_analystic():
             'Search Type (select below 👇)',
             ('Listings', 'Property Detail'))
 
-    submitted = st.form_submit_button("Go")
-    if submitted:
-        st.write(email, option)
+        submitted = st.form_submit_button("Go", type="secondary")
+        if submitted:
+            if option == 'Listings':
+                get_listings
+            else:
+                get_properties
 
 
 page_names_to_funcs = {
