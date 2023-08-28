@@ -78,6 +78,11 @@ def listings_save_to_db(data):
     db = client[DB_NAME]
     collection = db[COLLECTION_NAME]
 
+    today = datetime.today().strftime('%Y-%m-%d')
+    object_id = str(data['_id'])
+    filename = f"{today}-{object_id}.csv"
+    data['file'] = filename
+
     result = collection.insert_one(data)
     client.close()
 
@@ -197,8 +202,6 @@ def get_listing_info():
                 "description": "Listing data for ObjectId generation"}
             object_id = listings_save_to_db(data_for_mongo)
 
-            today = datetime.today().strftime('%Y-%m-%d')
-            filename = f"{today}-{object_id}.csv"
             df_sale_listings.to_csv(filename, index=False)
             st.write(f"Data saved to {filename}!")
 
