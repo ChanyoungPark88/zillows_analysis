@@ -6,7 +6,8 @@ import numpy as np
 import altair as alt
 import requests
 
-
+from decouple import config
+from pymongo import MongoClient
 from urllib.error import URLError
 
 
@@ -64,6 +65,56 @@ def get_properties(api_key, email, zpid=None, address=None):
     response = requests.request(
         "GET", url, params=querystring, headers=headers)
     return response.json()
+
+
+def save_to_db(fname, lname, email):
+    MONGO_URL = config('MONGO_URL')
+    DB_NAME = config('DB_NAME')
+    COLLECTION_NAME = config('COLLECTION_NAME')
+
+    client = MongoClient(MONGO_URL)
+    db = client[DB_NAME]
+    collection = db[COLLECTION_NAME]
+
+    data = {
+        "fname": fname,
+        "lname": lname,
+        "email": email
+    }
+    collection.insert_one(data)
+
+
+def get_signup_parameters():
+    st.title("Sign Up 🔍")
+    st.markdown(
+        """
+        ### One-time sign up to use the tool
+
+        ### 1. Sign Up for a free API Key 🔑
+        [Scrapeak|Real Estate APIs|Zillow Scrapper](http://bit.ly/3YVU3Ga)
+
+        ### 2. Sign up for the tool 🏠
+    """
+    )
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
+
+    with st.container():
+        col1, col2 = st.columns(2)
+        with col1:
+            fname = st.text_input('First Name', label_visibility=st.session_state.visibility,
+                                  disabled=st.session_state.disabled)
+        with col2:
+            lname = st.text_input('Last Name', label_visibility=st.session_state.visibility,
+                                  disabled=st.session_state.disabled)
+    with st.container():
+        email = st.text_input('Email', label_visibility=st.session_state.visibility,
+                              disabled=st.session_state.disabled)
+
+    if st.button("Sign Up", type="secondary"):
+        save_to_db(fname=fname, lname=lname, email=email)
+        st.success("You are already signed up! Start searching 👈")
 
 
 def get_listing_parameters():
@@ -201,6 +252,7 @@ def data_analystic():
 
 page_names_to_funcs = {
     "Home": main,
+    "📥 Sign Up": get_signup_parameters,
     "🏙️ Listings Search": get_listing_parameters,
     "🏠 Property Detail": get_property_parameters,
     "📊 Analystics": data_analystic
