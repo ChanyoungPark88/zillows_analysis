@@ -7,8 +7,13 @@ import altair as alt
 import requests
 import os
 
+from datetime import datetime
 from pymongo import MongoClient
 from urllib.error import URLError
+
+#####################################
+#            FUNCTIONS              #
+#####################################
 
 
 def get_listings(listing_url, api_key, email):
@@ -62,6 +67,26 @@ def acc_save_to_db(fname, lname, email):
         "email": email
     }
     collection.insert_one(data)
+
+
+def save_data_to_mongo(data):
+    MONGO_URL = os.environ.get('MONGO_URL')
+    DB_NAME = os.environ.get('DB_NAME')
+    COLLECTION_NAME = os.environ.get('COLLECTION_NAME')
+
+    client = MongoClient(MONGO_URL)
+    db = client[DB_NAME]
+    collection = db[COLLECTION_NAME]
+
+    result = collection.insert_one(data)
+    client.close()
+
+    return result.inserted_id
+
+
+#####################################
+#              PAGES                #
+#####################################
 
 
 def main():
@@ -168,7 +193,14 @@ def get_listing_info():
             )
             df_sale_listings = pd.json_normalize(
                 result.json()['data']['cat1']['searchResults']['mapResults'])
-            st.write(df_sale_listings)
+            data_for_mongo = {
+                "description": "Listing data for ObjectId generation"}
+            object_id = save_data_to_mongo(data_for_mongo)
+
+            today = datetime.today().strftime('%Y-%m-%d')
+            filename = f"{today}-{object_id}".csv
+            df_sale_listings.to_csv(filename, index=False)
+            st.write(f"Data saved to {filename}!")
 
 
 def get_property_info():
