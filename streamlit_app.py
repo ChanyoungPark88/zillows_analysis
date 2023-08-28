@@ -89,7 +89,7 @@ def listings_save_to_db(data):
 
     client.close()
 
-    return object_id
+    return object_id, filename
 
 
 #####################################
@@ -192,21 +192,24 @@ def get_listing_info():
         if result.json()['is_success']:
             num_of_properties = result.json(
             )['data']['categoryTotals']['cat1']['totalResultCount']
+
+            df_sale_listings = pd.json_normalize(
+                result.json()['data']['cat1']['searchResults']['mapResults'])
+
+            data_for_mongo = {
+                "description": "Listing data for ObjectId generation"}
+            object_id, filename = listings_save_to_db(data_for_mongo)
+
+            df_sale_listings.to_csv(filename, index=False)
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
 
+                Search ID: {object_id}
+
                 Number of properties matching search: {num_of_properties}
             """
             )
-            df_sale_listings = pd.json_normalize(
-                result.json()['data']['cat1']['searchResults']['mapResults'])
-            data_for_mongo = {
-                "description": "Listing data for ObjectId generation"}
-            object_id = listings_save_to_db(data_for_mongo)
-
-            df_sale_listings.to_csv(filename, index=False)
-            st.write(f"Data saved to {filename}!")
 
 
 def get_property_info():
