@@ -11,26 +11,6 @@ from pymongo import MongoClient
 from urllib.error import URLError
 
 
-def main():
-    st.title("Zillow Analysis Tool 🏘️")
-    st.sidebar.success("Select a feature above.")
-
-    st.markdown(
-        """
-        ### Light-weight no-code solution to retrieve listings and property details.
-
-        #### **👈 Select a feature from the dropdown on the left**
-
-        ### Features
-        - **Sign Up** - *Start here*
-        - **About** - *Info on how to use the tool*
-        - **Listings Search** - *Obtain all properties from a search*
-        - **Property Detail** - *Detail on a single property including property estimates, tax history,  price history, search stats and more*
-        - **Analystics** - *View previous searches, analyze trends & download results*
-    """
-    )
-
-
 def get_listings(listing_url, api_key, email):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
     headers = {
@@ -67,7 +47,7 @@ def get_properties(api_key, email, zpid=None, address=None):
     return response.json()
 
 
-def save_to_db(fname, lname, email):
+def acc_save_to_db(fname, lname, email):
     MONGO_URL = os.environ.get('MONGO_URL')
     DB_NAME = os.environ.get('DB_NAME')
     COLLECTION_NAME = os.environ.get('COLLECTION_NAME')
@@ -84,7 +64,27 @@ def save_to_db(fname, lname, email):
     collection.insert_one(data)
 
 
-def get_signup_parameters():
+def main():
+    st.title("Zillow Analysis Tool 🏘️")
+    st.sidebar.success("Select a feature above.")
+
+    st.markdown(
+        """
+        ### Light-weight no-code solution to retrieve listings and property details.
+
+        #### **👈 Select a feature from the dropdown on the left**
+
+        ### Features
+        - **Sign Up** - *Start here*
+        - **About** - *Info on how to use the tool*
+        - **Listings Search** - *Obtain all properties from a search*
+        - **Property Detail** - *Detail on a single property including property estimates, tax history,  price history, search stats and more*
+        - **Analystics** - *View previous searches, analyze trends & download results*
+    """
+    )
+
+
+def get_signup_info():
     st.title("Sign Up 🔍")
     st.markdown(
         """
@@ -113,11 +113,11 @@ def get_signup_parameters():
                               disabled=st.session_state.disabled)
 
     if st.button("Sign Up", type="secondary"):
-        save_to_db(fname=fname, lname=lname, email=email)
+        acc_save_to_db(fname=fname, lname=lname, email=email)
         st.success("You are already signed up! Start searching 👈")
 
 
-def get_listing_parameters():
+def get_listing_info():
 
     st.title("Listings Search 🔍")
     if "visibility" not in st.session_state:
@@ -171,7 +171,7 @@ def get_listing_parameters():
             st.write(df_sale_listings)
 
 
-def get_property_parameters():
+def get_property_info():
 
     st.title("Property Detail Search 🔍")
     if "visibility" not in st.session_state:
@@ -252,9 +252,9 @@ def data_analystic():
 
 page_names_to_funcs = {
     "Home": main,
-    "📥 Sign Up": get_signup_parameters,
-    "🏙️ Listings Search": get_listing_parameters,
-    "🏠 Property Detail": get_property_parameters,
+    "📥 Sign Up": get_signup_info,
+    "🏙️ Listings Search": get_listing_info,
+    "🏠 Property Detail": get_property_info,
     "📊 Analystics": data_analystic
 }
 
