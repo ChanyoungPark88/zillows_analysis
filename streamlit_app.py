@@ -78,15 +78,18 @@ def listings_save_to_db(data):
     db = client[DB_NAME]
     collection = db[COLLECTION_NAME]
 
+    result = collection.insert_one(data)
+    object_id = result.inserted_id
+
     today = datetime.today().strftime('%Y-%m-%d')
-    object_id = str(data['_id'])
     filename = f"{today}-{object_id}.csv"
     data['file'] = filename
 
-    result = collection.insert_one(data)
+    collection.update_one({'_id': object_id}, {'$set': {'file': filename}})
+
     client.close()
 
-    return result.inserted_id
+    return object_id
 
 
 #####################################
