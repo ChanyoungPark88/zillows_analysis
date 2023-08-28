@@ -6,7 +6,7 @@ import numpy as np
 import altair as alt
 import requests
 
-from pydataset import data
+
 from urllib.error import URLError
 
 
