@@ -5,8 +5,8 @@ import time
 import numpy as np
 import altair as alt
 import requests
+import os
 
-from decouple import config
 from pymongo import MongoClient
 from urllib.error import URLError
 
@@ -68,9 +68,9 @@ def get_properties(api_key, email, zpid=None, address=None):
 
 
 def save_to_db(fname, lname, email):
-    MONGO_URL = config('MONGO_URL')
-    DB_NAME = config('DB_NAME')
-    COLLECTION_NAME = config('COLLECTION_NAME')
+    MONGO_URL = os.environ.get('MONGO_URL')
+    DB_NAME = os.environ.get('DB_NAME')
+    COLLECTION_NAME = os.environ.get('COLLECTION_NAME')
 
     client = MongoClient(MONGO_URL)
     db = client[DB_NAME]
