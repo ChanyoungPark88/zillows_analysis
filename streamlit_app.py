@@ -6,11 +6,12 @@ import numpy as np
 import altair as alt
 import requests
 
+from pydataset import data
 from urllib.error import URLError
 
 
 def main():
-    st.title("Zillow Analysis Tool")
+    st.title("Zillow Analysis Tool 🏘️")
     st.sidebar.success("Select a feature above.")
 
     st.markdown(
@@ -20,10 +21,11 @@ def main():
         **👈 Select a feature from the dropdown on the left**
 
         ### Features
-
-        - Listings Search
-        - Property Detail
-        - Analystics
+        - **Sign Up** - *Start here*
+        - **About** - *Info on how to use the tool*
+        - **Listings Search** - *Obtain all properties from a search*
+        - **Property Detail** - *Detail on a single property including property estimates, tax history,  price history, search stats and more*
+        - Analystics - View previous searches, analyze trends & download results*
     """
     )
 
@@ -53,6 +55,7 @@ def get_properties(api_key, email, zpid=None, address=None):
         "zpid": zpid,
         "address": address
     }
+
     if zpid is not None:
         querystring['zpid'] = zpid
     if address is not None:
@@ -65,16 +68,14 @@ def get_properties(api_key, email, zpid=None, address=None):
 
 def get_listing_parameters():
 
-    st.title("Listings Search")
+    st.title("Listings Search 🔍")
     if "visibility" not in st.session_state:
         st.session_state.visibility = "visible"
         st.session_state.disabled = False
         st.session_state.placeholder = "Enter value"
 
-    # col1, col2, col3 = st.columns(3)
-
     with st.container():
-        st.markdown("## 1. Enter Web Link")
+        st.markdown("## 1. Enter Web Link 🌐")
         listing_url = st.text_input(
             'url',
             label_visibility=st.session_state.visibility,
@@ -83,7 +84,7 @@ def get_listing_parameters():
         )
 
     with st.container():
-        st.markdown("## 2. Enter your API Key")
+        st.markdown("## 2. Enter your API Key 👇")
         api_key = st.text_input(
             'API Key',
             label_visibility=st.session_state.visibility,
@@ -93,7 +94,7 @@ def get_listing_parameters():
         )
 
     with st.container():
-        st.markdown("## 3. Enter your E-Mail")
+        st.markdown("## 3. Enter your E-Mail ✉️")
         email = st.text_input(
             'Email',
             label_visibility=st.session_state.visibility,
@@ -121,16 +122,14 @@ def get_listing_parameters():
 
 def get_property_parameters():
 
-    st.title("Property Detail Search")
+    st.title("Property Detail Search 🔍")
     if "visibility" not in st.session_state:
         st.session_state.visibility = "visible"
         st.session_state.disabled = False
         st.session_state.placeholder = "Enter value"
 
-    # col1, col2, col3 = st.columns(3)
-
     with st.container():
-        st.markdown("## 1. Enter a Unique Identifier")
+        st.markdown("## 1. Enter a Unique Identifier 🏠")
         zpid = st.text_input(
             'Unique ID',
             label_visibility=st.session_state.visibility,
@@ -144,8 +143,9 @@ def get_property_parameters():
             disabled=st.session_state.disabled,
             placeholder='110 1st St, Jersey City, NJ 07302'
         )
+
     with st.container():
-        st.markdown("## 2. Enter your API Key")
+        st.markdown("## 2. Enter your API Key 👇")
         api_key = st.text_input(
             'API Key',
             label_visibility=st.session_state.visibility,
@@ -155,7 +155,7 @@ def get_property_parameters():
         )
 
     with st.container():
-        st.markdown("## 3. Enter your E-Mail")
+        st.markdown("## 3. Enter your E-Mail ✉️")
         email = st.text_input(
             'Email',
             label_visibility=st.session_state.visibility,
@@ -175,7 +175,7 @@ def get_property_parameters():
 def data_analystic():
     with st.form("my_form"):
         st.text("Inside the form")
-        st.title("Analystics")
+        st.title("Data Analystics 📈")
         if "visibility" not in st.session_state:
             st.session_state.visibility = "visible"
             st.session_state.disabled = False
@@ -194,16 +194,16 @@ def data_analystic():
 
         if st.form_submit_button("Go", type="secondary"):
             if option == 'Listings':
-                pass
+                st.markdown('### Search Selection ')
             else:
                 pass
 
 
 page_names_to_funcs = {
     "Home": main,
-    "Listings Search": get_listing_parameters,
-    "Property Detail": get_property_parameters,
-    "Analystics": data_analystic
+    "🏙️ Listings Search": get_listing_parameters,
+    "🏠 Property Detail": get_property_parameters,
+    "📊 Analystics": data_analystic
 }
 
 feature_name = st.sidebar.selectbox(
