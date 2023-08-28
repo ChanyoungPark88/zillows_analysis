@@ -198,7 +198,7 @@ def get_listing_info():
             object_id = save_data_to_mongo(data_for_mongo)
 
             today = datetime.today().strftime('%Y-%m-%d')
-            filename = f"{today}-{object_id}".csv
+            filename = f"{today}-{object_id}.csv"
             df_sale_listings.to_csv(filename, index=False)
             st.write(f"Data saved to {filename}!")
 
