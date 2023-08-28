@@ -55,7 +55,7 @@ def get_properties(api_key, email, zpid=None, address=None):
 def acc_save_to_db(fname, lname, email):
     MONGO_URL = os.environ.get('MONGO_URL')
     DB_NAME = os.environ.get('DB_NAME')
-    COLLECTION_NAME = os.environ.get('COLLECTION_NAME')
+    COLLECTION_NAME = os.environ.get('ACCOUNT_COLLECTION')
 
     client = MongoClient(MONGO_URL)
     db = client[DB_NAME]
@@ -69,10 +69,10 @@ def acc_save_to_db(fname, lname, email):
     collection.insert_one(data)
 
 
-def save_data_to_mongo(data):
+def listings_save_to_db(data):
     MONGO_URL = os.environ.get('MONGO_URL')
     DB_NAME = os.environ.get('DB_NAME')
-    COLLECTION_NAME = os.environ.get('COLLECTION_NAME')
+    COLLECTION_NAME = os.environ.get('LISTING_COLLECTION')
 
     client = MongoClient(MONGO_URL)
     db = client[DB_NAME]
@@ -195,7 +195,7 @@ def get_listing_info():
                 result.json()['data']['cat1']['searchResults']['mapResults'])
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
-            object_id = save_data_to_mongo(data_for_mongo)
+            object_id = listings_save_to_db(data_for_mongo)
 
             today = datetime.today().strftime('%Y-%m-%d')
             filename = f"{today}-{object_id}.csv"
