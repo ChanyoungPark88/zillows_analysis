@@ -25,7 +25,7 @@ def main():
         - **About** - *Info on how to use the tool*
         - **Listings Search** - *Obtain all properties from a search*
         - **Property Detail** - *Detail on a single property including property estimates, tax history,  price history, search stats and more*
-        - Analystics - View previous searches, analyze trends & download results*
+        - **Analystics** - *View previous searches, analyze trends & download results*
     """
     )
 
