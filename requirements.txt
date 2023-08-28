@@ -1,3 +1,3 @@
 streamlit
 pydataset
-pymongo==4.5.0
+pymongo
