@@ -16,9 +16,9 @@ def main():
 
     st.markdown(
         """
-        Light-weight no-code solution to retrieve listings and property details.
+        ### Light-weight no-code solution to retrieve listings and property details.
 
-        **👈 Select a feature from the dropdown on the left**
+        #### **👈 Select a feature from the dropdown on the left**
 
         ### Features
         - **Sign Up** - *Start here*
