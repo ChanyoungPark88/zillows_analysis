@@ -231,7 +231,9 @@ def get_listing_info():
                 "livingArea", "priceReduction", "priceChange", "streetName", "homeDetailUrl",
                 "price_to_rent_ratio"
             ]
-            df_filtered = df_sale_listings[required_columns]
+            existing_columns = [
+                col for col in required_columns if col in df_sale_listings.columns]
+            df_filtered = df_sale_listings[existing_columns]
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
