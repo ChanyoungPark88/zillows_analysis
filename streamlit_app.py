@@ -142,18 +142,19 @@ def properties_save_to_db(data, zpid):
     return object_id, filename
 
 
-def file_upload_to_gcs(filename, storage_client, bucket_name='my_project_storage'):
+def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
     # Get the bucket name
     bucket = storage_client.get_bucket(bucket_name)
 
     # Create a blob object for the file, it's like a pointer to handle the file upload
-    blob = bucket.blob(os.path.basename(filename))
+    blob_name = f"{prefix}/{filename}"
+    blob = bucket.blob(blob_name)
 
     # Upload the file to GCS
     with open(filename, "rb") as f:
         blob.upload_from_file(f)
 
-    return f"Uploaded {filename} to {bucket_name}."
+    return f"Uploaded {filename} to {bucket_name}/{prefix}."
 
 #####################################
 #              PAGES                #
@@ -269,7 +270,7 @@ def get_listing_info():
 
             # GCS Blob Storage에 파일을 저장
             df_sale_listings.to_csv(filename, index=False)
-            upload_message = file_upload_to_gcs(filename, storage_client)
+            file_upload_to_gcs(filename, storage_client, prefix='listings')
             # st.markdown(upload_message)
             st.markdown(
                 f"""
@@ -347,7 +348,7 @@ def get_property_info():
 
             # GCS Blob Storage에 파일을 저장
             df_prop.to_csv(filename, index=False)
-            upload_message = file_upload_to_gcs(filename, storage_client)
+            file_upload_to_gcs(filename, storage_client, prefix='properties')
 
             st.markdown(
                 f"""
