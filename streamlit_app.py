@@ -37,12 +37,12 @@ def gcs_connect():
     try:
         # GCS 연결
         storage_client = storage.Client.from_service_account_info(key_data)
-        st.write("Successfully connected to GCS!")
+        # st.write("Successfully connected to GCS!")
         return storage_client
 
     except URLError as e:
         st.write(e)
-        st.write("Failed to connect to GCS.")
+        # st.write("Failed to connect to GCS.")
 
 
 def get_listings(listing_url, api_key, email):
@@ -249,7 +249,7 @@ def get_listing_info():
             # GCS Blob Storage에 파일을 저장
             df_sale_listings.to_csv(filename, index=False)
             upload_message = file_upload_to_gcs(filename, storage_client)
-            st.markdown(upload_message)
+            # st.markdown(upload_message)
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
