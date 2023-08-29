@@ -22,7 +22,7 @@ from urllib.error import URLError
 key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
 key_content = base64.b64decode(key_content_encoded).decode()
 key_data = json.loads(key_content)
-st.write(key_data)
+
 credentials = Credentials.from_service_account_info(key_data)
 storage_client = storage.Client(
     credentials=credentials, project='zillow-analystics')
