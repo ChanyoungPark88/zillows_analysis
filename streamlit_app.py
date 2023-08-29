@@ -160,7 +160,7 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
 def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(f"{prefix}/{filename}")
-    content = blob.download_from_text()
+    content = blob.download_as_text()
     return content
 
 
