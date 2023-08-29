@@ -121,6 +121,29 @@ def listings_save_to_db(data):
     return object_id, filename
 
 
+def properties_save_to_db(data):
+    MONGO_URL = os.environ.get('MONGO_URL')
+    DB_NAME = os.environ.get('DB_NAME')
+    COLLECTION_NAME = os.environ.get('PROPERTY_COLLECTION')
+
+    client = MongoClient(MONGO_URL)
+    db = client[DB_NAME]
+    collection = db[COLLECTION_NAME]
+
+    result = collection.insert_one(data)
+    object_id = result.inserted_id
+
+    today = datetime.today().strftime('%Y-%m-%d')
+    filename = f"{today}-property-{object_id}.csv"
+    data['file'] = filename
+
+    collection.update_one({'_id': object_id}, {'$set': {'file': filename}})
+
+    client.close()
+
+    return object_id, filename
+
+
 def file_upload_to_gcs(filename, storage_client, bucket_name='my_project_storage'):
     # Get the bucket name
     bucket = storage_client.get_bucket(bucket_name)
@@ -310,6 +333,19 @@ def get_property_info():
         if result.json()['is_success']:
             df_prop = pd.json_normalize(
                 result.json()['data'])
+            # st.write(df_prop)
+
+            data_for_mongo = {
+                "description": "Listing data for ObjectId generation"}
+            filename = properties_save_to_db(data_for_mongo)
+
+            # GCS connect
+            storage_client = gcs_connect()
+
+            # GCS Blob Storage에 파일을 저장
+            df_prop.to_csv(filename, index=False)
+            upload_message = file_upload_to_gcs(filename, storage_client)
+
             st.write(df_prop)
 
 
