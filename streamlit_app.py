@@ -244,7 +244,7 @@ def get_listing_info():
             df_filtered['streetName'] = df_filtered['streetAddress']
 
             # homeDetailUrl 추가
-            df_filtered['homeDetailUrl'] = "https://www.zillow.com/" + \
+            df_filtered['homeDetailUrl'] = "https://www.zillow.com" + \
                 df_filtered['detailUrl']
 
             # is_FSBA 추가
