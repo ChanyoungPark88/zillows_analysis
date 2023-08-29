@@ -149,12 +149,6 @@ def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_pro
     return df
 
 
-def get_blob_path(filename, storage_client, prefix, bucket_name='my_project_storage'):
-    bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.blob(f"{prefix}/{filename}")
-    return f"gs://{bucket_name}/{blob.name}"
-
-
 def list_files_in_gcs(storage_client, prefix, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
@@ -338,9 +332,6 @@ def data_analystic():
 
     if load_button_clicked and files:
         try:
-            blob_path = get_blob_path(selected_file, storage_client, prefix)
-            st.write(f"Blob Path: {blob_path}")
-
             df = download_file_from_gcs(
                 selected_file, storage_client, prefix)
             if df is None:
