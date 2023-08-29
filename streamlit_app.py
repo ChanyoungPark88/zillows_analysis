@@ -45,7 +45,7 @@ def gcs_connect():
         # st.write("Failed to connect to GCS.")
 
 
-def get_listings(listing_url, api_key, email):
+def get_listings(listing_url, api_key, email=None):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
@@ -53,20 +53,20 @@ def get_listings(listing_url, api_key, email):
     querystring = {
         "api_key": api_key,
         "url": listing_url,
-        "email": email
+        # "email": email
     }
 
     return requests.request("GET", url, params=querystring, headers=headers)
 
 
-def get_properties(api_key, email, zpid=None, address=None):
+def get_properties(api_key, email=None, zpid=None, address=None):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
     querystring = {
         "api_key": api_key,
-        "email": email,
+        # "email": email,
         "zpid": zpid,
         "address": address
     }
@@ -256,18 +256,18 @@ def get_listing_info():
             type="password"
         )
 
-    with st.container():
-        st.markdown("## 3. Enter your E-Mail ✉️")
-        email = st.text_input(
-            'Email',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='demo@demo.com',
-        )
+    # with st.container():
+    #     st.markdown("## 3. Enter your E-Mail ✉️")
+    #     email = st.text_input(
+    #         'Email',
+    #         label_visibility=st.session_state.visibility,
+    #         disabled=st.session_state.disabled,
+    #         placeholder='demo@demo.com',
+    #     )
 
     if st.button("Run", type="secondary"):
         result = get_listings(listing_url=listing_url,
-                              api_key=api_key, email=email)
+                              api_key=api_key)
         if result.json()['is_success']:
             num_of_properties = result.json(
             )['data']['categoryTotals']['cat1']['totalResultCount']
@@ -332,18 +332,18 @@ def get_property_info():
             type="password"
         )
 
-    with st.container():
-        st.markdown("## 3. Enter your E-Mail ✉️")
-        email = st.text_input(
-            'Email',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='demo@demo.com',
-        )
+    # with st.container():
+    #     st.markdown("## 3. Enter your E-Mail ✉️")
+    #     email = st.text_input(
+    #         'Email',
+    #         label_visibility=st.session_state.visibility,
+    #         disabled=st.session_state.disabled,
+    #         placeholder='demo@demo.com',
+    #     )
 
     if st.button("Run", type="secondary"):
         result = get_properties(
-            api_key=api_key, email=email, zpid=zpid, address=address)
+            api_key=api_key, zpid=zpid, address=address)
         # st.write(json.dumps(result.json()['data'], indent=4))
         if result.json()['is_success']:
             data = result.json()['data']
@@ -382,12 +382,12 @@ def data_analystic():
         st.session_state.disabled = False
         st.session_state.placeholder = "Enter value"
 
-    st.markdown("## Enter your E-Mail")
-    email = st.text_input(
-        'Email',
-        label_visibility=st.session_state.visibility,
-        disabled=st.session_state.disabled,
-        placeholder='demo@demo.com')
+    # st.markdown("## Enter your E-Mail")
+    # email = st.text_input(
+    #     'Email',
+    #     label_visibility=st.session_state.visibility,
+    #     disabled=st.session_state.disabled,
+    #     placeholder='demo@demo.com')
 
     option = st.selectbox(
         'Search Type (select below 👇)',
@@ -414,7 +414,7 @@ def data_analystic():
 
 page_names_to_funcs = {
     "Home": main,
-    "📥 Sign Up": get_signup_info,
+    # "📥 Sign Up": get_signup_info,
     "🏙️ Listings Search": get_listing_info,
     "🏠 Property Detail": get_property_info,
     "📊 Analystics": data_analystic,
