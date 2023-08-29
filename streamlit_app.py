@@ -19,13 +19,16 @@ from urllib.error import URLError
 #            FUNCTIONS              #
 #####################################
 
-key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
-key_content = base64.b64decode(key_content_encoded).decode()
-key_data = json.loads(key_content)
 
-credentials = Credentials.from_service_account_info(key_data)
-storage_client = storage.Client(
-    credentials=credentials, project='zillow-analystics')
+def gcs_connect():
+    key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
+    key_content = base64.b64decode(key_content_encoded).decode()
+    key_data = json.loads(key_content)
+
+    credentials = Credentials.from_service_account_info(key_data)
+    storage_client = storage.Client(
+        credentials=credentials, project='zillow-analystics')
+    return storage_client
 
 
 def get_listings(listing_url, api_key, email):
@@ -221,6 +224,8 @@ def get_listing_info():
 
             df_sale_listings.to_csv(filename, index=False)
 
+            # GCS connect
+            gcs_connect()
             # GCS Blob Storage에 파일을 저장
 
             bucket_name = "my_project_storage"
