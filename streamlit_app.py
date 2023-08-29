@@ -328,7 +328,8 @@ page_names_to_funcs = {
     "📥 Sign Up": get_signup_info,
     "🏙️ Listings Search": get_listing_info,
     "🏠 Property Detail": get_property_info,
-    "📊 Analystics": data_analystic
+    "📊 Analystics": data_analystic,
+    "GCS Connnect": gcs_connect
 }
 
 feature_name = st.sidebar.selectbox(
