@@ -220,7 +220,7 @@ def get_listing_info():
             # GCS connect
             gcs_connect()
             # GCS Blob Storage에 파일을 저장
-            file_upload_to_gcs(filename, )
+
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
