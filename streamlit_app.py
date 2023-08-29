@@ -339,7 +339,7 @@ def get_property_info():
             # st.write(df_prop)
 
             data_for_mongo = {
-                "description": "Listing data for ObjectId generation"}
+                "description": "Property data for ObjectId generation"}
             object_id, filename = properties_save_to_db(data_for_mongo, zpid)
 
             # GCS connect
