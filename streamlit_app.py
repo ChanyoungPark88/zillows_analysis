@@ -119,7 +119,7 @@ def listings_save_to_db(data):
     return object_id, filename
 
 
-def properties_save_to_db(data):
+def properties_save_to_db(data, zpid):
     MONGO_URL = os.environ.get('MONGO_URL')
     DB_NAME = os.environ.get('DB_NAME')
     COLLECTION_NAME = os.environ.get('PROPERTY_COLLECTION')
@@ -132,7 +132,7 @@ def properties_save_to_db(data):
     object_id = result.inserted_id
 
     today = datetime.today().strftime('%Y-%m-%d')
-    filename = f"{today}-property-{object_id}.csv"
+    filename = f"{today}{zpid}.csv"
     data['file'] = filename
 
     collection.update_one({'_id': object_id}, {'$set': {'file': filename}})
@@ -340,7 +340,7 @@ def get_property_info():
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
-            object_id, filename = properties_save_to_db(data_for_mongo)
+            object_id, filename = properties_save_to_db(data_for_mongo, zpid)
 
             # GCS connect
             storage_client = gcs_connect()
@@ -353,7 +353,7 @@ def get_property_info():
                 f""""
                 Successfully retrieved data! Go to the analytics tab to view results.
 
-                Property ID: {object_id}
+                Property ID: {zpid}
             """)
 
 
