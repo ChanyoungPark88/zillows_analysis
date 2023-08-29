@@ -330,7 +330,7 @@ def get_property_info():
     if st.button("Run", type="secondary"):
         result = get_properties(
             api_key=api_key, email=email, zpid=zpid, address=address)
-        st.write(result.keys())
+        st.write(result['is_success'])
         # if result.json()['is_success']:
         #     df_prop = pd.json_normalize(
         #         result.json()['data'])
