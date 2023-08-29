@@ -20,7 +20,7 @@ from urllib.error import URLError
 
 
 def gcs_connect():
-    st.title("GCS Connect Test page")
+    # st.title("GCS Connect Test page")
 
     # KEY Loading & Decoding
     key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
