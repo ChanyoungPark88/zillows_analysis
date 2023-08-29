@@ -12,7 +12,7 @@ import json
 from datetime import datetime
 from pymongo import MongoClient
 from google.cloud import storage
-from google.oauth2.credentials import Credentials
+from google.oauth2.service_account import Credentials
 from urllib.error import URLError
 
 #####################################
