@@ -374,47 +374,42 @@ def get_property_info():
 
 
 def data_analystic():
-    with st.form("my_form"):
-        st.text("Inside the form")
-        st.title("Data Analystics 📈")
-        if "visibility" not in st.session_state:
-            st.session_state.visibility = "visible"
-            st.session_state.disabled = False
-            st.session_state.placeholder = "Enter value"
+    st.text("Inside the form")
+    st.title("Data Analystics 📈")
 
-        st.markdown("## Enter your E-Mail")
-        email = st.text_input(
-            'Email',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='demo@demo.com')
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
+        st.session_state.placeholder = "Enter value"
 
-        option = st.selectbox(
-            'Search Type (select below 👇)',
-            ('Listings', 'Property Detail'))
+    st.markdown("## Enter your E-Mail")
+    email = st.text_input(
+        'Email',
+        label_visibility=st.session_state.visibility,
+        disabled=st.session_state.disabled,
+        placeholder='demo@demo.com')
 
-        if st.form_submit_button("Go", type="secondary"):
-            storage_client = gcs_connect()
+    option = st.selectbox(
+        'Search Type (select below 👇)',
+        ('Listings', 'Property Detail'))
 
-            if option == 'Listings':
-                prefix = 'listings'
-            else:
-                prefix = 'properties'
+    if option == 'Listings':
+        prefix = 'listings'
+    else:
+        prefix = 'properties'
 
-            files = list_files_in_gcs(storage_client, prefix)
-            if files:
-                selected_file = st.selectbox('Choose a file', files)
+    storage_client = gcs_connect()
+    files = list_files_in_gcs(storage_client, prefix)
 
-                if "load_clicked" not in st.session_state:
-                    st.session_state.load_clicked = False
+    if files:
+        selected_file = st.selectbox('Choose a file', files)
 
-                if st.session_state.load_clicked:
-                    content = download_file_from_gcs(
-                        selected_file, storage_client, prefix)
-                    df = pd.read_csv(content)
-                    st.dataframe(df)
-                if st.button("Load File"):
-                    st.session_state.load_clicked = True
+    load_button_clicked = st.button("Load File", type="secondary")
+
+    if load_button_clicked and files:
+        content = download_file_from_gcs(selected_file, storage_client, prefix)
+        df = pd.read_csv(content)
+        st.write(df)
 
 
 page_names_to_funcs = {
