@@ -240,7 +240,7 @@ def get_listing_info():
             df_merged = df_sale_listings[existing_columns]
 
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
-
+            st.write(df_filtered.columns)
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
             object_id, filename = listings_save_to_db(data_for_mongo)
