@@ -402,14 +402,19 @@ def data_analystic():
                 prefix = 'properties'
 
             files = list_files_in_gcs(storage_client, prefix)
+            if files:
+                selected_file = st.selectbox('Choose a file', files)
 
-            selected_file = st.selectbox('Choose a file', files)
+                if "load_clicked" not in st.session_state:
+                    st.session_state.load_clicked = False
 
-            if st.button("Load File"):
-                content = download_file_from_gcs(
-                    selected_file, storage_client, prefix)
-                df = pd.read_csv(content)
-                st.write(df)
+                if st.session_state.load_clicked:
+                    content = download_file_from_gcs(
+                        selected_file, storage_client, prefix)
+                    df = pd.read_csv(content)
+                    st.dataframe(df)
+                if st.button("Load File"):
+                    st.session_state.load_clicked = True
 
 
 page_names_to_funcs = {
