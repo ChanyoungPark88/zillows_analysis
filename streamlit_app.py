@@ -235,6 +235,7 @@ def get_listing_info():
                 "livingArea", "priceReduction", "priceChange", "streetName", "homeDetailUrl",
                 "price_to_rent_ratio"
             ]
+            st.write(len(required_columns))
             existing_columns = [
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
