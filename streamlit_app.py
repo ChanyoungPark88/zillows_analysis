@@ -156,6 +156,20 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
 
     return f"Uploaded {filename} to {bucket_name}/{prefix}."
 
+
+def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
+    bucket = storage_client.get_bucket(bucket_name)
+    blob = bucket.blob(f"{prefix}/{filename}")
+    content = blob.download_from_text()
+    return content
+
+
+def list_files_in_gcs(storage_client, prefix, bucket_name='my_project_storage'):
+    bucket = storage_client.get_bucket(bucket_name)
+    blobs = bucket.list_blobs(prefix=prefix)
+    return [blob.name for blob in blobs]
+
+
 #####################################
 #              PAGES                #
 #####################################
@@ -380,10 +394,22 @@ def data_analystic():
             ('Listings', 'Property Detail'))
 
         if st.form_submit_button("Go", type="secondary"):
+            storage_client = gcs_connect()
+
             if option == 'Listings':
-                st.markdown('### Search Selection ')
+                prefix = 'listings'
             else:
-                pass
+                prefix = 'properties'
+
+            files = list_files_in_gcs(storage_client, prefix)
+
+            selected_file = st.selectbox('Choose a file', files)
+
+            if st.button("Load File"):
+                content = download_file_from_gcs(
+                    selected_file, storage_client, prefix)
+                df = pd.read_csv(content)
+                st.write(df)
 
 
 page_names_to_funcs = {
