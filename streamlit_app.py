@@ -148,7 +148,7 @@ def download_file_from_gcs(filename, storage_client, bucket_name='my_project_sto
 def list_files_in_gcs(storage_client, prefix, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
-    return [blob.name for blob in blobs]
+    return [blob.name.replace(f"{prefix}/", "") for blob in blobs]
 
 
 #####################################
