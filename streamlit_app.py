@@ -332,8 +332,11 @@ def get_property_info():
         # st.write(json.dumps(result.json()['data'], indent=4))
         if result.json()['is_success']:
             # st.write(result.json()['data'])
-            df_prop = pd.json_normalize(result.json()['data'])
-            st.write(df_prop)
+            st.write(result.json()[
+                     'data']['contactFormRenderData.data.hidden_fields'].unique())
+
+            # df_prop = pd.json_normalize(result.json()['data'])
+            # st.write(df_prop)
 
         #     data_for_mongo = {
         #         "description": "Listing data for ObjectId generation"}
