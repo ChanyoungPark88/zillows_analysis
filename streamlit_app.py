@@ -20,23 +20,38 @@ from urllib.error import URLError
 
 
 def gcs_connect():
+    st.title("GCS Connect Test page")
+    st.markdown(
+        """
+        ### Light-weight no-code solution to retrieve listings and property details.
+
+        #### **👈 Select a feature from the dropdown on the left**
+
+        ### Features
+        - **Sign Up** - *Start here*
+        - **About** - *Info on how to use the tool*
+        - **Listings Search** - *Obtain all properties from a search*
+        - **Property Detail** - *Detail on a single property including property estimates, tax history,  price history, search stats and more*
+        - **Analystics** - *View previous searches, analyze trends & download results*
+    """
+    )
     # KEY Loading & Decoding
-    key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
-    key_content = base64.b64decode(key_content_encoded).decode()
-    key_data = json.loads(key_content)
-    # GCS 연결
-    try:
-        # GCS 연결
-        storage_client = storage.Client.from_service_account_info(key_data)
-        # GCS Bucket 연결
-        bucket = storage_client.get_bucket('my_project_storage')
-        # GCS Bucket 내 파일 목록 조회
-        blobs = bucket.list_blobs()
-        # GCS Bucket 내 파일 목록 조회
-        for blob in blobs:
-            print(blob.name)
-    except URLError as e:
-        print(e)
+    # key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
+    # key_content = base64.b64decode(key_content_encoded).decode()
+    # key_data = json.loads(key_content)
+    # # GCS 연결
+    # try:
+    #     # GCS 연결
+    #     storage_client = storage.Client.from_service_account_info(key_data)
+    #     # GCS Bucket 연결
+    #     bucket = storage_client.get_bucket('my_project_storage')
+    #     # GCS Bucket 내 파일 목록 조회
+    #     blobs = bucket.list_blobs()
+    #     # GCS Bucket 내 파일 목록 조회
+    #     for blob in blobs:
+    #         print(blob.name)
+    # except URLError as e:
+    #     print(e)
 
 
 def get_listings(listing_url, api_key, email):
