@@ -220,6 +220,18 @@ def get_listing_info():
 
             df_sale_listings = pd.json_normalize(
                 result.json()['data']['cat1']['searchResults']['mapResults'])
+            required_columns = [
+                "zpid", "imgSrc", "detailUrl", "streetAddress", "zipcode", "city",
+                "state", "latitude", "longitude", "price", "bathrooms", "bedrooms",
+                "homeType", "homeStatus", "daysOnZillow", "isFeatured", "shouldHighlight",
+                "is_FSBA", "isUnmappable", "isPreforeclosureAuction", "homeStatusForHDP",
+                "priceForHDP", "isNonOwnerOccupied", "isPremierBuilder", "isZillowOwned",
+                "currency", "country", "lotAreaValue", "lotAreaUnit", "isShowcaseListing",
+                "taxAssessedValue", "rentZestimate", "zestimate", "datePriceChanged",
+                "livingArea", "priceReduction", "priceChange", "streetName", "homeDetailUrl",
+                "price_to_rent_ratio"
+            ]
+            df_filtered = df_sale_listings[required_columns]
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
@@ -229,7 +241,7 @@ def get_listing_info():
             storage_client = gcs_connect()
 
             # GCS Blob Storage에 파일을 저장
-            df_sale_listings.to_csv(filename, index=False)
+            df_filtered.to_csv(filename, index=False)
             file_upload_to_gcs(filename, storage_client, prefix='listings')
 
             st.markdown(
