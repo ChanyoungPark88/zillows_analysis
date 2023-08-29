@@ -12,16 +12,18 @@ import json
 from datetime import datetime
 from pymongo import MongoClient
 from google.cloud import storage
+from google.oauth2.credentials import Credentials
 from urllib.error import URLError
 
 #####################################
 #            FUNCTIONS              #
 #####################################
 
-key_content_encoded = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
 key_content = base64.b64decode(key_content_encoded).decode()
-
 key_data = json.loads(key_content)
+credentials = Credentials.from_authorized_user_info(key_data)
+storage_client = storage.Client(credentials=credentials)
 
 
 def get_listings(listing_url, api_key, email):

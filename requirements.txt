@@ -2,3 +2,4 @@ streamlit
 pydataset
 pymongo
 google-cloud-storage
+google-auth
