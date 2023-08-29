@@ -333,7 +333,7 @@ def get_property_info():
         # st.write(result.json()['is_success'])
         if result.json()['is_success']:
             df_prop = pd.json_normalize(result.json()['data'])
-            st.write(df_prop)
+            st.table(df_prop)
 
         #     data_for_mongo = {
         #         "description": "Listing data for ObjectId generation"}
