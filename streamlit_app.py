@@ -38,6 +38,7 @@ def gcs_connect():
         # GCS 연결
         storage_client = storage.Client.from_service_account_info(key_data)
         st.write("Successfully connected to GCS!")
+        return storage_client
 
     except URLError as e:
         st.write(e)
@@ -120,8 +121,18 @@ def listings_save_to_db(data):
     return object_id, filename
 
 
-def file_upload_to_gcs():
-    pass
+def file_upload_to_gcs(filename, storage_client, bucket_name='my_project_storage'):
+    # Get the bucket name
+    bucket = storage_client.get_bucket(bucket_name)
+
+    # Create a blob object for the file, it's like a pointer to handle the file upload
+    blob = bucket.blob(os.path.basename(filename))
+
+    # Upload the file to GCS
+    with open(filename, "rb") as f:
+        blob.upload_from_file(f)
+
+    return f"Uploaded {filename} to {bucket_name}."
 
 #####################################
 #              PAGES                #
@@ -232,12 +243,13 @@ def get_listing_info():
                 "description": "Listing data for ObjectId generation"}
             object_id, filename = listings_save_to_db(data_for_mongo)
 
-            df_sale_listings.to_csv(filename, index=False)
-
             # GCS connect
-            gcs_connect()
-            # GCS Blob Storage에 파일을 저장
+            storage_client = gcs_connect()
 
+            # GCS Blob Storage에 파일을 저장
+            df_sale_listings.to_csv(filename, index=False)
+            upload_message = file_upload_to_gcs(filename, storage_client)
+            st.markdown(upload_message)
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
