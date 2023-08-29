@@ -331,25 +331,25 @@ def get_property_info():
             api_key=api_key, email=email, zpid=zpid, address=address)
         # st.write(json.dumps(result.json()['data'], indent=4))
         if result.json()['is_success']:
-            # df_prop = result.json()['data']
-            df_prop = pd.json_normalize(result.json()['data'])
+            data = result.json()['data']
+            df_prop = pd.json_normalize(data)
             for col in df_prop.columns:
                 df_prop[col] = df_prop[col].apply(lambda x: str(
                     x) if isinstance(x, list) or isinstance(x, dict) else x)
             st.write(df_prop)
 
-        #     data_for_mongo = {
-        #         "description": "Listing data for ObjectId generation"}
-        #     filename = properties_save_to_db(data_for_mongo)
+            data_for_mongo = {
+                "description": "Listing data for ObjectId generation"}
+            filename = properties_save_to_db(data_for_mongo)
 
-        #     # GCS connect
-        #     storage_client = gcs_connect()
+            # GCS connect
+            storage_client = gcs_connect()
 
-        #     # GCS Blob Storage에 파일을 저장
-        #     df_prop.to_csv(filename, index=False)
-        #     upload_message = file_upload_to_gcs(filename, storage_client)
+            # GCS Blob Storage에 파일을 저장
+            df_prop.to_csv(filename, index=False)
+            upload_message = file_upload_to_gcs(filename, storage_client)
 
-        #     st.write(upload_message)
+            st.write(upload_message)
 
 
 def data_analystic():
