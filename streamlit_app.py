@@ -24,7 +24,8 @@ key_content = base64.b64decode(key_content_encoded).decode()
 key_data = json.loads(key_content)
 st.write(key_data)
 credentials = Credentials.from_service_account_info(key_data)
-storage_client = storage.Client(credentials=credentials)
+storage_client = storage.Client(
+    credentials=credentials, project='zillow-analystics')
 
 
 def get_listings(listing_url, api_key, email):
