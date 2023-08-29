@@ -223,7 +223,7 @@ def get_listing_info():
 
             df_sale_listings.columns = [col.replace(
                 'hdpData.homeInfo.', '') for col in df_sale_listings.columns]
-            st.write(df_sale_listings.columns)
+            st.write(df_sale_listings)
             required_columns = [
                 "zpid", "imgSrc", "detailUrl", "streetAddress", "zipcode", "city",
                 "state", "latitude", "longitude", "price", "bathrooms", "bedrooms",
@@ -239,9 +239,9 @@ def get_listing_info():
             existing_columns = [
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
-            st.write(df_merged.columns)
+            st.write(df_merged)
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
-            st.write(df_filtered.columns)
+            st.write(df_filtered)
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
             object_id, filename = listings_save_to_db(data_for_mongo)
