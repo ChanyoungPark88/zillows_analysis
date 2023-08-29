@@ -256,6 +256,9 @@ def get_listing_info():
             # price_to_rent_ratio 추가 (NaN으로 설정, 필요한 경우 계산하여 적용)
             df_filtered['price_to_rent_ratio'] = None  # NaN 값으로 설정
 
+            # 2. 컬럼 순서 변경
+            df_filtered = df_filtered[required_columns]
+
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
             object_id, filename = listings_save_to_db(data_for_mongo)
