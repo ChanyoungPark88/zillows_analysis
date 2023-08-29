@@ -107,14 +107,18 @@ def properties_save_to_db(data, zpid):
     db = client[DB_NAME]
     collection = db[COLLECTION_NAME]
 
-    result = collection.insert_one(data)
-    object_id = result.inserted_id
-
     today = datetime.today().strftime('%Y-%m-%d')
     filename = f"{today}_{zpid}.csv"
     data['file'] = filename
 
-    collection.update_one({'_id': object_id}, {'$set': {'file': filename}})
+    existing_document = collection.find_one({'file': filename})
+
+    if existing_document:
+        object_id = existing_document['_id']
+        collection.update_one({'_id': object_id}, {'$set': data})
+    else:
+        result = collection.insert_one(data)
+        object_id = result.inserted_id
 
     client.close()
 
