@@ -331,8 +331,9 @@ def get_property_info():
             api_key=api_key, email=email, zpid=zpid, address=address)
         # st.write(result.json()['is_success'])
         if result.json()['is_success']:
-            df_prop = pd.json_normalize(result.json()['data'])
-            st.table(df_prop)
+            st.write(result.json()['data'])
+            # df_prop = pd.json_normalize(result.json()['data'])
+            # st.table(df_prop)
 
         #     data_for_mongo = {
         #         "description": "Listing data for ObjectId generation"}
