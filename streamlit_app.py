@@ -239,7 +239,7 @@ def get_listing_info():
             existing_columns = [
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
-
+            st.write(df_merged.columns)
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
             st.write(df_filtered.columns)
             data_for_mongo = {
