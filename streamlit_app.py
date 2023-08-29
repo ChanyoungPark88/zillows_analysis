@@ -135,9 +135,9 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
     return f"Uploaded {filename} to {bucket_name}/{prefix}."
 
 
-def download_file_from_gcs(filename, storage_client, bucket_name='my_project_storage'):
+def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.blob(filename)
+    blob = bucket.blob(f"{prefix}/{filename}")
     return blob.download_as_string()
     # if not blob.exists():
     #     return None
