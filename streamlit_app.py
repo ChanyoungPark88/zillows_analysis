@@ -132,7 +132,7 @@ def properties_save_to_db(data, zpid):
     object_id = result.inserted_id
 
     today = datetime.today().strftime('%Y-%m-%d')
-    filename = f"{today}{zpid}.csv"
+    filename = f"{today}_{zpid}.csv"
     data['file'] = filename
 
     collection.update_one({'_id': object_id}, {'$set': {'file': filename}})
@@ -350,11 +350,12 @@ def get_property_info():
             upload_message = file_upload_to_gcs(filename, storage_client)
 
             st.markdown(
-                f""""
+                f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
 
                 Property ID: {zpid}
-            """)
+            """
+            )
 
 
 def data_analystic():
