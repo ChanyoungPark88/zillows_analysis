@@ -329,11 +329,13 @@ def get_property_info():
     if st.button("Run", type="secondary"):
         result = get_properties(
             api_key=api_key, email=email, zpid=zpid, address=address)
-        st.write(json.dumps(result.json()['data'], indent=4))
-        # if result.json()['is_success']:
-        #     # st.write(result.json()['data'])
-        #     df_prop = pd.json_normalize(result.json()['data'])
-        #     st.write(df_prop)
+        # st.write(json.dumps(result.json()['data'], indent=4))
+        if result.json()['is_success']:
+            # st.write(result.json()['data'])
+            df_prop = pd.json_normalize(result.json()['data'])
+            # st.write(df_prop)
+            print(df_prop.head())
+            print(df_prop.dtypes)
 
         #     data_for_mongo = {
         #         "description": "Listing data for ObjectId generation"}
