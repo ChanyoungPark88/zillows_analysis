@@ -41,8 +41,7 @@ def gcs_connect():
 
     except URLError as e:
         st.write(e)
-    except google.cloud.exceptions.GoogleCloudError as gce:
-        st.write(f"An error occurred while connecting to GCS: {gce}")
+        st.write("Failed to connect to GCS.")
 
 
 def get_listings(listing_url, api_key, email):
