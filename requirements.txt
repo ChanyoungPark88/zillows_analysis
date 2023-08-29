@@ -1,5 +1,5 @@
 streamlit
 pydataset
 pymongo
-google-cloud-storage
-google-auth
+gcsfs
+git+https://github.com/streamlit/files-connection
