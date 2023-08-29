@@ -305,7 +305,6 @@ def get_property_info():
 
 
 def data_analystic():
-    st.text("Inside the form")
     st.title("Data Analystics 📈")
 
     if "visibility" not in st.session_state:
