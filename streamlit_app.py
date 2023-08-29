@@ -223,7 +223,7 @@ def get_listing_info():
 
             df_sale_listings.columns = [col.replace(
                 'hdpData.homeInfo.', '') for col in df_sale_listings.columns]
-
+            st.write(df_sale_listings.columns)
             required_columns = [
                 "zpid", "imgSrc", "detailUrl", "streetAddress", "zipcode", "city",
                 "state", "latitude", "longitude", "price", "bathrooms", "bedrooms",
