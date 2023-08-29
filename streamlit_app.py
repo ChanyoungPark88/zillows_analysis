@@ -6,6 +6,7 @@ import numpy as np
 import altair as alt
 import requests
 import os
+import io
 import json
 import base64
 
@@ -141,8 +142,11 @@ def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_pro
 
     if not blob.exists():
         return None
+
     content = blob.download_as_text()
-    return content
+
+    df = pd.read_csv(io.StringIO(content))
+    return df
 
 
 def get_blob_path(filename, storage_client, prefix, bucket_name='my_project_storage'):
@@ -337,13 +341,12 @@ def data_analystic():
             blob_path = get_blob_path(selected_file, storage_client, prefix)
             st.write(f"Blob Path: {blob_path}")
 
-            content = download_file_from_gcs(
+            df = download_file_from_gcs(
                 selected_file, storage_client, prefix)
-            if content is None:
+            if df is None:
                 st.warning(
                     f"The file {selected_file} does not exist in the storage!")
                 return
-            df = pd.read_csv(content)
             st.write(df)
         except Exception as e:
             st.error(f"An error occured: {str(e)}")
