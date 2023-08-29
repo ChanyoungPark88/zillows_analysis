@@ -21,24 +21,12 @@ from urllib.error import URLError
 
 def gcs_connect():
     st.title("GCS Connect Test page")
-    st.markdown(
-        """
-        ### Light-weight no-code solution to retrieve listings and property details.
 
-        #### **👈 Select a feature from the dropdown on the left**
-
-        ### Features
-        - **Sign Up** - *Start here*
-        - **About** - *Info on how to use the tool*
-        - **Listings Search** - *Obtain all properties from a search*
-        - **Property Detail** - *Detail on a single property including property estimates, tax history,  price history, search stats and more*
-        - **Analystics** - *View previous searches, analyze trends & download results*
-    """
-    )
     # KEY Loading & Decoding
-    # key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
-    # key_content = base64.b64decode(key_content_encoded).decode()
-    # key_data = json.loads(key_content)
+    key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
+    key_content = base64.b64decode(key_content_encoded).decode()
+    key_data = json.loads(key_content)
+    st.write(key_data)
     # # GCS 연결
     # try:
     #     # GCS 연결
