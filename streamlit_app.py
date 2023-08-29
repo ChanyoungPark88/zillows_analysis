@@ -333,7 +333,7 @@ def get_property_info():
         if result.json()['is_success']:
             df_prop = pd.json_normalize(
                 result.json()['data'])
-            # st.write(df_prop)
+            st.write(df_prop)
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
@@ -346,7 +346,7 @@ def get_property_info():
             df_prop.to_csv(filename, index=False)
             upload_message = file_upload_to_gcs(filename, storage_client)
 
-            st.write(df_prop)
+            st.write(upload_message)
 
 
 def data_analystic():
