@@ -138,11 +138,11 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
 def download_file_from_gcs(filename, storage_client, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(filename)
-
-    if not blob.exists():
-        return None
-    content = blob.download_as_text()
-    return content
+    return blob.download_as_string()
+    # if not blob.exists():
+    #     return None
+    # content = blob.download_as_text()
+    # return content
 
 
 def list_files_in_gcs(storage_client, prefix, bucket_name='my_project_storage'):
