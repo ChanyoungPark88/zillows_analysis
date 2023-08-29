@@ -331,12 +331,12 @@ def get_property_info():
             api_key=api_key, email=email, zpid=zpid, address=address)
         # st.write(json.dumps(result.json()['data'], indent=4))
         if result.json()['is_success']:
-            df_prop = result.json()['data']
-            st.write(
-                df_prop['contactFormRenderData.data.hidden_fields'].unique())
-
-            # df_prop = pd.json_normalize(result.json()['data'])
-            # st.write(df_prop)
+            # df_prop = result.json()['data']
+            df_prop = pd.json_normalize(result.json()['data'])
+            for col in df_prop.columns:
+                df_prop[col] = df_prop[col].apply(lambda x: str(
+                    x) if isinstance(x, list) or isinstance(x, dict) else x)
+            st.write(df_prop)
 
         #     data_for_mongo = {
         #         "description": "Listing data for ObjectId generation"}
