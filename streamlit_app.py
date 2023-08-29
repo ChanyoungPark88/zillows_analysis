@@ -76,9 +76,9 @@ def get_properties(api_key, email, zpid=None, address=None):
     if address is not None:
         querystring['address'] = address
 
-    response = requests.request(
+    return requests.request(
         "GET", url, params=querystring, headers=headers)
-    return response.json()
+    # return response.json()
 
 
 def acc_save_to_db(fname, lname, email):
@@ -331,9 +331,9 @@ def get_property_info():
         result = get_properties(
             api_key=api_key, email=email, zpid=zpid, address=address)
         # st.write(result.json()['is_success'])
-        if result['is_success']:
+        if result.json()['is_success']:
             df_prop = pd.json_normalize(
-                result['data'])
+                result.json()['data'])
             st.write(df_prop)
 
             data_for_mongo = {
