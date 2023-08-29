@@ -334,8 +334,8 @@ def get_property_info():
             # st.write(result.json()['data'])
             df_prop = pd.json_normalize(result.json()['data'])
             # st.write(df_prop)
-            print(df_prop.head())
-            print(df_prop.dtypes)
+            st.write(df_prop.head())
+            st.write(df_prop.dtypes)
 
         #     data_for_mongo = {
         #         "description": "Listing data for ObjectId generation"}
