@@ -76,9 +76,7 @@ def get_properties(api_key, email, zpid=None, address=None):
     if address is not None:
         querystring['address'] = address
 
-    return requests.request(
-        "GET", url, params=querystring, headers=headers)
-    # return response.json()
+    return requests.request("GET", url, params=querystring, headers=headers)
 
 
 def acc_save_to_db(fname, lname, email):
@@ -296,9 +294,10 @@ def get_property_info():
         st.markdown("## 1. Enter a Unique Identifier 🏠")
         zpid = st.text_input(
             'Unique ID',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='1234567'
+            # label_visibility=st.session_state.visibility,
+            # disabled=st.session_state.disabled,
+            # placeholder='1234567'
+            '2078133107'
         )
         st.text('or')
         address = st.text_input(
