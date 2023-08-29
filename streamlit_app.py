@@ -20,8 +20,6 @@ from urllib.error import URLError
 
 
 def gcs_connect():
-    # st.title("GCS Connect Test page")
-
     # KEY Loading & Decoding
     key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
     if not key_content_encoded:
@@ -37,36 +35,33 @@ def gcs_connect():
     try:
         # GCS 연결
         storage_client = storage.Client.from_service_account_info(key_data)
-        # st.write("Successfully connected to GCS!")
         return storage_client
 
     except URLError as e:
         st.write(e)
-        # st.write("Failed to connect to GCS.")
+        return
 
 
-def get_listings(listing_url, api_key, email=None):
+def get_listings(listing_url, api_key):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
     querystring = {
         "api_key": api_key,
-        "url": listing_url,
-        # "email": email
+        "url": listing_url
     }
 
     return requests.request("GET", url, params=querystring, headers=headers)
 
 
-def get_properties(api_key, email=None, zpid=None, address=None):
+def get_properties(api_key, zpid=None, address=None):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
     querystring = {
         "api_key": api_key,
-        # "email": email,
         "zpid": zpid,
         "address": address
     }
@@ -77,23 +72,6 @@ def get_properties(api_key, email=None, zpid=None, address=None):
         querystring['address'] = address
 
     return requests.request("GET", url, params=querystring, headers=headers)
-
-
-def acc_save_to_db(fname, lname, email):
-    MONGO_URL = os.environ.get('MONGO_URL')
-    DB_NAME = os.environ.get('DB_NAME')
-    COLLECTION_NAME = os.environ.get('ACCOUNT_COLLECTION')
-
-    client = MongoClient(MONGO_URL)
-    db = client[DB_NAME]
-    collection = db[COLLECTION_NAME]
-
-    data = {
-        "fname": fname,
-        "lname": lname,
-        "email": email
-    }
-    collection.insert_one(data)
 
 
 def listings_save_to_db(data):
@@ -195,39 +173,6 @@ def main():
     )
 
 
-def get_signup_info():
-    st.title("Sign Up 🔍")
-    st.markdown(
-        """
-        ### One-time sign up to use the tool
-
-        ### 1. Sign Up for a free API Key 🔑
-        [Scrapeak|Real Estate APIs|Zillow Scrapper](http://bit.ly/3YVU3Ga)
-
-        ### 2. Sign up for the tool 🏠
-    """
-    )
-    if "visibility" not in st.session_state:
-        st.session_state.visibility = "visible"
-        st.session_state.disabled = False
-
-    with st.container():
-        col1, col2 = st.columns(2)
-        with col1:
-            fname = st.text_input('First Name', label_visibility=st.session_state.visibility,
-                                  disabled=st.session_state.disabled)
-        with col2:
-            lname = st.text_input('Last Name', label_visibility=st.session_state.visibility,
-                                  disabled=st.session_state.disabled)
-    with st.container():
-        email = st.text_input('Email', label_visibility=st.session_state.visibility,
-                              disabled=st.session_state.disabled)
-
-    if st.button("Sign Up", type="secondary"):
-        acc_save_to_db(fname=fname, lname=lname, email=email)
-        st.success("You are already signed up! Start searching 👈")
-
-
 def get_listing_info():
 
     st.title("Listings Search 🔍")
@@ -256,18 +201,8 @@ def get_listing_info():
             type="password"
         )
 
-    # with st.container():
-    #     st.markdown("## 3. Enter your E-Mail ✉️")
-    #     email = st.text_input(
-    #         'Email',
-    #         label_visibility=st.session_state.visibility,
-    #         disabled=st.session_state.disabled,
-    #         placeholder='demo@demo.com',
-    #     )
-
     if st.button("Run", type="secondary"):
-        result = get_listings(listing_url=listing_url,
-                              api_key=api_key)
+        result = get_listings(listing_url=listing_url, api_key=api_key)
         if result.json()['is_success']:
             num_of_properties = result.json(
             )['data']['categoryTotals']['cat1']['totalResultCount']
@@ -285,7 +220,7 @@ def get_listing_info():
             # GCS Blob Storage에 파일을 저장
             df_sale_listings.to_csv(filename, index=False)
             file_upload_to_gcs(filename, storage_client, prefix='listings')
-            # st.markdown(upload_message)
+
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
@@ -332,26 +267,15 @@ def get_property_info():
             type="password"
         )
 
-    # with st.container():
-    #     st.markdown("## 3. Enter your E-Mail ✉️")
-    #     email = st.text_input(
-    #         'Email',
-    #         label_visibility=st.session_state.visibility,
-    #         disabled=st.session_state.disabled,
-    #         placeholder='demo@demo.com',
-    #     )
-
     if st.button("Run", type="secondary"):
-        result = get_properties(
-            api_key=api_key, zpid=zpid, address=address)
-        # st.write(json.dumps(result.json()['data'], indent=4))
+        result = get_properties(api_key=api_key, zpid=zpid, address=address)
+
         if result.json()['is_success']:
             data = result.json()['data']
             df_prop = pd.json_normalize(data)
             for col in df_prop.columns:
                 df_prop[col] = df_prop[col].apply(lambda x: str(
                     x) if isinstance(x, list) or isinstance(x, dict) else x)
-            # st.write(df_prop)
 
             data_for_mongo = {
                 "description": "Property data for ObjectId generation"}
@@ -382,13 +306,6 @@ def data_analystic():
         st.session_state.disabled = False
         st.session_state.placeholder = "Enter value"
 
-    # st.markdown("## Enter your E-Mail")
-    # email = st.text_input(
-    #     'Email',
-    #     label_visibility=st.session_state.visibility,
-    #     disabled=st.session_state.disabled,
-    #     placeholder='demo@demo.com')
-
     option = st.selectbox(
         'Search Type (select below 👇)',
         ('Listings', 'Property Detail'))
@@ -414,11 +331,9 @@ def data_analystic():
 
 page_names_to_funcs = {
     "Home": main,
-    # "📥 Sign Up": get_signup_info,
     "🏙️ Listings Search": get_listing_info,
     "🏠 Property Detail": get_property_info,
     "📊 Analystics": data_analystic,
-    # "GCS Connnect": gcs_connect
 }
 
 feature_name = st.sidebar.selectbox(
