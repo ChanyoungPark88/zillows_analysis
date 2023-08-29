@@ -224,6 +224,11 @@ def get_listing_info():
             df_sale_listings.columns = [col.replace(
                 'hdpData.homeInfo.', '') for col in df_sale_listings.columns]
 
+            duplicated_columns = df_sale_listings.columns[df_sale_listings.columns.duplicated(
+                keep='first')]
+            df_sale_listings = df_sale_listings.drop(
+                columns=duplicated_columns)
+
             required_columns = [
                 "zpid", "imgSrc", "detailUrl", "streetAddress", "zipcode", "city",
                 "state", "latitude", "longitude", "price", "bathrooms", "bedrooms",
