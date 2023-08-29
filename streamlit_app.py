@@ -239,6 +239,22 @@ def get_listing_info():
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
+            # 1. 예외 처리 및 컬럼 추가
+            # streetName 추가
+            df_filtered['streetName'] = df_filtered['streetAddress']
+
+            # homeDetailUrl 추가
+            df_filtered['homeDetailUrl'] = "https://www.zillow.com/" + \
+                df_filtered['detailUrl']
+
+            # is_FSBA 추가
+            if 'listing_sub_type.is_FSBA' in df_sale_listings.columns:
+                df_filtered['is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
+            else:
+                df_filtered['is_FSBA'] = None  # NaN 값으로 설정
+
+            # price_to_rent_ratio 추가 (NaN으로 설정, 필요한 경우 계산하여 적용)
+            df_filtered['price_to_rent_ratio'] = None  # NaN 값으로 설정
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
