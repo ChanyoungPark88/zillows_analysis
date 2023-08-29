@@ -138,6 +138,9 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
 def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(f"{prefix}/{filename}")
+
+    if not blob.exists():
+        return None
     content = blob.download_as_text()
     return content
 
@@ -324,9 +327,17 @@ def data_analystic():
     load_button_clicked = st.button("Load File", type="secondary")
 
     if load_button_clicked and files:
-        content = download_file_from_gcs(selected_file, storage_client, prefix)
-        df = pd.read_csv(content)
-        st.write(df)
+        try:
+            content = download_file_from_gcs(
+                selected_file, storage_client, prefix)
+            if content is None:
+                st.warning(
+                    f"The file {selected_file} does not exist in the storage!")
+                return
+            df = pd.read_csv(content)
+            st.write(df)
+        except Exception as e:
+            st.error(f"An error occured: {str(e)}")
 
 
 page_names_to_funcs = {
