@@ -5,15 +5,23 @@ import time
 import numpy as np
 import altair as alt
 import requests
+import base64
 import os
+import json
 
 from datetime import datetime
 from pymongo import MongoClient
+from google.cloud import storage
 from urllib.error import URLError
 
 #####################################
 #            FUNCTIONS              #
 #####################################
+
+key_content_encoded = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+key_content = base64.b64decode(key_content_encoded).decode()
+
+key_data = json.loads(key_content)
 
 
 def get_listings(listing_url, api_key, email):
@@ -91,6 +99,13 @@ def listings_save_to_db(data):
 
     return object_id, filename
 
+
+def file_upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    blob.upload_from_filename(source_file_name)
 
 #####################################
 #              PAGES                #
@@ -201,6 +216,12 @@ def get_listing_info():
             object_id, filename = listings_save_to_db(data_for_mongo)
 
             df_sale_listings.to_csv(filename, index=False)
+
+            # GCS Blob Storage에 파일을 저장
+
+            bucket_name = "my_project_storage"
+            file_upload_to_gcs(bucket_name, filename, filename)
+
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
