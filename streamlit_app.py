@@ -238,11 +238,8 @@ def get_listing_info():
             existing_columns = [
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
-            duplicated_columns = [
-                col for col in df_merged.columns if col.endswith('.1')]
-            df_filtered = df_merged.drop(columns=duplicated_columns)
 
-            df_filtered = df_filtered.loc[:, ~df_filtered.columns.duplicated()]
+            df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
