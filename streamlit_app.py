@@ -8,11 +8,11 @@ import requests
 import base64
 import os
 import json
+import gcsfs
 
 from datetime import datetime
 from pymongo import MongoClient
-from google.cloud import storage
-from google.oauth2.service_account import Credentials
+from st_files_connection import FilesConnection
 from urllib.error import URLError
 
 #####################################
@@ -21,14 +21,10 @@ from urllib.error import URLError
 
 
 def gcs_connect():
-    key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
-    key_content = base64.b64decode(key_content_encoded).decode()
-    key_data = json.loads(key_content)
-
-    credentials = Credentials.from_service_account_info(key_data)
-    storage_client = storage.Client(
-        credentials=credentials, project='zillow-analystics')
-    return storage_client
+    fs = gcsfs.GCSFileSystem(project='zillow-analysis-tool')
+    fs.ls('my_project_storage')
+    print(fs)
+    return fs
 
 
 def get_listings(listing_url, api_key, email):
@@ -107,12 +103,8 @@ def listings_save_to_db(data):
     return object_id, filename
 
 
-def file_upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(destination_blob_name)
-
-    blob.upload_from_filename(source_file_name)
+def file_upload_to_gcs():
+    pass
 
 #####################################
 #              PAGES                #
@@ -184,9 +176,10 @@ def get_listing_info():
         st.markdown("## 1. Enter Web Link 🌐")
         listing_url = st.text_input(
             'url',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='https://www.zillow.com/...'
+            # label_visibility=st.session_state.visibility,
+            # disabled=st.session_state.disabled,
+            # placeholder='https://www.zillow.com/...'
+            "https://www.zillow.com/jersey-city-nj/?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22usersSearchTerm%22%3A%22Jersey%20City%2C%20NJ%22%2C%22mapBounds%22%3A%7B%22west%22%3A-74.16915290551758%2C%22east%22%3A-73.96830909448242%2C%22south%22%3A40.657145494633546%2C%22north%22%3A40.77333599994227%7D%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A25320%2C%22regionType%22%3A6%7D%5D%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22globalrelevanceex%22%7D%2C%22cmsn%22%3A%7B%22value%22%3Afalse%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%2C%22con%22%3A%7B%22value%22%3Afalse%7D%2C%22mf%22%3A%7B%22value%22%3Afalse%7D%2C%22manu%22%3A%7B%22value%22%3Afalse%7D%2C%22land%22%3A%7B%22value%22%3Afalse%7D%2C%22tow%22%3A%7B%22value%22%3Afalse%7D%2C%22apa%22%3A%7B%22value%22%3Afalse%7D%2C%22apco%22%3A%7B%22value%22%3Afalse%7D%7D%2C%22isListVisible%22%3Atrue%2C%22mapZoom%22%3A13%7D"
         )
 
     with st.container():
@@ -227,10 +220,7 @@ def get_listing_info():
             # GCS connect
             gcs_connect()
             # GCS Blob Storage에 파일을 저장
-
-            bucket_name = "my_project_storage"
-            file_upload_to_gcs(bucket_name, filename, filename)
-
+            file_upload_to_gcs(filename, )
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
