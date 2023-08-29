@@ -340,7 +340,7 @@ def get_property_info():
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
-            filename = properties_save_to_db(data_for_mongo)
+            object_id, filename = properties_save_to_db(data_for_mongo)
 
             # GCS connect
             storage_client = gcs_connect()
