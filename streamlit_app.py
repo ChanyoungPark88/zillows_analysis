@@ -336,7 +336,7 @@ def get_property_info():
             for col in df_prop.columns:
                 df_prop[col] = df_prop[col].apply(lambda x: str(
                     x) if isinstance(x, list) or isinstance(x, dict) else x)
-            st.write(df_prop)
+            # st.write(df_prop)
 
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
@@ -349,7 +349,12 @@ def get_property_info():
             df_prop.to_csv(filename, index=False)
             upload_message = file_upload_to_gcs(filename, storage_client)
 
-            st.write(upload_message)
+            st.markdown(
+                f""""
+                Successfully retrieved data! Go to the analytics tab to view results.
+
+                Property ID: {object_id}
+            """)
 
 
 def data_analystic():
