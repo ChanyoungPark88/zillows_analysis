@@ -242,6 +242,8 @@ def get_listing_info():
                 col for col in df_merged.columns if col.endswith('.1')]
             df_filtered = df_merged.drop(columns=duplicated_columns)
 
+            df_filtered = df_filtered.loc[:, ~df_filtered.columns.duplicated()]
+
             data_for_mongo = {
                 "description": "Listing data for ObjectId generation"}
             object_id, filename = listings_save_to_db(data_for_mongo)
