@@ -29,12 +29,15 @@ def show_property_metrics(df):
     df['price'] = df['price'].astype(str).apply(clean_price)
     df = df.dropna(subset=['price'])
 
-    col1.metric('Total', len(df))
-    col2.metric('Avg Price', "${:,}".format(
-        int(df['price'].mean())).split(',')[0] + 'K')
-    col3.metric('Avg DOM', int(df['daysOnZillow'].mean()))
-    col4.metric('Avg PPSQFT', "${:,}".format(
-        int(df['lotAreaValue'].mean())))
+    col1.metric('Est Value', "${:,}".format(
+        int(df['zestimate'].mean())).split(',')[0] + 'K')
+    col2.metric('Est Rent Value', "${:,}".format(
+        int(df['rentZestimate'].mean())).split(',')[0] + 'K')
+    col3.metric('Est PBR', int(
+        (df['zestimate'] / (df['rentZestimate'] * 12)).mean()))
+    col4.metric('Est PPSQFT', "${:,.2f}".format(
+        df['zestimate'].mean() / df['livingArea'].mean()))
+
 
 #####################################
 #             CHARTS                #
