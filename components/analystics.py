@@ -46,7 +46,7 @@ def data_analystic():
             else:
                 show_property_metrics(df)
                 show_property_summary(df)
-                # show_property_charts(df)
+                show_property_charts(df)
                 show_data(df, selected_file)
 
         except Exception as e:

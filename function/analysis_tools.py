@@ -87,12 +87,10 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        st.write(df['taxHistory'].head())
-
-        # JSON 데이터 파싱 및 DataFrame 생성
-        tax_history_df = pd.DataFrame(df['taxHistory']['time'])
-
-        st.write(tax_history_df)
+        fig = px.line(df_tax_hist, x="time", y="taxPaid", title="Tax History")
+        st.plotly_chart(fig, use_container_width=True)
+        df_tax_hist = pd.DataFrame(df["taxHistory"].iloc[0])
+        df_tax_hist
 
 
 #####################################
