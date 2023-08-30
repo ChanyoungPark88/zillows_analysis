@@ -65,6 +65,8 @@ def preprocess_dataframe(df):
 
 def clean_price(value):
     # '$' 제거, 'From'이 포함된 값을 NaN으로 바꿈
+    if not isinstance(value, str):
+        return value
     if "From" in value:
         return None
     value = re.sub(r'[^0-9]', '', value)  # 숫자 외의 모든 문자 제거
@@ -478,7 +480,7 @@ def data_analystic():
                 st.markdown("## Property Metrics 🏙️")
                 col1, col2, col3, col4 = st.columns(4)
 
-                df['price'] = df['price'].apply(clean_price)
+                df['price'] = df['price'].astype(str).apply(clean_price)
                 df = df.dropna(subset=['price'])
 
                 # col1.metric('Total', len(df))
