@@ -75,9 +75,9 @@ def get_listing_info():
                 df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
             # Data type conversion and assertions
-            st.write(df_filtered['price'])
             df_filtered['price'] = df_filtered['price'].str.replace(
-                '[^\d.]', '', regex=True).astype(float)
+                '$', '').str.replace(',', '').astype(float)
+
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
             assert df_filtered['rentZestimate'].dtype == 'float64'
