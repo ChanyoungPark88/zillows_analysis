@@ -39,6 +39,7 @@ def data_analystic():
 
             # If prefix is properties, apply main functionalities from app.py
             if prefix == 'listings':
+                st.title("Charts 📈")
                 show_listing_metrics(df)
                 show_listing_charts(df)
             else:

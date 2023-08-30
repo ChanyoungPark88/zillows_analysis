@@ -53,6 +53,7 @@ def show_listing_charts(df):
         st.plotly_chart(fig, use_container_width=True)
         fig = px.histogram(df, x="price_to_rent_ratio",
                            title="Price to Rent Ratio Box Chart")
+        st.plotly_chart(fig, use_container_width=True)
 
 
 def show_property_charts(df):
