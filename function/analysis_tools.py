@@ -91,7 +91,7 @@ def show_property_charts(df):
         tax_hist_list = df["taxHistory"].iloc[0]
 
         # Display the DataFrame (optional, but it seems you want to do it)
-        st.write(tax_hist_list)
+        st.write(df["taxHistory"])
 
 #####################################
 #               DATA                #
