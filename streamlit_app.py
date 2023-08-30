@@ -483,12 +483,12 @@ def data_analystic():
                 df['price'] = df['price'].astype(str).apply(clean_price)
                 df = df.dropna(subset=['price'])
 
-                # col1.metric('Total', len(df))
-                # col2.metric('Avg Price', "${:,}".format(
-                #     int(df['price'].mean())).split(',')[0] + 'K')
-                # col3.metric('Avg DOM', int(df['DAYS ON MARKET'].mean()))
-                # col4.metric('Avg PPSQFT', "${:,}".format(
-                #     int(df['$/SQUARE FEET'].mean())))
+                col1.metric('Total', len(df))
+                col2.metric('Avg Price', "${:,}".format(
+                    int(df['price'].mean())).split(',')[0] + 'K')
+                col3.metric('Avg DOM', int(df['DAYS ON MARKET'].mean()))
+                col4.metric('Avg PPSQFT', "${:,}".format(
+                    int(df['$/SQUARE FEET'].mean())))
 
                 #####################################
                 #             CHARTS                #
