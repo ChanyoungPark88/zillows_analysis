@@ -494,12 +494,12 @@ def data_analystic():
                 #             CHARTS                #
                 #####################################
                 with st.expander('Charts', expanded=True):
-                    fig = px.histogram(df, x="DAYS ON MARKET",
+                    fig = px.histogram(df, x="daysOnZillow",
                                        title="Days on Market Histogram Chart")
                     st.plotly_chart(fig, use_container_width=True)
-                    fig = px.box(df, x="PRICE", title="Price Box Plot Chart")
+                    fig = px.box(df, x="price", title="Price Box Plot Chart")
                     st.plotly_chart(fig, use_container_width=True)
-                    fig = px.histogram(df, x="$/SQUARE FEET",
+                    fig = px.histogram(df, x="lotAreaValue",
                                        title="Price per SQFT Histogram Chart")
                     st.plotly_chart(fig, use_container_width=True)
 
