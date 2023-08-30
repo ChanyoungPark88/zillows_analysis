@@ -35,15 +35,11 @@ def get_listing_info():
             num_of_properties = result.json(
             )['data']['categoryTotals']['cat1']['totalResultCount']
 
-            # Convert the JSON result to a DataFrame
             df_sale_listings = pd.json_normalize(
                 result.json()['data']['cat1']['searchResults']['mapResults'])
-
-            # Rename the columns for better readability
             df_sale_listings.columns = [col.replace(
                 'hdpData.homeInfo.', '') for col in df_sale_listings.columns]
 
-            # Define the list of columns needed for the analysis
             required_columns = [
                 "zpid", "imgSrc", "detailUrl", "streetAddress", "zipcode", "city",
                 "state", "latitude", "longitude", "price", "bathrooms", "bedrooms",
@@ -56,57 +52,41 @@ def get_listing_info():
                 "price_to_rent_ratio"
             ]
 
-            # Filter the dataframe to only include the required columns
             existing_columns = [
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
 
-            # 1. Data Processing: Column additions and manipulations
-            df_filtered.loc[:, 'streetName'] = df_filtered['streetAddress']
-            df_filtered.loc[:, 'homeDetailUrl'] = "https://www.zillow.com" + \
+            df_filtered['streetName'] = df_filtered['streetAddress']
+            df_filtered['homeDetailUrl'] = "https://www.zillow.com" + \
                 df_filtered['detailUrl']
 
-            # conditionally and the 'is_FSBA' column based on its presence in the original data
             if 'listing_sub_type.is_FSBA' in df_sale_listings.columns:
-                df_filtered.loc[:,
-                                'is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
+                df_filtered['is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
             else:
-                df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
+                df_filtered['is_FSBA'] = np.nan
 
-            # Data type conversion and assertions
-            # Data type conversion and assertions
-            # 원본 price 값 저장
             df_filtered['original_price'] = df_filtered['price']
 
-            # 'From ', '$' 및 ',' 문자열 제거
             st.write("Original Prices:", df_filtered['original_price'])
-            df_filtered.loc[:, 'price'] = df_filtered['price'].str.replace(
+            df_filtered['price'] = df_filtered['price'].str.replace(
                 'From |\$|,', '', regex=True)
-
-            # 숫자가 아닌 값을 갖는 행들을 출력
             non_numeric_prices = df_filtered[~df_filtered['price'].str.isnumeric(
             )]['price']
             st.write("Non-numeric prices:", non_numeric_prices)
 
-            # float로 변환을 시도합니다
             try:
                 df_filtered['price'] = df_filtered['price'].astype(float)
             except ValueError as e:
                 raise e
 
             assert df_filtered['price'].dtype == 'float64'
-            assert df_filtered['priceChange'].dtype == 'float64'
-            assert df_filtered['rentZestimate'].dtype == 'float64'
             st.write("Processed Prices:", df_filtered['price'])
 
-            # Calculate the price_to_rent_ratio using masks (conditions)
-            mask1 = (
-                df_filtered['price'].notnull() &
-                df_filtered['rentZestimate'].notnull()
-            )
+            mask1 = (df_filtered['price'].notnull() &
+                     df_filtered['rentZestimate'].notnull())
             df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
-                                                                            'price'].values / df_filtered.loc[mask1, 'rentZestimate'].values
+                                                                            'price'] / df_filtered.loc[mask1, 'rentZestimate']
 
             mask2 = (
                 df_filtered['price'].notnull() &
@@ -114,11 +94,8 @@ def get_listing_info():
                 df_filtered['rentZestimate'].notnull()
             )
             df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
-                df_filtered.loc[mask2, 'price'].values +
-                df_filtered.loc[mask2, 'priceChange'].values
-            ) / df_filtered.loc[mask2, 'rentZestimate'].values
+                df_filtered.loc[mask2, 'price'] + df_filtered.loc[mask2, 'priceChange']) / df_filtered.loc[mask2, 'rentZestimate']
 
-            # Handle NaN values for the 'price_to_rent_ratio' column
             df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
 
             st.write("Unique values in price:", df_filtered['price'].unique())
@@ -128,7 +105,6 @@ def get_listing_info():
                      df_filtered['rentZestimate'].unique())
             st.write("Columns in df_filtered:", df_filtered.columns)
 
-            # 2. Reorder columns for better presentation
             df_filtered = df_filtered[required_columns]
 
             # Prepare data for database saving and get a unique identifier
