@@ -92,8 +92,7 @@ def show_property_charts(df):
 
         # 여기서부터는 taxHistory 열을 DataFrame으로 변환하거나 그래프를 그리는 등의 작업을 계속하면 됩니다.
         tax_hist_list = df["taxHistory"].iloc[0]
-        tax_hist_df = pd.DataFrame(tax_hist_list)
-        st.write(tax_hist_df)
+        st.write(tax_hist_list)
 
 
 #####################################
