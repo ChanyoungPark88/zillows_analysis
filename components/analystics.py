@@ -40,6 +40,7 @@ def data_analystic():
             # If prefix is properties, apply main functionalities from app.py
             if prefix == 'listings':
                 show_listing_metrics(df)
+                show_listing_charts(df)
             else:
                 show_property_metrics(df)
                 show_property_charts(df)
