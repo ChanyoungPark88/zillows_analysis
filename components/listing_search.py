@@ -121,6 +121,13 @@ def get_listing_info():
             # Handle NaN values for the 'price_to_rent_ratio' column
             df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
 
+            st.write("Unique values in price:", df_filtered['price'].unique())
+            st.write("Unique values in priceChange:",
+                     df_filtered['priceChange'].unique())
+            st.write("Unique values in rentZestimate:",
+                     df_filtered['rentZestimate'].unique())
+            st.write("Columns in df_filtered:", df_filtered.columns)
+
             # 2. Reorder columns for better presentation
             df_filtered = df_filtered[required_columns]
 
