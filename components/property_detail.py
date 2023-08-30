@@ -18,7 +18,7 @@ def get_property_info():
 
     # Create a Streamlit container for user input
     with st.container():
-        st.markdown("## 1. Enter a Unique Identifier 🏠")
+        st.markdown("## Enter a Unique Identifier 🏠")
 
         # Get zpid input from the user
         zpid = st.text_input(
