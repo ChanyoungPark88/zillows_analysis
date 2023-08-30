@@ -488,7 +488,7 @@ def data_analystic():
                     int(df['price'].mean())).split(',')[0] + 'K')
                 col3.metric('Avg DOM', int(df['daysOnZillow'].mean()))
                 col4.metric('Avg PPSQFT', "${:,}".format(
-                    int(df['$/SQUARE FEET'].mean())))
+                    int(df['lotAreaValue'].mean())))
 
                 #####################################
                 #             CHARTS                #
