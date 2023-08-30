@@ -75,8 +75,21 @@ def get_listing_info():
                 df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
             # Data type conversion and assertions
-            df_filtered['price'] = df_filtered['price'].str.replace(
-                '$', '').str.replace(',', '').astype(float)
+            # $ 제거
+            df_filtered['price'] = df_filtered['price'].str.replace('$', '')
+
+            # , 제거
+            df_filtered['price'] = df_filtered['price'].str.replace(',', '')
+
+            # float로 변환
+            try:
+                df_filtered['price'] = df_filtered['price'].astype(float)
+            except ValueError as e:
+                # 에러가 발생한 경우 문제가 되는 값을 출력
+                problematic_value = df_filtered['price'][~df_filtered['price'].str.isnumeric(
+                )]
+                print("Problematic values:", problematic_value)
+                raise e  # 에러를 다시 발생시켜 확인
 
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
