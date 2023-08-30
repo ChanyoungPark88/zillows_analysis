@@ -408,6 +408,14 @@ def data_analystic():
                     f"The file {selected_file} does not exist in the storage!")
                 return
             st.write(df)
+
+            csv = df.to_csv(index=False)
+            st.download_button(
+                label="Download",
+                data=csv,
+                file_name=f"{selected_file}.csv",
+                mime="text/csv"
+            )
         except Exception as e:
             st.error(f"An error occured: {str(e)}")
 
