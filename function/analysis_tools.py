@@ -87,20 +87,20 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        # st.write(df['taxHistory'].head())
+        st.write(df['taxHistory'].head())
 
         # JSON 데이터 파싱
-        tax_history_data = df['taxHistory'].apply(json.loads)
+        # tax_history_data = df['taxHistory'].apply(json.loads)
 
-        # 원하는 컬럼의 데이터 추출
-        selected_columns = ['time', 'taxPaid',
-                            'taxIncreaseRate', 'value', 'valueIncreaseRate']
-        tax_history_df = pd.DataFrame(columns=selected_columns)
+        # # 원하는 컬럼의 데이터 추출
+        # selected_columns = ['time', 'taxPaid',
+        #                     'taxIncreaseRate', 'value', 'valueIncreaseRate']
+        # tax_history_df = pd.DataFrame(columns=selected_columns)
 
-        for item in tax_history_data:
-            tax_history_df = tax_history_df.append(item, ignore_index=True)
+        # for item in tax_history_data:
+        #     tax_history_df = tax_history_df.append(item, ignore_index=True)
 
-        st.write(tax_history_df)
+        # st.write(tax_history_df)
 
 
 #####################################
