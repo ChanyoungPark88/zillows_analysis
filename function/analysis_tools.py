@@ -88,15 +88,19 @@ def show_listing_charts(df):
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
         # st.write(df['taxHistory'].head())
+
+        # JSON 데이터 파싱
         tax_history_data = df['taxHistory'].apply(json.loads)
-        tax_history_df = pd.json_normalize(tax_history_data)
+
+        # 원하는 컬럼의 데이터 추출
         selected_columns = ['time', 'taxPaid',
                             'taxIncreaseRate', 'value', 'valueIncreaseRate']
-        tax_history_df = tax_history_df[selected_columns]
+        tax_history_df = pd.DataFrame(columns=selected_columns)
+
+        for item in tax_history_data:
+            tax_history_df = tax_history_df.append(item, ignore_index=True)
+
         st.write(tax_history_df)
-        # fig = px.line(df, x='date', y='taxPaid',
-        #               title='Historical Taxes Paid Line Chart')
-        # st.plotly_chart(fig, use_container_width=True)
 
 
 #####################################
