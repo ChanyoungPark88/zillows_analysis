@@ -506,15 +506,15 @@ def data_analystic():
                 #####################################
                 #             FEATURES              #
                 #####################################
-                # df_features = df.copy()
-                # df_features['ratio_sqft_bd'] = df_features['SQUARE FEET'] / \
-                #     df_features['BEDS']
-                # df_features['additional_bd_opp'] = df_features.apply(
-                #     lambda x: additional_bedroom_opportunity(x), axis=1)
-                # df_features['ratio_lot_sqft'] = df_features['LOT SIZE'] / \
-                #     df_features['SQUARE FEET']
-                # df_features['adu_potential'] = df_features.apply(
-                #     lambda x: adu_potential(x), axis=1)
+                df_features = df.copy()
+                df_features['ratio_sqft_bd'] = df_features['SQUARE FEET'] / \
+                    df_features['BEDS']
+                df_features['additional_bd_opp'] = df_features.apply(
+                    lambda x: additional_bedroom_opportunity(x), axis=1)
+                df_features['ratio_lot_sqft'] = df_features['LOT SIZE'] / \
+                    df_features['SQUARE FEET']
+                df_features['adu_potential'] = df_features.apply(
+                    lambda x: adu_potential(x), axis=1)
 
                 #####################################
                 #              TABLES               #
