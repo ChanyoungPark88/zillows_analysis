@@ -33,7 +33,7 @@ def show_listing_metrics(df):
         int(df['price'].mean())).split(',')[0] + 'K')
     col3.metric('Avg Est Value', "${:,}".format(
         int(df['zestimate'].mean())).split(',')[0] + 'K')
-    col3.metric('Avg Est Rent', "${:,}".format(
+    col4.metric('Avg Est Rent', "${:,}".format(
         int(df['rentZestimate'].mean())).split(',')[0] + 'K')
 #####################################
 #             CHARTS                #
