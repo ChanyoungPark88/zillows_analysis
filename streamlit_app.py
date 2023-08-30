@@ -254,6 +254,9 @@ def get_listing_info():
                 df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
             #  데이터 타입 변환 및 확인
+            df_filtered['price'] = df_filtered['price'].str.replace(
+                '$', '').str.replace(',', '')
+
             df_filtered['price'] = df_filtered['price'].astype(float)
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
