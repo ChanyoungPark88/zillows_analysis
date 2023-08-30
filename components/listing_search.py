@@ -76,7 +76,7 @@ def get_listing_info():
 
             # Data type conversion and assertions
             df_filtered['price'] = df_filtered['priceForHDP']
-            df_filtered.drop(columns=['priceForHDP'], inplace=True)
+            # df_filtered.drop(columns=['priceForHDP'], inplace=True)
             # 'O' stands for object, which typically refers to strings in pandas
             if df_filtered['price'].dtype == 'O':
                 df_filtered['price'] = df_filtered['price'].str.replace(
