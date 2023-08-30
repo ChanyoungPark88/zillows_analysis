@@ -84,15 +84,15 @@ def listings_save_to_db(data):
     db = client[DB_NAME]
     collection = db[COLLECTION_NAME]
 
+    result = collection.insert_one(data)
+    object_id = result.inserted_id
+
     today = datetime.today().strftime('%Y-%m-%d')
     filename = f"{today}-{object_id}.csv"
     data['file'] = filename
 
     data['createAt'] = datetime.now()
     data['expireAt'] = datetime.now() + timedelta(days=1)
-
-    result = collection.insert_one(data)
-    object_id = result.inserted_id
 
     collection.update_one({'_id': object_id}, {'$set': {'file': filename}})
 
