@@ -81,15 +81,16 @@ def get_listing_info():
             # , 제거
             df_filtered['price'] = df_filtered['price'].str.replace(',', '')
 
-            # float로 변환
+            # 숫자가 아닌 값을 갖는 행들을 출력
+            non_numeric_prices = df_filtered[~df_filtered['price'].str.isnumeric(
+            )]['price']
+            print("Non-numeric prices:", non_numeric_prices)
+
+            # 이제 float로 변환을 시도합니다
             try:
                 df_filtered['price'] = df_filtered['price'].astype(float)
             except ValueError as e:
-                # 에러가 발생한 경우 문제가 되는 값을 출력
-                problematic_value = df_filtered['price'][~df_filtered['price'].str.isnumeric(
-                )]
-                print("Problematic values:", problematic_value)
-                raise e  # 에러를 다시 발생시켜 확인
+                raise e
 
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
