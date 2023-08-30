@@ -68,42 +68,19 @@ def show_property_charts(df):
         st.plotly_chart(fig, use_container_width=True)
 
 #####################################
-#             FEATURES              #
+#               DATA                #
 #####################################
 
 
-def show_property_features(df):
-    df_features = df.copy()
-    df_features['ratio_sqft_bd'] = df_features['SQUARE FEET'] / \
-        df_features['BEDS']
-    df_features['additional_bd_opp'] = df_features.apply(
-        lambda x: additional_bedroom_opportunity(x), axis=1)
-    df_features['ratio_lot_sqft'] = df_features['LOT SIZE'] / \
-        df_features['SQUARE FEET']
-    df_features['adu_potential'] = df_features.apply(
-        lambda x: adu_potential(x), axis=1)
+def show_data(df, selected_file):
+    with st.expander('Data', expanded=True):
+        st.map("Map", df)
+        st.dataframe("Dataset", df)
+        csv = df.to_csv(index=False)
 
-#####################################
-#              TABLES               #
-#####################################
-
-
-def show_property_tables(df):
-    pass
-    # with st.expander('Opportunities', expanded=True):
-    #     df_add_bd = df_features.loc[df_features['additional_bd_opp'] == True]
-    #     df_adu = df_features.loc[df_features['adu_potential'] == True]
-
-    #     col1, col2 = st.columns(2)
-    #     col1.metric('Total Add Bd', len(df_add_bd))
-    #     col2.metric('Total ADU', len(df_adu))
-
-    #     st.write(df_features)
-
-    #     csv = df_features.to_csv(index=False)
-    #     st.download_button(
-    #         label="Download 🔽",
-    #         data=csv,
-    #         file_name=f"{selected_file}_features.csv",
-    #         mime="text/csv"
-    #     )
+        st.download_button(
+            label="Download 🔽",
+            data=csv,
+            file_name=f"{selected_file if not selected_file.endswith('.csv') else selected_file[:-4]}.csv",
+            mime="text/csv"
+        )
