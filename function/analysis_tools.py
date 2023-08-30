@@ -92,6 +92,9 @@ def show_property_charts(df):
 
         tax_hist_list = df['taxHistory'].iloc[0]
         tax_hist_df = pd.DataFrame(tax_hist_list)
+        fig = px.line(tax_hist_df, x="time", y="taxPaid",
+                      title="Historical Line Chart")
+        st.plotly_chart(fig, use_container_width=True)
         st.write(tax_hist_df)
 
 
