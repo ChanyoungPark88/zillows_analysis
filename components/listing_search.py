@@ -75,12 +75,9 @@ def get_listing_info():
                 df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
             # Data type conversion and assertions
-            df_filtered['price'] = df_filtered['priceForHDP']
-            # df_filtered.drop(columns=['priceForHDP'], inplace=True)
-            # 'O' stands for object, which typically refers to strings in pandas
-            if df_filtered['price'].dtype == 'O':
-                df_filtered['price'] = df_filtered['price'].str.replace(
-                    '[^\d.]', '', regex=True).astype(float)
+            st.write(df_filtered['price'])
+            df_filtered['price'] = df_filtered['price'].str.replace(
+                '[^\d.]', '', regex=True).astype(float)
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
             assert df_filtered['rentZestimate'].dtype == 'float64'
