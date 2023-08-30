@@ -77,6 +77,8 @@ def show_data(df, selected_file):
         st.subheader("Map")
         st.map(df)
         st.subheader("Dataset")
+        df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
+        df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
         st.dataframe(df)
         csv = df.to_csv(index=False)
 

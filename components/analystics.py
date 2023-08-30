@@ -48,8 +48,5 @@ def data_analystic():
                 show_property_charts(df)
                 show_data(df, selected_file)
 
-            df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
-            df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-
         except Exception as e:
             st.error(f"An error occured: {str(e)}")
