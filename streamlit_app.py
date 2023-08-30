@@ -248,19 +248,18 @@ def get_listing_info():
 
             # is_FSBA 추가
             if 'listing_sub_type.is_FSBA' in df_sale_listings.columns:
-                df_filtered['is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
+                df_filtered.loc[:,
+                                'is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
             else:
-                df_filtered['is_FSBA'] = None  # NaN 값으로 설정
+                df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
-            # 데이터 타입 변환 및 확인
+            #  데이터 타입 변환 및 확인
             df_filtered['price'] = df_filtered['price'].astype(float)
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
             assert df_filtered['rentZestimate'].dtype == 'float64'
 
-            # price_to_rent_ratio 추가
-            df_filtered['price_to_rent_ratio'] = np.nan
-
+            # mask를 사용하여 price_to_rent_ratio 계산
             mask1 = (
                 df_filtered['price'].notnull() &
                 df_filtered['rentZestimate'].notnull()
@@ -277,6 +276,10 @@ def get_listing_info():
                 df_filtered.loc[mask2, 'price'].values +
                 df_filtered.loc[mask2, 'priceChange'].values
             ) / df_filtered.loc[mask2, 'rentZestimate'].values
+
+            # price_to_rent_ratio의 나머지 NaN 값 설정 (이 부분은 사실 필요 없을 수 있습니다.
+            # 왜냐하면 새로운 컬럼을 추가할 때 pandas는 자동으로 NaN 값을 할당하기 때문입니다.)
+            df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
 
             # 2. 컬럼 순서 변경
             df_filtered = df_filtered[required_columns]
