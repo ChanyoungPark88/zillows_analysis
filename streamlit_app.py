@@ -260,8 +260,9 @@ def get_listing_info():
                 df_filtered['rentZestimate'].notnull()
             )
 
-            df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
-                                                                            'price'] / df_filtered.loc[mask1, 'rentZestimate']
+            if mask1.sum() > 0:  # mask1에 해당하는 데이터가 있는지 확인
+                df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
+                                                                                'price'].values / df_filtered.loc[mask1, 'rentZestimate'].values
 
             mask2 = (
                 df_filtered['price'].notnull() &
@@ -269,10 +270,11 @@ def get_listing_info():
                 df_filtered['rentZestimate'].notnull()
             )
 
-            df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
-                df_filtered.loc[mask2, 'price'] +
-                df_filtered.loc[mask2, 'priceChange']
-            ) / df_filtered.loc[mask2, 'rentZestimate']
+            if mask2.sum() > 0:  # mask2에 해당하는 데이터가 있는지 확인
+                df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
+                    df_filtered.loc[mask2, 'price'].values +
+                    df_filtered.loc[mask2, 'priceChange'].values
+                ) / df_filtered.loc[mask2, 'rentZestimate'].values
 
             # 2. 컬럼 순서 변경
             df_filtered = df_filtered[required_columns]
