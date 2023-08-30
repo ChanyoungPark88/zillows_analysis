@@ -42,8 +42,8 @@ def data_analystic():
                 show_listing_metrics(df)
             else:
                 show_property_metrics(df)
-
-            st.dataframe(df)
+            format_dict = {'zipcode': '{:,.0f}', 'zpid': '{:,.0f}'}
+            st.dataframe(df.style.format(format_dict))
             csv = df.to_csv(index=False)
             st.download_button(
                 label="Download 🔽",
