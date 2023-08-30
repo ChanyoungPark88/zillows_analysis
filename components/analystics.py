@@ -50,7 +50,7 @@ def data_analystic():
             st.download_button(
                 label="Download 🔽",
                 data=csv,
-                file_name=f"{selected_file}.csv",
+                file_name=f"{selected_file if not selected_file.endswith('.csv') else selected_file[:-4]}.csv",
                 mime="text/csv"
             )
 
