@@ -493,15 +493,15 @@ def data_analystic():
                 #####################################
                 #             CHARTS                #
                 #####################################
-                # with st.expander('Charts', expanded=True):
-                #     fig = px.histogram(df, x="DAYS ON MARKET",
-                #                        title="Days on Market Histogram Chart")
-                #     st.plotly_chart(fig, use_container_width=True)
-                #     fig = px.box(df, x="PRICE", title="Price Box Plot Chart")
-                #     st.plotly_chart(fig, use_container_width=True)
-                #     fig = px.histogram(df, x="$/SQUARE FEET",
-                #                        title="Price per SQFT Histogram Chart")
-                #     st.plotly_chart(fig, use_container_width=True)
+                with st.expander('Charts', expanded=True):
+                    fig = px.histogram(df, x="DAYS ON MARKET",
+                                       title="Days on Market Histogram Chart")
+                    st.plotly_chart(fig, use_container_width=True)
+                    fig = px.box(df, x="PRICE", title="Price Box Plot Chart")
+                    st.plotly_chart(fig, use_container_width=True)
+                    fig = px.histogram(df, x="$/SQUARE FEET",
+                                       title="Price per SQFT Histogram Chart")
+                    st.plotly_chart(fig, use_container_width=True)
 
                 #####################################
                 #             FEATURES              #
