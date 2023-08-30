@@ -486,7 +486,7 @@ def data_analystic():
                 col1.metric('Total', len(df))
                 col2.metric('Avg Price', "${:,}".format(
                     int(df['price'].mean())).split(',')[0] + 'K')
-                col3.metric('Avg DOM', int(df['DAYS ON MARKET'].mean()))
+                col3.metric('Avg DOM', int(df['daysOnZillow'].mean()))
                 col4.metric('Avg PPSQFT', "${:,}".format(
                     int(df['$/SQUARE FEET'].mean())))
 
