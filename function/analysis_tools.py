@@ -30,7 +30,7 @@ def show_listing_metrics(df):
 
     col1.metric('Total', len(df))
     col2.metric('Avg Sale Price', "${:,}".format(
-        int(df['price'].mean())).split(',')[0] + 'K')
+        int(df['zestimage'].mean())).split(',')[0] + 'K')
     col3.metric('Avg Est Value', "${:,}".format(
         int(df['zestimate'].mean())).split(',')[0] + 'K')
     col4.metric('Avg Est Rent', "${:,}".format(
