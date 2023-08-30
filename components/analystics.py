@@ -47,7 +47,7 @@ def data_analystic():
                 show_property_charts(df)
             df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
             df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-
+            st.map(df)
             st.dataframe(df)
             csv = df.to_csv(index=False)
             st.download_button(
