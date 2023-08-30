@@ -400,10 +400,10 @@ def data_analystic():
         try:
             df = download_file_from_gcs(
                 selected_file, storage_client, prefix)
-            # if df is None:
-            #     st.warning(
-            #         f"The file {selected_file} does not exist in the storage!")
-            #     return
+            if df is None:
+                st.warning(
+                    f"Choose a file from the dropdown above to view data.")
+                return
             st.write(df)
 
             csv = df.to_csv(index=False)
