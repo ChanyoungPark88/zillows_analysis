@@ -255,7 +255,7 @@ def get_listing_info():
 
             #  데이터 타입 변환 및 확인
             df_filtered['price'] = df_filtered['price'].str.replace(
-                '$', '').str.replace(',', '')
+                '$', '').str.replace(',', '').astype(float)
 
             df_filtered['price'] = df_filtered['price'].astype(float)
             assert df_filtered['price'].dtype == 'float64'
