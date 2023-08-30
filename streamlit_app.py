@@ -43,6 +43,24 @@ def gcs_connect():
         return
 
 
+def preprocess_dataframe(df):
+    required_columns = ['zpid', 'streetAddress', 'city', 'state', 'zipcode', 'country',
+                        'latitude', 'longitude', 'homeStatus', 'homeType', 'price', 'currency',
+                        'bedrooms', 'bathrooms', 'livingArea', 'yearBuilt', 'zestimate',
+                        'rentZestimate', 'hdpUrl', 'nearbyCities', 'nearbyNeighborhoods',
+                        'nearbyZipcodes', 'schools', 'nearbyHomes', 'taxHistory',
+                        'priceHistory', 'comps', 'description', 'datePostedString',
+                        'timeOnZillow', 'timeZone', 'pageViewCount', 'favoriteCount',
+                        'daysOnZillow', 'brokerageName', 'monthlyHoaFee', 'propertyTaxRate',
+                        'hiResImageLink', 'virtualTourUrl', 'photos', 'photoCount',
+                        'lotAreaValue', 'lotAreaUnits', 'priceChange', 'priceChangeDate',
+                        'priceChangeDateString', 'mlsid', 'parcelId', 'countyFIPS', 'cityId',
+                        'stateId']
+
+    df = df[required_columns]
+    return df
+
+
 def get_listings(listing_url, api_key):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
     headers = {
@@ -359,6 +377,8 @@ def get_property_info():
             for col in df_prop.columns:
                 df_prop[col] = df_prop[col].apply(lambda x: str(
                     x) if isinstance(x, list) or isinstance(x, dict) else x)
+
+            df_prop = preprocess_dataframe(df_prop)
 
             data_for_mongo = {
                 "description": "Property data for ObjectId generation"}
