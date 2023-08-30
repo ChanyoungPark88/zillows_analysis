@@ -76,13 +76,14 @@ def get_listing_info():
 
             # Data type conversion and assertions
             # 'From ', '$' 및 ',' 문자열 제거
+            st.write(df_filtered['price'])
             df_filtered.loc[:, 'price'] = df_filtered['price'].str.replace(
                 'From |\$|,', '', regex=True)
 
             # 숫자가 아닌 값을 갖는 행들을 출력
             non_numeric_prices = df_filtered[~df_filtered['price'].str.isnumeric(
             )]['price']
-            print("Non-numeric prices:", non_numeric_prices)
+            st.write("Non-numeric prices:", non_numeric_prices)
 
             # float로 변환을 시도합니다
             try:
@@ -93,7 +94,7 @@ def get_listing_info():
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
             assert df_filtered['rentZestimate'].dtype == 'float64'
-
+            st.write(df_filtered['price'])
             # Calculate the price_to_rent_ratio using masks (conditions)
             mask1 = (
                 df_filtered['price'].notnull() &
