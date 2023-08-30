@@ -478,8 +478,8 @@ def data_analystic():
                 st.markdown("## Property Metrics 🏙️")
                 col1, col2, col3, col4 = st.columns(4)
 
-                # df['price'] = df['price'].apply(clean_price)
-                # df = df.dropna(subset=['price'])
+                df['price'] = df['price'].apply(clean_price)
+                df = df.dropna(subset=['price'])
 
                 # col1.metric('Total', len(df))
                 # col2.metric('Avg Price', "${:,}".format(
