@@ -55,8 +55,7 @@ def clean_price(value):
 
 def fix_json_string(s):
     s = s.replace("'", '"')
-    s = re.sub(
-        r'(?<!["\dtruefalsenull])(\w+)(?!["\dtruefalsenull])', r'"\1"', s)
+    s = re.sub(r'(?<=[{,:])\s*(\w+)\s*(?=[,:}\]])', r'"\1"', s)
     return s
 
 
