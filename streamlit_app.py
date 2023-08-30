@@ -241,10 +241,10 @@ def get_listing_info():
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
             # 1. 예외 처리 및 컬럼 추가
             # streetName 추가
-            df_filtered['streetName'] = df_filtered['streetAddress']
+            df_filtered.loc[:, 'streetName'] = df_filtered['streetAddress']
 
             # homeDetailUrl 추가
-            df_filtered['homeDetailUrl'] = "https://www.zillow.com" + \
+            df_filtered.loc[:, 'homeDetailUrl'] = "https://www.zillow.com" + \
                 df_filtered['detailUrl']
 
             # is_FSBA 추가
@@ -260,6 +260,9 @@ def get_listing_info():
                 df_filtered['rentZestimate'].notnull()
             )
 
+            assert df_filtered.loc[mask1, 'price'].dtype == 'float64'
+            assert df_filtered.loc[mask1, 'rentZestimate'].dtype == 'float64'
+
             if mask1.sum() > 0:  # mask1에 해당하는 데이터가 있는지 확인
                 df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
                                                                                 'price'].values / df_filtered.loc[mask1, 'rentZestimate'].values
@@ -269,6 +272,9 @@ def get_listing_info():
                 df_filtered['priceChange'].notnull() &
                 df_filtered['rentZestimate'].notnull()
             )
+            assert df_filtered.loc[mask2, 'price'].dtype == 'float64'
+            assert df_filtered.loc[mask2, 'rentZestimate'].dtype == 'float64'
+            assert df_filtered.loc[mask2, 'priceChange'].dtype == 'float64'
 
             if mask2.sum() > 0:  # mask2에 해당하는 데이터가 있는지 확인
                 df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
