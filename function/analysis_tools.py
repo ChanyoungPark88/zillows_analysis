@@ -87,7 +87,8 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        df['taxHistory'] = df['taxHistory'].apply(json.loads)
+        df['taxHistory'] = df['taxHistory'].apply(
+            lambda x: json.loads(x.replace("'", '"')))
 
         # 여기서부터는 taxHistory 열을 DataFrame으로 변환하거나 그래프를 그리는 등의 작업을 계속하면 됩니다.
         tax_hist_list = df["taxHistory"].iloc[0]
