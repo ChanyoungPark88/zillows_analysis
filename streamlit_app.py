@@ -61,6 +61,14 @@ def preprocess_dataframe(df):
     return df
 
 
+def clean_price(value):
+    # '$' 제거, 'From'이 포함된 값을 NaN으로 바꿈
+    if "From" in value:
+        return None
+    value = re.sub(r'[^0-9]', '', value)  # 숫자 외의 모든 문자 제거
+    return float(value) if value else None
+
+
 def get_listings(listing_url, api_key):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
     headers = {
