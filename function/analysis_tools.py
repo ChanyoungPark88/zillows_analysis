@@ -60,7 +60,10 @@ def show_property_summary(df):
         col2.markdown(f"**Year Built:** {df['yearBuilt'].iloc[0]}")
         col2.markdown(f"**Home Type:** {df['homeType'].iloc[0]}")
 
-        st.markdown(f"**Description:** \n\n{df['description'].iloc[0]}")
+        description_content = df['description'].iloc[0]
+        formatted_description = description_content.replace('. ', '.\n\n')
+        st.markdown(f"**Description:**\n\n{formatted_description}")
+
 
 #####################################
 #             CHARTS                #
