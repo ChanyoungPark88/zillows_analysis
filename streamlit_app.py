@@ -401,7 +401,7 @@ def data_analystic():
             df = download_file_from_gcs(
                 selected_file, storage_client, prefix)
             if df is None:
-                st.warning(
+                st.success(
                     f"Choose a file from the dropdown above to view data.")
                 return
             st.write(df)
