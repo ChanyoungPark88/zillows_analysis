@@ -1,6 +1,6 @@
 from library.libraries import *
 
-# Google Cloud Storage 연결
+# Google Cloud Storage Connection
 
 
 def gcs_connect():
@@ -17,7 +17,7 @@ def gcs_connect():
     # st.write(key_data)
 
     try:
-        # GCS 연결
+        # GCS connection
         storage_client = storage.Client.from_service_account_info(key_data)
         return storage_client
 
@@ -25,7 +25,7 @@ def gcs_connect():
         st.write(e)
         return
 
-# Dataframe 전처리
+# Preprocess the DataFrame
 
 
 def preprocess_dataframe(df):
@@ -45,7 +45,7 @@ def preprocess_dataframe(df):
     df = df[required_columns]
     return df
 
-# Price 전처리
+# Preprocess the Price
 
 
 def clean_price(value):
@@ -90,6 +90,8 @@ def convert_df(df):
 
 def get_listings(listing_url, api_key):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
+    api_key = os.environ.get('API_KEY')
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
@@ -105,6 +107,8 @@ def get_listings(listing_url, api_key):
 
 def get_properties(api_key, zpid=None, address=None):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
+    api_key = os.environ.get('API_KEY')
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
