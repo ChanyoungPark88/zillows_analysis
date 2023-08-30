@@ -42,8 +42,10 @@ def data_analystic():
                 show_listing_metrics(df)
             else:
                 show_property_metrics(df)
-            format_dict = {'zipcode': '{:,.0f}', 'zpid': '{:,.0f}'}
-            st.dataframe(df.style.format(format_dict))
+            df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
+            df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
+
+            st.dataframe(df)
             csv = df.to_csv(index=False)
             st.download_button(
                 label="Download 🔽",
