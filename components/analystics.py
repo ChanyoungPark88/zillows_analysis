@@ -40,7 +40,7 @@ def data_analystic():
 
             # If prefix is properties, apply main functionalities from app.py
             if prefix == 'properties':
-                show_property_charts(df)
+                show_property_metrics(df)
 
             csv = df.to_csv(index=False)
             st.download_button(
