@@ -237,6 +237,7 @@ def get_listing_info():
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
+
             # 1. 예외 처리 및 컬럼 추가
             # streetName 추가
             df_filtered.loc[:, 'streetName'] = df_filtered['streetAddress']
@@ -251,34 +252,31 @@ def get_listing_info():
             else:
                 df_filtered['is_FSBA'] = None  # NaN 값으로 설정
 
-            # price_to_rent_ratio 추가 (NaN으로 설정, 필요한 경우 계산하여 적용)
-            df_filtered['price_to_rent_ratio'] = None  # NaN 값으로 설정
+            # 데이터 타입 변환 및 확인
+            df_filtered['price'] = df_filtered['price'].astype(float)
+            assert df_filtered['price'].dtype == 'float64'
+            assert df_filtered['priceChange'].dtype == 'float64'
+            assert df_filtered['rentZestimate'].dtype == 'float64'
+
+            # price_to_rent_ratio 추가
+            df_filtered['price_to_rent_ratio'] = np.nan
+
             mask1 = (
                 df_filtered['price'].notnull() &
                 df_filtered['rentZestimate'].notnull()
             )
-
-            assert df_filtered.loc[mask1, 'price'].dtype == 'float64'
-            assert df_filtered.loc[mask1, 'rentZestimate'].dtype == 'float64'
-
-            if mask1.sum() > 0:  # mask1에 해당하는 데이터가 있는지 확인
-                df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
-                                                                                'price'].values / df_filtered.loc[mask1, 'rentZestimate'].values
+            df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
+                                                                            'price'].values / df_filtered.loc[mask1, 'rentZestimate'].values
 
             mask2 = (
                 df_filtered['price'].notnull() &
                 df_filtered['priceChange'].notnull() &
                 df_filtered['rentZestimate'].notnull()
             )
-            assert df_filtered.loc[mask2, 'price'].dtype == 'float64'
-            assert df_filtered.loc[mask2, 'rentZestimate'].dtype == 'float64'
-            assert df_filtered.loc[mask2, 'priceChange'].dtype == 'float64'
-
-            if mask2.sum() > 0:  # mask2에 해당하는 데이터가 있는지 확인
-                df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
-                    df_filtered.loc[mask2, 'price'].values +
-                    df_filtered.loc[mask2, 'priceChange'].values
-                ) / df_filtered.loc[mask2, 'rentZestimate'].values
+            df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
+                df_filtered.loc[mask2, 'price'].values +
+                df_filtered.loc[mask2, 'priceChange'].values
+            ) / df_filtered.loc[mask2, 'rentZestimate'].values
 
             # 2. 컬럼 순서 변경
             df_filtered = df_filtered[required_columns]
