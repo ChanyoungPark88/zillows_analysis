@@ -43,7 +43,7 @@ def data_analystic():
             else:
                 show_property_metrics(df)
 
-            st.write(df)
+            st.table(df)
             csv = df.to_csv(index=False)
             st.download_button(
                 label="Download 🔽",
