@@ -1,5 +1,7 @@
 from mylibs import *
 
+# Google Cloud Storage 연결
+
 
 def gcs_connect():
     # KEY Loading & Decoding
@@ -23,6 +25,8 @@ def gcs_connect():
         st.write(e)
         return
 
+# Dataframe 전처리
+
 
 def preprocess_dataframe(df):
     required_columns = ['zpid', 'streetAddress', 'city', 'state', 'zipcode', 'country',
@@ -40,6 +44,8 @@ def preprocess_dataframe(df):
 
     df = df[required_columns]
     return df
+
+# Price 전처리
 
 
 def clean_price(value):
@@ -79,6 +85,8 @@ def adu_potential(x):
 def convert_df(df):
     return df.to_csv(index=False).encode('utf-8')
 
+# Retrieve Listing Data using API
+
 
 def get_listings(listing_url, api_key):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
@@ -91,6 +99,8 @@ def get_listings(listing_url, api_key):
     }
 
     return requests.request("GET", url, params=querystring, headers=headers)
+
+# Retrieve Property Data using API
 
 
 def get_properties(api_key, zpid=None, address=None):
@@ -110,6 +120,8 @@ def get_properties(api_key, zpid=None, address=None):
         querystring['address'] = address
 
     return requests.request("GET", url, params=querystring, headers=headers)
+
+# Save the Listing Metadata to MongoDB
 
 
 def listings_save_to_db(data):
@@ -136,6 +148,8 @@ def listings_save_to_db(data):
     client.close()
 
     return object_id, filename
+
+# Save the Property Metadata to MongoDB
 
 
 def properties_save_to_db(data, zpid):
@@ -167,6 +181,8 @@ def properties_save_to_db(data, zpid):
 
     return object_id, filename
 
+# File Upload to GCS bucket
+
 
 def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
     # Get the bucket name
@@ -182,6 +198,8 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
 
     return f"Uploaded {filename} to {bucket_name}/{prefix}."
 
+# File Download from GCS bucket
+
 
 def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
     bucket = storage_client.get_bucket(bucket_name)
@@ -194,6 +212,8 @@ def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_pro
 
     df = pd.read_csv(io.StringIO(content))
     return df
+
+# Retrieve File List from GCS bucket
 
 
 def list_files_in_gcs(storage_client, prefix, bucket_name='my_project_storage'):

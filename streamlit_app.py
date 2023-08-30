@@ -1,9 +1,13 @@
+# Module imports
 from mylibs import *
+
+# Function imports
 from my_functions import *
 
 #####################################
 #              PAGES                #
 #####################################
+# Main Page
 
 
 def main():
@@ -22,6 +26,8 @@ def main():
         - **Analystics** - *View previous searches, analyze trends & download results*
     """
     )
+
+# Listings Search Page
 
 
 def get_listing_info():
@@ -150,6 +156,8 @@ def get_listing_info():
             """
             )
 
+# Property Detail Page
+
 
 def get_property_info():
 
@@ -216,6 +224,8 @@ def get_property_info():
                 Property ID: {zpid}
             """
             )
+
+# Analystics Page
 
 
 def data_analystic():
