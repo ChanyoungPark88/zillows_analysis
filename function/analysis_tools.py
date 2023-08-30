@@ -111,16 +111,16 @@ def show_property_charts(df):
 #####################################
 #           COMPARABLES             #
 #####################################
-def show_property_comps(df):
-    with st.expander('Charts', expanded=True):
-        df_c = pd.DataFrame(df["comps"].iloc[0])
+# def show_property_comps(df):
+#     with st.expander('Charts', expanded=True):
+#         df_c = pd.DataFrame(df["comps"].iloc[0])
 
-        # `taxPaid`와 `priceChangeRate` 열의 데이터 유형을 숫자로 변환
-        df_c['taxPaid'] = pd.to_numeric(df_c['taxPaid'], errors='coerce')
-        df_c['priceChangeRate'] = pd.to_numeric(
-            df_c['priceChangeRate'], errors='coerce')
+#         # `taxPaid`와 `priceChangeRate` 열의 데이터 유형을 숫자로 변환
+#         df_c['taxPaid'] = pd.to_numeric(df_c['taxPaid'], errors='coerce')
+#         df_c['priceChangeRate'] = pd.to_numeric(
+#             df_c['priceChangeRate'], errors='coerce')
 
-        st.write(df_c)
+#         st.write(df_c)
 
 
 #####################################
