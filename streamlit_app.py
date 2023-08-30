@@ -259,7 +259,7 @@ def get_listing_info():
                 df_filtered['rentZestimate'].notnull())
 
             df_filtered.loc[mask, 'price_to_rent_ratio'] = df_filtered.loc[mask,
-                                                                           'price'] / df_filtered.loc[mask, 'rentZestimate']
+                                                                           'price'].values / df_filtered.loc[mask, 'rentZestimate'].values
 
             df_filtered.loc[df_filtered['priceChange'].notnull(), 'price_to_rent_ratio'] = (
                 df_filtered['price'] + df_filtered['priceChange']) / df_filtered['rentZestimate']
