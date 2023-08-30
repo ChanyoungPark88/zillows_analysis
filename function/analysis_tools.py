@@ -127,17 +127,24 @@ def show_property_charts(df):
 #               DATA                #
 #####################################
 
-
 def show_data(df, selected_file):
     with st.expander('Data', expanded=True):
+        # None 및 'None' 문자열을 NaN으로 변환
+        df.replace({None: np.nan, 'None': np.nan}, inplace=True)
+
+        # '0' 문자열과 같은 값을 숫자로 변환
+        for col in ['taxPaid', 'priceChangeRate', 'taxHistory']:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+
         st.subheader("Map")
         st.map(df)
+
         st.subheader("Dataset")
         df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
         st.dataframe(df)
-        csv = df.to_csv(index=False)
 
+        csv = df.to_csv(index=False)
         st.download_button(
             label="Download 🔽",
             data=csv,
