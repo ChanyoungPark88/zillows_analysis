@@ -74,8 +74,8 @@ def show_property_charts(df):
 
 def show_data(df, selected_file):
     with st.expander('Data', expanded=True):
-        st.map("Map", df)
-        st.dataframe("Dataset", df)
+        st.map(df)
+        st.dataframe(df)
         csv = df.to_csv(index=False)
 
         st.download_button(
