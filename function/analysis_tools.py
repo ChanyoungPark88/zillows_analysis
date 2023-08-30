@@ -87,10 +87,10 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        fig = px.line(df_tax_hist, x="time", y="taxPaid", title="Tax History")
-        st.plotly_chart(fig, use_container_width=True)
         df_tax_hist = pd.DataFrame(df["taxHistory"].iloc[0])
         df_tax_hist
+        fig = px.line(df_tax_hist, x="time", y="taxPaid", title="Tax History")
+        st.plotly_chart(fig, use_container_width=True)
 
 
 #####################################
