@@ -6,21 +6,6 @@ from function.functions import *
 #####################################
 
 
-def show_property_metrics(df):
-    st.markdown("## Property Metrics 🏙️")
-    col1, col2, col3, col4 = st.columns(4)
-
-    df['price'] = df['price'].astype(str).apply(clean_price)
-    df = df.dropna(subset=['price'])
-
-    col1.metric('Total', len(df))
-    col2.metric('Avg Price', "${:,}".format(
-        int(df['price'].mean())).split(',')[0] + 'K')
-    col3.metric('Avg DOM', int(df['daysOnZillow'].mean()))
-    col4.metric('Avg PPSQFT', "${:,}".format(
-        int(df['lotAreaValue'].mean())))
-
-
 def show_listing_metrics(df):
     st.markdown("## Property Metrics 🏙️")
     col1, col2, col3, col4 = st.columns(4)
@@ -35,9 +20,39 @@ def show_listing_metrics(df):
         int(df['zestimate'].mean())).split(',')[0] + 'K')
     col4.metric('Avg Est Rent', "${:,}".format(
         int(df['rentZestimate'].mean())).split(',')[0] + 'K')
+
+
+def show_property_metrics(df):
+    st.markdown("## Property Metrics 🏙️")
+    col1, col2, col3, col4 = st.columns(4)
+
+    df['price'] = df['price'].astype(str).apply(clean_price)
+    df = df.dropna(subset=['price'])
+
+    col1.metric('Total', len(df))
+    col2.metric('Avg Price', "${:,}".format(
+        int(df['price'].mean())).split(',')[0] + 'K')
+    col3.metric('Avg DOM', int(df['daysOnZillow'].mean()))
+    col4.metric('Avg PPSQFT', "${:,}".format(
+        int(df['lotAreaValue'].mean())))
+
 #####################################
 #             CHARTS                #
 #####################################
+
+
+def show_listing_charts(df):
+    with st.expander('Charts', expanded=True):
+        fig = px.box(df, x="price", title="Sales Price Box Chart")
+        st.plotly_chart(fig, use_container_width=True)
+        fig = px.histogram(df, x="zestimate",
+                           title="Estimate Value Histogram Chart")
+        st.plotly_chart(fig, use_container_width=True)
+        fig = px.histogram(df, x="rentZestimate",
+                           title="Rent Estimate Value Histogram Chart")
+        st.plotly_chart(fig, use_container_width=True)
+        fig = px.histogram(df, x="price_to_rent_ratio",
+                           title="Price to Rent Ratio Box Chart")
 
 
 def show_property_charts(df):
