@@ -411,7 +411,7 @@ def data_analystic():
 
             csv = df.to_csv(index=False)
             st.download_button(
-                label="Download",
+                label="Download 🔽",
                 data=csv,
                 file_name=f"{selected_file}.csv",
                 mime="text/csv"
