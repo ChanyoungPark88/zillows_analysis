@@ -395,6 +395,7 @@ def data_analystic():
     files = list_files_in_gcs(storage_client, prefix)
 
     if files:
+        files = [""] + files
         selected_file = st.selectbox('Choose a file', files)
         try:
             df = download_file_from_gcs(
