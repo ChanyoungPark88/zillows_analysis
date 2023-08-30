@@ -60,6 +60,8 @@ def show_property_summary(df):
         col2.markdown(f"**Year Built:** {df['yearBuilt'].iloc[0]}")
         col2.markdown(f"**Home Type:** {df['homeType'].iloc[0]}")
 
+        st.markdown(f"**Description:** {df['description'].iloc[0]}")
+
 #####################################
 #             CHARTS                #
 #####################################
