@@ -23,10 +23,9 @@ def get_property_info():
         # Get zpid input from the user
         zpid = st.text_input(
             'Unique ID',
-            # label_visibility=st.session_state.visibility,
-            # disabled=st.session_state.disabled,
-            # placeholder='1234567'
-            '2078133107'
+            label_visibility=st.session_state.visibility,
+            disabled=st.session_state.disabled,
+            placeholder='1234567'
         )
 
         # Offer an alternative input method for address
@@ -40,24 +39,11 @@ def get_property_info():
             placeholder='110 1st St, Jersey City, NJ 07302'
         )
 
-    # Create another Streamlit container for API key input
-    with st.container():
-        st.markdown("## 2. Enter your API Key 👇")
-
-        # Get API key input from the user
-        api_key = st.text_input(
-            'API Key',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='1234567890',
-            type="password"
-        )
-
     # Check if user has clicked the "Run" button
     if st.button("Run", type="secondary"):
 
         # Call function to get properties using provided inputs
-        result = get_properties(api_key=api_key, zpid=zpid, address=address)
+        result = get_properties(zpid=zpid, address=address)
 
         # Check if the API call was successful
         if result.json()['is_success']:

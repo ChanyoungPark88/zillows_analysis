@@ -17,30 +17,18 @@ def get_listing_info():
 
     # Container for entering the web link
     with st.container():
-        st.markdown("## 1. Enter Web Link 🌐")
+        st.markdown("## Enter Web Link 🌐")
         listing_url = st.text_input(
             'url',
-            # label_visibility=st.session_state.visibility,
-            # disabled=st.session_state.disabled,
-            # placeholder='https://www.zillow.com/...'
-            "https://www.zillow.com/jersey-city-nj/?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22usersSearchTerm%22%3A%22Jersey%20City%2C%20NJ%22%2C%22mapBounds%22%3A%7B%22west%22%3A-74.16915290551758%2C%22east%22%3A-73.96830909448242%2C%22south%22%3A40.657145494633546%2C%22north%22%3A40.77333599994227%7D%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A25320%2C%22regionType%22%3A6%7D%5D%2C%22isMapVisible%22%3Atrue%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22globalrelevanceex%22%7D%2C%22cmsn%22%3A%7B%22value%22%3Afalse%7D%2C%22ah%22%3A%7B%22value%22%3Atrue%7D%2C%22con%22%3A%7B%22value%22%3Afalse%7D%2C%22mf%22%3A%7B%22value%22%3Afalse%7D%2C%22manu%22%3A%7B%22value%22%3Afalse%7D%2C%22land%22%3A%7B%22value%22%3Afalse%7D%2C%22tow%22%3A%7B%22value%22%3Afalse%7D%2C%22apa%22%3A%7B%22value%22%3Afalse%7D%2C%22apco%22%3A%7B%22value%22%3Afalse%7D%7D%2C%22isListVisible%22%3Atrue%2C%22mapZoom%22%3A13%7D"
-        )
-
-    # Container for entering the API key
-    with st.container():
-        st.markdown("## 2. Enter your API Key 👇")
-        api_key = st.text_input(
-            'API Key',
             label_visibility=st.session_state.visibility,
             disabled=st.session_state.disabled,
-            placeholder='1234567890',
-            type="password"
+            placeholder='https://www.zillow.com/...'
         )
 
     # If Run button is pressed
     if st.button("Run", type="secondary"):
         # Get listings data from external source/API
-        result = get_listings(listing_url=listing_url, api_key=api_key)
+        result = get_listings(listing_url=listing_url)
 
         # If API request is successful
         if result.json()['is_success']:

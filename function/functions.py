@@ -2,6 +2,10 @@ from library.libraries import *
 
 # Google Cloud Storage Connection
 
+API_KEY = os.environ.get('API_KEY')
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
+
 
 def gcs_connect():
     # KEY Loading & Decoding
@@ -88,32 +92,24 @@ def convert_df(df):
 # Retrieve Listing Data using API
 
 
-def get_listings(listing_url, api_key):
+def get_listings(listing_url):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
-    api_key = os.environ.get('API_KEY')
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
     querystring = {
-        "api_key": api_key,
+        "api_key": API_KEY,
         "url": listing_url
     }
 
-    return requests.request("GET", url, params=querystring, headers=headers)
+    return requests.request("GET", url, params=querystring, headers=HEADERS)
 
 # Retrieve Property Data using API
 
 
-def get_properties(api_key, zpid=None, address=None):
+def get_properties(zpid=None, address=None):
     url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
-    api_key = os.environ.get('API_KEY')
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
 
     querystring = {
-        "api_key": api_key,
+        "api_key": API_KEY,
         "zpid": zpid,
         "address": address
     }
@@ -123,7 +119,7 @@ def get_properties(api_key, zpid=None, address=None):
     if address is not None:
         querystring['address'] = address
 
-    return requests.request("GET", url, params=querystring, headers=headers)
+    return requests.request("GET", url, params=querystring, headers=HEADERS)
 
 # Save the Listing Metadata to MongoDB
 
