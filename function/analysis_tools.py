@@ -88,8 +88,10 @@ def show_listing_charts(df):
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
         df['taxHistory'] = df['taxHistory'].apply(fix_json_string)
-
         df['taxHistory'] = df['taxHistory'].apply(json.loads)
+
+        fig = px.line(df, x="taxHistory", y="taxPaid", title="Tax Paid")
+        st.plotly_chart(fig, use_container_width=True)
 
         tax_hist_list = df['taxHistory'].iloc[0]
         tax_hist_df = pd.DataFrame(tax_hist_list)
