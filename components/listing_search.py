@@ -75,8 +75,12 @@ def get_listing_info():
                 df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
             # Data type conversion and assertions
+            # Data type conversion and assertions
+            # 원본 price 값 저장
+            df_filtered['original_price'] = df_filtered['price']
+
             # 'From ', '$' 및 ',' 문자열 제거
-            st.write(df_filtered['price'])
+            st.write("Original Prices:", df_filtered['original_price'])
             df_filtered.loc[:, 'price'] = df_filtered['price'].str.replace(
                 'From |\$|,', '', regex=True)
 
@@ -94,7 +98,8 @@ def get_listing_info():
             assert df_filtered['price'].dtype == 'float64'
             assert df_filtered['priceChange'].dtype == 'float64'
             assert df_filtered['rentZestimate'].dtype == 'float64'
-            st.write(df_filtered['price'])
+            st.write("Processed Prices:", df_filtered['price'])
+
             # Calculate the price_to_rent_ratio using masks (conditions)
             mask1 = (
                 df_filtered['price'].notnull() &
