@@ -87,11 +87,18 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        tax_hist = df["taxHistory"].iloc[0]
-        fig = px.line(tax_hist, x="time", y="taxPaid", title="Tax History")
+        # Extract the list of dictionaries from the 'taxHistory' column
+        tax_hist_list = df["taxHistory"].iloc[0]
+
+        # Convert the list of dictionaries to a DataFrame
+        tax_hist_df = pd.DataFrame(tax_hist_list)
+
+        # Create the plot using Plotly
+        fig = px.line(tax_hist_df, x="time", y="taxPaid", title="Tax History")
         st.plotly_chart(fig, use_container_width=True)
 
-        tax_hist
+        # Display the DataFrame (optional, but it seems you want to do it)
+        st.write(tax_hist_df)
 
 #####################################
 #               DATA                #
