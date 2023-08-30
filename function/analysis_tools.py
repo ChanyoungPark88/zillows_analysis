@@ -88,7 +88,8 @@ def show_listing_charts(df):
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
         st.write(df['taxHistory'].head())
-
+        json_data = df['taxHistory'].apply(json.loads)
+        st.write(json_data.head())
         # JSON 데이터 파싱
         # tax_history_data = df['taxHistory'].apply(json.loads)
 
