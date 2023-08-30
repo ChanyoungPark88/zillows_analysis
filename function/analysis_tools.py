@@ -129,13 +129,6 @@ def show_property_charts(df):
 
 def show_data(df, selected_file):
     with st.expander('Data', expanded=True):
-        # None 및 'None' 문자열을 NaN으로 변환
-        df.replace({None: np.nan, 'None': np.nan}, inplace=True)
-
-        # '0' 문자열과 같은 값을 숫자로 변환
-        for col in ['taxPaid', 'priceChangeRate', 'taxHistory']:
-            df[col] = pd.to_numeric(df[col], errors='coerce')
-
         st.subheader("Map")
         st.map(df)
 
