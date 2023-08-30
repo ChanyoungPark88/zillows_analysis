@@ -87,7 +87,7 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        df['taxHistory'].apply(type).value_counts()
+        st.write(df['taxHistory'].apply(type).value_counts())
 
 
 #####################################
