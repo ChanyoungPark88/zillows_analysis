@@ -53,6 +53,13 @@ def clean_price(value):
     return float(value) if value else None
 
 
+def fix_json_string(s):
+    s = s.replace("'", '"')
+    s = re.sub(
+        r'(?<!["\dtruefalsenull])(\w+)(?!["\dtruefalsenull])', r'"\1"', s)
+    return s
+
+
 def additional_bedroom_opportunity(x):
     try:
         # 2bd >= 1300 can usually fit an additional bd
