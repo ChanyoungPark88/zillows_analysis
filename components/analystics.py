@@ -42,6 +42,7 @@ def data_analystic():
                 show_listing_metrics(df)
             else:
                 show_property_metrics(df)
+                show_property_charts(df)
             df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
             df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
 
