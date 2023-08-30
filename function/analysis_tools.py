@@ -109,6 +109,15 @@ def show_property_charts(df):
 
 
 #####################################
+#           COMPARABLES             #
+#####################################
+def show_property_comps(df):
+    with st.expander('Charts', expanded=True):
+        df_c = pd.DataFrame(df["comps"].iloc[0])
+        df_c
+
+
+#####################################
 #               DATA                #
 #####################################
 
