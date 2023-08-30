@@ -20,6 +20,21 @@ def show_property_metrics(df):
     col4.metric('Avg PPSQFT', "${:,}".format(
         int(df['lotAreaValue'].mean())))
 
+
+def show_listing_metrics(df):
+    st.markdown("## Property Metrics 🏙️")
+    col1, col2, col3, col4 = st.columns(4)
+
+    df['price'] = df['price'].astype(str).apply(clean_price)
+    df = df.dropna(subset=['price'])
+
+    col1.metric('Total', len(df))
+    col2.metric('Avg Sale Price', "${:,}".format(
+        int(df['price'].mean())).split(',')[0] + 'K')
+    col3.metric('Avg Est Value', "${:,}".format(
+        int(df['zestimate'].mean())).split(',')[0] + 'K')
+    col3.metric('Avg Est Rent', "${:,}".format(
+        int(df['rentZestimate'].mean())).split(',')[0] + 'K')
 #####################################
 #             CHARTS                #
 #####################################
