@@ -38,6 +38,18 @@ def show_property_metrics(df):
     col4.metric('Est PPSQFT', "${:,.2f}".format(
         df['zestimate'].mean() / df['livingArea'].mean()))
 
+#####################################
+#              SUMMARY              #
+#####################################
+
+
+def show_property_summary(df):
+    with st.expander('Summary', expanded=True):
+        street_name = df['streetAddress'].iloc[0]
+        st.subheader(street_name)
+
+        photo_url = df['hiResImageLink'].iloc[0]
+        st.image(photo_url, use_column_width=True)
 
 #####################################
 #             CHARTS                #
