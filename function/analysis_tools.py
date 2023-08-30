@@ -87,14 +87,13 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        fig = px.histogram(df, x="daysOnZillow",
-                           title="Days on Market Histogram Chart")
+        fig = px.line(df, x='date', y='taxPaid',
+                      title='Historical Taxes Paid Line Chart')
         st.plotly_chart(fig, use_container_width=True)
-        fig = px.box(df, x="price", title="Price Box Plot Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.histogram(df, x="lotAreaValue",
-                           title="Price per SQFT Histogram Chart")
-        st.plotly_chart(fig, use_container_width=True)
+        selected_columns = df[['date', 'taxPaid',
+                               'taxincreaseRate', 'value', 'valueincreaseRate']]
+        st.write(selected_columns)
+
 
 #####################################
 #               DATA                #
