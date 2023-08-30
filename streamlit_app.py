@@ -255,14 +255,24 @@ def get_listing_info():
 
             # price_to_rent_ratio 추가 (NaN으로 설정, 필요한 경우 계산하여 적용)
             df_filtered['price_to_rent_ratio'] = None  # NaN 값으로 설정
-            mask = (df_filtered['price'].notnull()) & (
-                df_filtered['rentZestimate'].notnull())
+            mask1 = (
+                df_filtered['price'].notnull() &
+                df_filtered['rentZestimate'].notnull()
+            )
 
-            df_filtered.loc[mask, 'price_to_rent_ratio'] = df_filtered.loc[mask,
-                                                                           'price'].values / df_filtered.loc[mask, 'rentZestimate'].values
+            df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
+                                                                            'price'] / df_filtered.loc[mask1, 'rentZestimate']
 
-            df_filtered.loc[df_filtered['priceChange'].notnull(), 'price_to_rent_ratio'] = (
-                df_filtered['price'] + df_filtered['priceChange']) / df_filtered['rentZestimate']
+            mask2 = (
+                df_filtered['price'].notnull() &
+                df_filtered['priceChange'].notnull() &
+                df_filtered['rentZestimate'].notnull()
+            )
+
+            df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
+                df_filtered.loc[mask2, 'price'] +
+                df_filtered.loc[mask2, 'priceChange']
+            ) / df_filtered.loc[mask2, 'rentZestimate']
 
             # 2. 컬럼 순서 변경
             df_filtered = df_filtered[required_columns]
