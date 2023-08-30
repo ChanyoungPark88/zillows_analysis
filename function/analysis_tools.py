@@ -48,8 +48,17 @@ def show_property_summary(df):
         street_name = df['streetAddress'].iloc[0]
         st.subheader(street_name)
 
+        col1, col2 = st.columns(2)
+        # Display the photo in col1
         photo_url = df['hiResImageLink'].iloc[0]
-        st.image(photo_url, use_column_width=True)
+        col1.image(photo_url, use_column_width=True)
+
+        col2.markdown(f"**Bedrooms:** {df['bedrooms'].iloc[0]}")
+        col2.markdown(f"**Bathrooms:** {df['bathrooms'].iloc[0]}")
+        col2.markdown(f"**Sqft:** {df['livingArea'].iloc[0]}")
+        col2.markdown(f"**Lot Size:** {df['lotAreaValue'].iloc[0]}")
+        col2.markdown(f"**Year Built:** {df['yearBuilt'].iloc[0]}")
+        col2.markdown(f"**Home Type:** {df['homeType'].iloc[0]}")
 
 #####################################
 #             CHARTS                #
