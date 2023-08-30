@@ -97,6 +97,16 @@ def show_property_charts(df):
         st.plotly_chart(fig, use_container_width=True)
         st.write(tax_hist_df)
 
+        df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
+        df['priceHistory'] = df['priceHistory'].apply(json.loads)
+
+        price_hist_list = df['priceHistory'].iloc[0]
+        price_hist_df = pd.DataFrame(price_hist_list)
+        fig = px.line(price_hist_df, x="date", y="price",
+                      title="Historical Price Line Chart")
+        st.plotly_chart(fig, use_container_width=True)
+        st.write(price_hist_df)
+
 
 #####################################
 #               DATA                #
