@@ -90,7 +90,7 @@ def show_property_charts(df):
         st.write(df['taxHistory'].head())
 
         # JSON 데이터 파싱 및 DataFrame 생성
-        tax_history_df = pd.DataFrame(['taxHistory']['time'])
+        tax_history_df = pd.DataFrame(df['taxHistory']['time'])
 
         st.write(tax_history_df)
 
