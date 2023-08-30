@@ -38,7 +38,9 @@ def data_analystic():
                 return
 
             # If prefix is properties, apply main functionalities from app.py
-            if prefix == 'properties':
+            if prefix == 'listings':
+                show_property_metrics(df)
+            else:
                 show_property_metrics(df)
 
             st.write(df)
