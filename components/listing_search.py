@@ -95,6 +95,9 @@ def get_listing_info():
 
             df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
 
+            df_filtered['zipcode'] = df_filtered['zipcode'].astype(str)
+            df_filtered['zpid'] = df_filtered['zpid'].astype(str)
+
             df_filtered = df_filtered[required_columns]
 
             # Prepare data for database saving and get a unique identifier
