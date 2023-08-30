@@ -66,22 +66,19 @@ def get_listing_info():
             else:
                 df_filtered['is_FSBA'] = np.nan
 
+            df_filtered = df_filtered[~df_filtered['price'].str.contains(
+                'From', na=False)]
+            df_filtered['price'] = df_filtered['price'].str.replace(
+                '\$|,', '', regex=True)
+
             df_filtered['original_price'] = df_filtered['price']
 
-            st.write("Original Prices:", df_filtered['original_price'])
-            df_filtered['price'] = df_filtered['price'].str.replace(
-                'From |\$|,', '', regex=True)
-            non_numeric_prices = df_filtered[~df_filtered['price'].str.isnumeric(
-            )]['price']
-            st.write("Non-numeric prices:", non_numeric_prices)
-
             try:
-                df_filtered['price'] = df_filtered['price'].astype(float)
+                df_filtered['price'] = df_filtered['price'].astype(int)
             except ValueError as e:
                 raise e
 
-            assert df_filtered['price'].dtype == 'float64'
-            st.write("Processed Prices:", df_filtered['price'])
+            assert df_filtered['price'].dtype == 'int64'
 
             mask1 = (df_filtered['price'].notnull() &
                      df_filtered['rentZestimate'].notnull())
@@ -97,13 +94,6 @@ def get_listing_info():
                 df_filtered.loc[mask2, 'price'] + df_filtered.loc[mask2, 'priceChange']) / df_filtered.loc[mask2, 'rentZestimate']
 
             df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
-
-            st.write("Unique values in price:", df_filtered['price'].unique())
-            st.write("Unique values in priceChange:",
-                     df_filtered['priceChange'].unique())
-            st.write("Unique values in rentZestimate:",
-                     df_filtered['rentZestimate'].unique())
-            st.write("Columns in df_filtered:", df_filtered.columns)
 
             df_filtered = df_filtered[required_columns]
 
