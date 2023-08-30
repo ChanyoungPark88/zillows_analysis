@@ -396,10 +396,6 @@ def data_analystic():
 
     if files:
         selected_file = st.selectbox('Choose a file', files)
-
-    load_button_clicked = st.button("Load File", type="secondary")
-
-    if load_button_clicked and files:
         try:
             df = download_file_from_gcs(
                 selected_file, storage_client, prefix)
@@ -416,6 +412,7 @@ def data_analystic():
                 file_name=f"{selected_file}.csv",
                 mime="text/csv"
             )
+
         except Exception as e:
             st.error(f"An error occured: {str(e)}")
 
