@@ -1,13 +1,12 @@
 from library.libraries import *
 
-# Google Cloud Storage Connection
-
 API_KEY = os.environ.get('API_KEY')
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko)"}
+BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
 
-def gcs_connect():
+def gcs_connect():  # Google Cloud Storage Connection
     # KEY Loading & Decoding
     key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
     if not key_content_encoded:
@@ -17,11 +16,7 @@ def gcs_connect():
     key_content = base64.b64decode(key_content_encoded).decode()
     key_data = json.loads(key_content)
 
-    # Uncomment this line for debugging but avoid exposing sensitive info in a public environment.
-    # st.write(key_data)
-
     try:
-        # GCS connection
         storage_client = storage.Client.from_service_account_info(key_data)
         return storage_client
 
@@ -29,10 +24,8 @@ def gcs_connect():
         st.write(e)
         return
 
-# Preprocess the DataFrame
 
-
-def preprocess_dataframe(df):
+def preprocess_dataframe(df):   # Preprocess the DataFrame
     required_columns = ['zpid', 'streetAddress', 'city', 'state', 'zipcode', 'country',
                         'latitude', 'longitude', 'homeStatus', 'homeType', 'price', 'currency',
                         'bedrooms', 'bathrooms', 'livingArea', 'yearBuilt', 'zestimate',
@@ -48,8 +41,6 @@ def preprocess_dataframe(df):
 
     df = df[required_columns]
     return df
-
-# Preprocess the Price
 
 
 def clean_price(value):
@@ -89,10 +80,8 @@ def adu_potential(x):
 def convert_df(df):
     return df.to_csv(index=False).encode('utf-8')
 
-# Retrieve Listing Data using API
 
-
-def get_listings(listing_url):
+def get_listings(listing_url):  # Retrieve Listing Data using API
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
 
     querystring = {
@@ -102,10 +91,8 @@ def get_listings(listing_url):
 
     return requests.request("GET", url, params=querystring, headers=HEADERS)
 
-# Retrieve Property Data using API
 
-
-def get_properties(zpid=None, address=None):
+def get_properties(zpid=None, address=None):    # Retrieve Property Data using API
     url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
 
     querystring = {
@@ -121,10 +108,8 @@ def get_properties(zpid=None, address=None):
 
     return requests.request("GET", url, params=querystring, headers=HEADERS)
 
-# Save the Listing Metadata to MongoDB
 
-
-def listings_save_to_db(data):
+def listings_save_to_db(data):  # Save the Listing Metadata to MongoDB
     MONGO_URL = os.environ.get('MONGO_URL')
     DB_NAME = os.environ.get('DB_NAME')
     COLLECTION_NAME = os.environ.get('LISTING_COLLECTION')
@@ -149,10 +134,8 @@ def listings_save_to_db(data):
 
     return object_id, filename
 
-# Save the Property Metadata to MongoDB
 
-
-def properties_save_to_db(data, zpid):
+def properties_save_to_db(data, zpid):  # Save the Property Metadata to MongoDB
     MONGO_URL = os.environ.get('MONGO_URL')
     DB_NAME = os.environ.get('DB_NAME')
     COLLECTION_NAME = os.environ.get('PROPERTY_COLLECTION')
@@ -181,10 +164,9 @@ def properties_save_to_db(data, zpid):
 
     return object_id, filename
 
+
 # File Upload to GCS bucket
-
-
-def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
+def file_upload_to_gcs(filename, storage_client, prefix, bucket_name=BUCKET_NAME):
     # Get the bucket name
     bucket = storage_client.get_bucket(bucket_name)
 
@@ -198,10 +180,9 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name='my_project
 
     return f"Uploaded {filename} to {bucket_name}/{prefix}."
 
+
 # File Download from GCS bucket
-
-
-def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_project_storage'):
+def download_file_from_gcs(filename, storage_client, prefix, bucket_name=BUCKET_NAME):
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(f"{prefix}/{filename}")
 
@@ -213,10 +194,9 @@ def download_file_from_gcs(filename, storage_client, prefix, bucket_name='my_pro
     df = pd.read_csv(io.StringIO(content))
     return df
 
+
 # Retrieve File List from GCS bucket
-
-
-def list_files_in_gcs(storage_client, prefix, bucket_name='my_project_storage'):
+def list_files_in_gcs(storage_client, prefix, bucket_name=BUCKET_NAME):
     bucket = storage_client.get_bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
     return [blob.name.replace(f"{prefix}/", "") for blob in blobs]
