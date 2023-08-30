@@ -36,12 +36,12 @@ def data_analystic():
                 st.success(
                     f"Choose a file from the dropdown above to view data.")
                 return
-            st.write(df)
 
             # If prefix is properties, apply main functionalities from app.py
             if prefix == 'properties':
                 show_property_metrics(df)
 
+            st.write(df)
             csv = df.to_csv(index=False)
             st.download_button(
                 label="Download 🔽",
