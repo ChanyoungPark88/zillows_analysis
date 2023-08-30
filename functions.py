@@ -1,4 +1,4 @@
-from mylibs import *
+from libraries import *
 
 # Google Cloud Storage 연결
 

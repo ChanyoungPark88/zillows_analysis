@@ -1,8 +1,8 @@
 # Module imports
-from mylibs import *
+from libraries import *
 
 # Function imports
-from my_functions import *
+from functions import *
 
 #####################################
 #              PAGES                #
