@@ -3,3 +3,4 @@ pydataset
 pymongo
 gcsfs
 git+https://github.com/streamlit/files-connection
+plotly
