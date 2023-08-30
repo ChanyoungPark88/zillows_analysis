@@ -90,9 +90,7 @@ def show_property_charts(df):
         fig = px.line(df, x='date', y='taxPaid',
                       title='Historical Taxes Paid Line Chart')
         st.plotly_chart(fig, use_container_width=True)
-        selected_columns = df[['date', 'taxPaid',
-                               'taxincreaseRate', 'value', 'valueincreaseRate']]
-        st.write(selected_columns)
+        st.write(df['taxHistory'].head())
 
 
 #####################################
