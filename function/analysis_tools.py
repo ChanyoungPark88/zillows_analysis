@@ -87,9 +87,8 @@ def show_listing_charts(df):
 
 def show_property_charts(df):
     with st.expander('Charts', expanded=True):
-        # Extract the list of dictionaries from the 'taxHistory' column
-        df_tax_hist = pd.DataFrame(df["taxHistory"].iloc[0])
-        st.write(df_tax_hist)
+        df['taxHistory'].apply(type).value_counts()
+
 
 #####################################
 #               DATA                #
