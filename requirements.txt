@@ -1,6 +1,9 @@
-streamlit
-pydataset
-pymongo
-gcsfs
-git+https://github.com/streamlit/files-connection
-plotly
+streamlit  # 원하는 버전에 맞게 조절하세요.
+pandas  # 원하는 버전에 맞게 조절하세요.
+pydeck  # 원하는 버전에 맞게 조절하세요.
+plotly  # 원하는 버전에 맞게 조절하세요.
+numpy  # 원하는 버전에 맞게 조절하세요.
+altair  # 원하는 버전에 맞게 조절하세요.
+requests  # 원하는 버전에 맞게 조절하세요.
+google-cloud-storage  # 원하는 버전에 맞게 조절하세요.
+pymongo  # 원하는 버전에 맞게 조절하세요.
