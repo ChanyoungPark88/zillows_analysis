@@ -75,18 +75,16 @@ def get_listing_info():
                 df_filtered.loc[:, 'is_FSBA'] = np.nan  # NaN 값으로 설정
 
             # Data type conversion and assertions
-            # $ 제거
-            df_filtered['price'] = df_filtered['price'].str.replace('$', '')
-
-            # , 제거
-            df_filtered['price'] = df_filtered['price'].str.replace(',', '')
+            # 'From ', '$' 및 ',' 문자열 제거
+            df_filtered.loc[:, 'price'] = df_filtered['price'].str.replace(
+                'From |\$|,', '', regex=True)
 
             # 숫자가 아닌 값을 갖는 행들을 출력
             non_numeric_prices = df_filtered[~df_filtered['price'].str.isnumeric(
             )]['price']
             print("Non-numeric prices:", non_numeric_prices)
 
-            # 이제 float로 변환을 시도합니다
+            # float로 변환을 시도합니다
             try:
                 df_filtered['price'] = df_filtered['price'].astype(float)
             except ValueError as e:
