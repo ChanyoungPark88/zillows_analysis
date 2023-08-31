@@ -133,9 +133,9 @@ def show_data(df, selected_file):
         st.map(df)
 
         st.subheader("Dataset")
-        # df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
-        # df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-        st.dataframe(df)
+        df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
+        df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
+        st.write(df)
 
         csv = df.to_csv(index=False)
         st.download_button(
