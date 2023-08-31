@@ -141,9 +141,9 @@ def show_data(df, selected_file):
         #     'None', np.nan).astype(float)
 
         df['taxHistory'] = df['taxHistory'].replace(
-            'None', np.nan).astype(float)
+            'None', np.nan)
         df['priceHistory'] = df['priceHistory'].replace(
-            'None', np.nan).astype(float)
+            'None', np.nan)
 
         st.write(df)
 
