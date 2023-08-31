@@ -137,8 +137,8 @@ def show_data(df, selected_file):
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
         # Handle 'None' values and safely convert to float
         # df['taxPaid'] = df['taxPaid'].replace('None', np.nan).astype(float)
-        df['priceChangeRate'] = df['priceChangeRate'].replace(
-            'None', np.nan).astype(float)
+        # df['priceChangeRate'] = df['priceChangeRate'].replace(
+        #     'None', np.nan).astype(float)
 
         df['taxHistory'] = df['taxHistory'].replace(
             'None', np.nan).astype(float)
