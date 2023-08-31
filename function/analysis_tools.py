@@ -137,10 +137,11 @@ def show_data(df, selected_file):
     with st.expander('Data', expanded=True):
         st.subheader("Dataset")
 
-        st.write(df.dtypes)
+        # st.write(df.dtypes)
         df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-        inspect_object_columns(df)
+
+        st.write(df)
         csv = df.to_csv(index=False)
         st.download_button(
             label="Download 🔽",
