@@ -156,3 +156,29 @@ def show_data(df, selected_file):
             file_name=f"{selected_file if not selected_file.endswith('.csv') else selected_file[:-4]}.csv",
             mime="text/csv"
         )
+
+
+def show_map_and_data(df, selected_file):
+    df = df.copy()
+
+    with st.expander('Data', expanded=True):
+        # Map
+        st.subheader("Map")
+        st.map(df)
+
+        # Dataset
+        st.subheader("Dataset")
+
+        # st.write(df.dtypes)
+        df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
+        df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
+
+        st.write(df)
+
+        csv = df.to_csv(index=False)
+        st.download_button(
+            label="Download 🔽",
+            data=csv,
+            file_name=f"{selected_file if not selected_file.endswith('.csv') else selected_file[:-4]}.csv",
+            mime="text/csv"
+        )
