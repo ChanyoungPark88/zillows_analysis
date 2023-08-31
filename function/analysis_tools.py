@@ -7,6 +7,7 @@ from function.functions import *
 
 
 def show_listing_metrics(df):
+    df = df.copy()
     st.markdown("## Property Metrics 🏙️")
     col1, col2, col3, col4 = st.columns(4)
 
@@ -23,6 +24,7 @@ def show_listing_metrics(df):
 
 
 def show_property_metrics(df):
+    df = df.copy()
     st.markdown("## Property Metrics 🏙️")
     col1, col2, col3, col4 = st.columns(4)
 
@@ -44,6 +46,7 @@ def show_property_metrics(df):
 
 
 def show_property_summary(df):
+    df = df.copy()
     with st.expander('Summary', expanded=True):
         street_name = df['streetAddress'].iloc[0]
         st.subheader(street_name)
@@ -71,6 +74,7 @@ def show_property_summary(df):
 
 
 def show_listing_charts(df):
+    df = df.copy()
     with st.expander('Charts', expanded=True):
         fig = px.box(df, x="price", title="Sales Price Box Chart")
         st.plotly_chart(fig, use_container_width=True)
@@ -86,6 +90,7 @@ def show_listing_charts(df):
 
 
 def show_property_charts(df):
+    df = df.copy()
     with st.expander('Charts', expanded=True):
         df['taxHistory'] = df['taxHistory'].apply(fix_json_string)
         df['taxHistory'] = df['taxHistory'].apply(json.loads)
@@ -128,12 +133,14 @@ def show_property_charts(df):
 #####################################
 
 def show_map(df):
+    df = df.copy()
     with st.expander('Data', expanded=True):
         st.subheader("Map")
         st.map(df)
 
 
 def show_data(df, selected_file):
+    df = df.copy()
     with st.expander('Data', expanded=True):
         st.subheader("Dataset")
 
