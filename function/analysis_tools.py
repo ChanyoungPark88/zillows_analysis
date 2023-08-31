@@ -72,21 +72,69 @@ def show_property_summary(df):
 #             CHARTS                #
 #####################################
 
+# Plotly Express Version
+# def show_listing_charts(df):
+#     df = df.copy()
+#     with st.expander('Charts', expanded=True):
+#         fig = px.box(df, x="price", title="Sales Price Box Chart")
+#         st.plotly_chart(fig, use_container_width=True)
+#         fig = px.histogram(df, x="zestimate",
+#                            title="Estimate Value Histogram Chart")
+#         st.plotly_chart(fig, use_container_width=True)
+#         fig = px.histogram(df, x="rentZestimate",
+#                            title="Rent Estimate Value Histogram Chart")
+#         st.plotly_chart(fig, use_container_width=True)
+#         fig = px.box(df, x="price_to_rent_ratio",
+#                            title="Price to Rent Ratio Box Chart")
+#         st.plotly_chart(fig, use_container_width=True)
 
+
+# def show_property_charts(df):
+#     df = df.copy()
+#     with st.expander('Charts', expanded=True):
+#         df['taxHistory'] = df['taxHistory'].apply(fix_json_string)
+#         df['taxHistory'] = df['taxHistory'].apply(json.loads)
+
+#         tax_hist_list = df['taxHistory'].iloc[0]
+#         tax_hist_df = pd.DataFrame(tax_hist_list)
+#         fig = px.line(tax_hist_df, x="time", y="taxPaid",
+#                       title="Historical Line Chart")
+#         st.plotly_chart(fig, use_container_width=True)
+#         st.write(tax_hist_df)
+
+#         df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
+#         df['priceHistory'] = df['priceHistory'].apply(json.loads)
+
+#         price_hist_list = df['priceHistory'].iloc[0]
+#         price_hist_df = pd.DataFrame(price_hist_list)
+#         fig = px.line(price_hist_df, x="date", y="price",
+#                       title="Historical Price Line Chart")
+#         st.plotly_chart(fig, use_container_width=True)
+#         st.write(price_hist_df)
+
+# Seaborn Version
 def show_listing_charts(df):
     df = df.copy()
     with st.expander('Charts', expanded=True):
-        fig = px.box(df, x="price", title="Sales Price Box Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.histogram(df, x="zestimate",
-                           title="Estimate Value Histogram Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.histogram(df, x="rentZestimate",
-                           title="Rent Estimate Value Histogram Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.box(df, x="price_to_rent_ratio",
-                           title="Price to Rent Ratio Box Chart")
-        st.plotly_chart(fig, use_container_width=True)
+        plt.figure(figsize=(12, 6))
+        sns.boxplot(data=df, x='price')
+        plt.title("Sales Price Box Chart")
+        st.pyplot()
+
+        plt.figure(figsize=(12, 6))
+        sns.histplot(data=df, x='zestimate', bins=30)
+        plt.title("Estimate Value Histogram Chart")
+        st.pyplot()
+
+        plt.figure(figsize=(12, 6))
+        sns.histplot(data=df, x='rentZestimate', bins=30)
+        plt.title("Rent Estimate Value Histogram Chart")
+        st.pyplot()
+
+        plt.figure(figsize=(12, 6))
+        sns.boxplot(data=df, x='price_to_rent_ratio')
+        plt.title("Price to Rent Ratio Box Chart")
+        st.pyplot()
 
 
 def show_property_charts(df):
@@ -97,9 +145,11 @@ def show_property_charts(df):
 
         tax_hist_list = df['taxHistory'].iloc[0]
         tax_hist_df = pd.DataFrame(tax_hist_list)
-        fig = px.line(tax_hist_df, x="time", y="taxPaid",
-                      title="Historical Line Chart")
-        st.plotly_chart(fig, use_container_width=True)
+
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(data=tax_hist_df, x='time', y='taxPaid')
+        plt.title("Historical Line Chart")
+        st.pyplot()
         st.write(tax_hist_df)
 
         df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
@@ -107,11 +157,12 @@ def show_property_charts(df):
 
         price_hist_list = df['priceHistory'].iloc[0]
         price_hist_df = pd.DataFrame(price_hist_list)
-        fig = px.line(price_hist_df, x="date", y="price",
-                      title="Historical Price Line Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        st.write(price_hist_df)
 
+        plt.figure(figsize=(12, 6))
+        sns.lineplot(data=price_hist_df, x='date', y='price')
+        plt.title("Historical Price Line Chart")
+        st.pyplot()
+        st.write(price_hist_df)
 
 #####################################
 #           COMPARABLES             #
@@ -131,32 +182,6 @@ def show_property_charts(df):
 #####################################
 #               DATA                #
 #####################################
-
-def show_map(df):
-    df = df.copy()
-    with st.expander('Data', expanded=True):
-        st.subheader("Map")
-        st.map(df)
-
-
-def show_data(df, selected_file):
-    df = df.copy()
-    with st.expander('Data', expanded=True):
-        st.subheader("Dataset")
-
-        # st.write(df.dtypes)
-        df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
-        df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-
-        st.write(df)
-        csv = df.to_csv(index=False)
-        st.download_button(
-            label="Download 🔽",
-            data=csv,
-            file_name=f"{selected_file if not selected_file.endswith('.csv') else selected_file[:-4]}.csv",
-            mime="text/csv"
-        )
-
 
 def show_map_and_data(df, selected_file):
     df = df.copy()
