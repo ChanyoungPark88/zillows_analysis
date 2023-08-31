@@ -140,7 +140,7 @@ def show_data(df, selected_file):
         # df['priceChangeRate'] = df['priceChangeRate'].replace(
         #     'None', np.nan).astype(float)
 
-        st.write(df['taxHistory'].unique())
+        st.write(list(df['taxHistory'].unique()))
 
         st.write(df)
 
