@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
 from library.libraries import *
 from function.functions import *
 
@@ -113,43 +115,54 @@ def show_property_summary(df):
 #         st.write(price_hist_df)
 
 # Seaborn Version
+
+
 def show_listing_charts(df):
     df = df.copy()
     with st.expander('Charts', expanded=True):
-        plt.figure(figsize=(12, 6))
-        sns.boxplot(data=df, x='price')
-        plt.title("Sales Price Box Chart")
-        st.pyplot()
 
-        plt.figure(figsize=(12, 6))
-        sns.histplot(data=df, x='zestimate', bins=30)
-        plt.title("Estimate Value Histogram Chart")
-        st.pyplot()
+        # Sales Price Box Chart
+        fig, ax = plt.subplots()
+        sns.boxplot(x="price", data=df, ax=ax)
+        ax.set_title("Sales Price Box Chart")
+        st.pyplot(fig)
 
-        plt.figure(figsize=(12, 6))
-        sns.histplot(data=df, x='rentZestimate', bins=30)
-        plt.title("Rent Estimate Value Histogram Chart")
-        st.pyplot()
+        # Estimate Value Histogram Chart
+        fig, ax = plt.subplots()
+        sns.histplot(df["zestimate"], ax=ax, kde=True)
+        ax.set_title("Estimate Value Histogram Chart")
+        st.pyplot(fig)
 
-        plt.figure(figsize=(12, 6))
-        sns.boxplot(data=df, x='price_to_rent_ratio')
-        plt.title("Price to Rent Ratio Box Chart")
-        st.pyplot()
+        # Rent Estimate Value Histogram Chart
+        fig, ax = plt.subplots()
+        sns.histplot(df["rentZestimate"], ax=ax, kde=True)
+        ax.set_title("Rent Estimate Value Histogram Chart")
+        st.pyplot(fig)
+
+        # Price to Rent Ratio Box Chart
+        fig, ax = plt.subplots()
+        sns.boxplot(x="price_to_rent_ratio", data=df, ax=ax)
+        ax.set_title("Price to Rent Ratio Box Chart")
+        st.pyplot(fig)
 
 
 def show_property_charts(df):
     df = df.copy()
     with st.expander('Charts', expanded=True):
+
+        # Note: fix_json_string() function and json should be defined/imported before using
+
         df['taxHistory'] = df['taxHistory'].apply(fix_json_string)
         df['taxHistory'] = df['taxHistory'].apply(json.loads)
 
         tax_hist_list = df['taxHistory'].iloc[0]
         tax_hist_df = pd.DataFrame(tax_hist_list)
 
-        plt.figure(figsize=(12, 6))
-        sns.lineplot(data=tax_hist_df, x='time', y='taxPaid')
-        plt.title("Historical Line Chart")
-        st.pyplot()
+        fig, ax = plt.subplots()
+        sns.lineplot(x="time", y="taxPaid", data=tax_hist_df, ax=ax)
+        ax.set_title("Historical Line Chart")
+        st.pyplot(fig)
+
         st.write(tax_hist_df)
 
         df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
@@ -158,11 +171,13 @@ def show_property_charts(df):
         price_hist_list = df['priceHistory'].iloc[0]
         price_hist_df = pd.DataFrame(price_hist_list)
 
-        plt.figure(figsize=(12, 6))
-        sns.lineplot(data=price_hist_df, x='date', y='price')
-        plt.title("Historical Price Line Chart")
-        st.pyplot()
+        fig, ax = plt.subplots()
+        sns.lineplot(x="date", y="price", data=price_hist_df, ax=ax)
+        ax.set_title("Historical Price Line Chart")
+        st.pyplot(fig)
+
         st.write(price_hist_df)
+
 
 #####################################
 #           COMPARABLES             #
