@@ -136,9 +136,11 @@ def show_map(df):
 def show_data(df, selected_file):
     with st.expander('Data', expanded=True):
         st.subheader("Dataset")
+
+        st.write(df.dtypes)
         df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-        # st.write(df)
+        st.write(df.dtypes)
         csv = df.to_csv(index=False)
         st.download_button(
             label="Download 🔽",
