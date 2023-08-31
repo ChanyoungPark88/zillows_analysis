@@ -135,6 +135,10 @@ def show_data(df, selected_file):
         st.subheader("Dataset")
         df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
+        df['taxHistory'] = df['taxHistory'].astype(
+            float).apply(lambda x: f"{x}")
+        df['priceHistory'] = df['priceHistory'].astype(
+            float).apply(lambda x: f"{x}")
         st.write(df)
 
         csv = df.to_csv(index=False)
