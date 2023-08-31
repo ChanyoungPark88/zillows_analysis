@@ -59,32 +59,23 @@ def fix_json_string(s):
     return s
 
 
-def additional_bedroom_opportunity(x):
-    try:
-        # 2bd >= 1300 can usually fit an additional bd
-        # 3bd >= 1950 can usually fit an additional bd
-        # 4bd >= 2600 can usually fit an additional bd
-        if (x['ratio_sqft_bd'] >= 650) and (x['ratio_sqft_bd'] is not None) and (x['BEDS'] > 1) and (x['PROPERTY TYPE'] == 'Single Family Residential'):
-            return True
-        else:
-            return False
+def inspect_object_columns(df):
+    for column in df.columns:
 
-    except:
-        return False
+        if df[column].dtype == 'object':
+            unique_values = df[column].unique()
+            st.write(f"Column Name: {column}")
+            st.write(f"Unique Values: {unique_values}")
 
 
-def adu_potential(x):
-    try:
-        if (x['ratio_lot_sqft'] >= 5) and (x['ratio_lot_sqft'] is not None) and (x['HOA/MONTH'] is not None) and (x['PROPERTY TYPE'] == 'Single Family Residential'):
-            return True
-        else:
-            return False
-    except:
-        return False
-
-
-def convert_df(df):
-    return df.to_csv(index=False).encode('utf-8')
+def process_object_columns(df):
+    for column in df.columns:
+        if df[column].dtype == 'object':
+            # 'None'을 NaN으로 변환
+            df[column] = df[column].replace('None', np.nan)
+            # 문자열이 숫자만 포함하고 있는지 확인
+            if df[column].str.isnumeric().all():
+                df[column] = df[column].astype(float)
 
 
 def get_listings(listing_url):  # Retrieve Listing Data using API

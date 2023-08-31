@@ -140,7 +140,7 @@ def show_data(df, selected_file):
         st.write(df.dtypes)
         df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-        st.write(df.dtypes)
+        inspect_object_columns(df)
         csv = df.to_csv(index=False)
         st.download_button(
             label="Download 🔽",
