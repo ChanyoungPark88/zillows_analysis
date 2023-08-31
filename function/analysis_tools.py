@@ -135,13 +135,14 @@ def show_data(df, selected_file):
         st.subheader("Dataset")
         df['zipcode'] = df['zipcode'].astype(int).apply(lambda x: f"{x}")
         df['zpid'] = df['zpid'].astype(int).apply(lambda x: f"{x}")
-        # Handle 'None' values and safely convert to float
-        # df['taxPaid'] = df['taxPaid'].replace('None', np.nan).astype(float)
-        # df['priceChangeRate'] = df['priceChangeRate'].replace(
-        #     'None', np.nan).astype(float)
+        df['taxPaid'] = df['taxPaid'].replace('None', np.nan)
+        df['priceChangeRate'] = df['priceChangeRate'].replace('None', np.nan)
 
-        st.write(list(df['taxHistory'].unique()))
-
+        # Convert numeric-like strings to float
+        # Coerce invalid parsing to NaN
+        df['taxPaid'] = pd.to_numeric(df['taxPaid'], errors='coerce')
+        df['priceChangeRate'] = pd.to_numeric(
+            df['priceChangeRate'], errors='coerce')
         st.write(df)
 
         csv = df.to_csv(index=False)
