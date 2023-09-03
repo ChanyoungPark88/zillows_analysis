@@ -57,9 +57,9 @@ def get_listing_info():
             df_merged = df_sale_listings[existing_columns]
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
 
-            df_filtered['streetName'] = df_filtered['streetAddress']
-            df_filtered['homeDetailUrl'] = "https://www.zillow.com" + \
-                df_filtered['detailUrl']
+            df_filtered.loc[:, 'streetName'] = df_filtered['streetAddress']
+            df_filtered.loc[:, 'homeDetailUrl'] = "https://www.zillow.com" + \
+                df_filtered['homeDetailUrl']
 
             if 'listing_sub_type.is_FSBA' in df_sale_listings.columns:
                 df_filtered['is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
@@ -82,18 +82,30 @@ def get_listing_info():
 
             assert df_filtered['price'].dtype == 'int64'
 
-            mask1 = (df_filtered['price'].notnull() &
-                     df_filtered['rentZestimate'].notnull())
-            df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
-                                                                            'price'] / df_filtered.loc[mask1, 'rentZestimate']
-
-            mask2 = (
-                df_filtered['price'].notnull() &
-                df_filtered['priceChange'].notnull() &
-                df_filtered['rentZestimate'].notnull()
+            mask1_price = df_filtered['price'].notnull()
+            mask1_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
             )
-            df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
-                df_filtered.loc[mask2, 'price'] + df_filtered.loc[mask2, 'priceChange']) / df_filtered.loc[mask2, 'rentZestimate']
+
+            if mask1_rent:
+                mask1 = mask1_price & mask1_rent
+                df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
+                                                                                'price'] / df_filtered.loc[mask1, 'rentZestimate']
+            else:
+                # 'rentZestimate' 열이 없을 때의 처리. 필요하다면 경고 메시지를 출력하거나 다른 처리를 할 수 있습니다.
+                print("'rentZestimate' column not found in df_filtered.")
+
+            mask2_price = df_filtered['price'].notnull()
+            mask2_priceChange = df_filtered['priceChange'].notnull()
+            mask2_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
+            )
+
+            if mask2_rent:
+                mask2 = mask2_price & mask2_priceChange & mask2_rent
+                df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
+                    df_filtered.loc[mask2, 'price'] + df_filtered.loc[mask2, 'priceChange']) / df_filtered.loc[mask2, 'rentZestimate']
+            else:
+                # 'rentZestimate' 열이 없을 때의 처리. 필요하다면 경고 메시지를 출력하거나 다른 처리를 할 수 있습니다.
+                print("'rentZestimate' column not found in df_filtered.")
 
             df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
 
