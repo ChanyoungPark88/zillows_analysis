@@ -32,6 +32,7 @@ def show_property_metrics(df):
 
     # 가격을 숫자로 변환
     df['price'] = df['price'].astype(str).apply(clean_price).astype(float)
+    df['priceChangeRate'] = df['priceChangeRate'].apply(clean_price)
 
     # NaN 값 처리 (예: 평균으로 NaN 값을 채움)
     df['price'].fillna(df['price'].mean(), inplace=True)
