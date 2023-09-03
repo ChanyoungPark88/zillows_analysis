@@ -30,17 +30,31 @@ def show_property_metrics(df):
     st.markdown("## Property Metrics 🏙️")
     col1, col2, col3, col4 = st.columns(4)
 
-    df['price'] = df['price'].astype(str).apply(clean_price)
-    df = df.dropna(subset=['price'])
+    # 가격을 숫자로 변환
+    df['price'] = df['price'].astype(str).apply(clean_price).astype(float)
+
+    # NaN 값 처리 (예: 평균으로 NaN 값을 채움)
+    df['price'].fillna(df['price'].mean(), inplace=True)
 
     col1.metric('Est Value', "${:,}".format(
         int(df['zestimate'].mean())).split(',')[0] + 'K')
     col2.metric('Est Rent Value', "${:,}".format(
         int(df['rentZestimate'].mean())).split(',')[0] + 'K')
-    col3.metric('Est PBR', int(
-        (df['zestimate'] / (df['rentZestimate'] * 12)).mean()))
-    col4.metric('Est PPSQFT', "${:,.2f}".format(
-        df['zestimate'].mean() / df['livingArea'].mean()))
+
+    # 0으로 나누는 경우를 방지
+    rent_estimate = df['rentZestimate'].mean() * 12
+    if rent_estimate != 0:
+        col3.metric('Est PBR', int(df['zestimate'].mean() / rent_estimate))
+    else:
+        col3.metric('Est PBR', 'N/A')
+
+    living_area_mean = df['livingArea'].mean()
+    if living_area_mean != 0:
+        col4.metric('Est PPSQFT', "${:,.2f}".format(
+            df['zestimate'].mean() / living_area_mean))
+    else:
+        col4.metric('Est PPSQFT', 'N/A')
+
 
 #####################################
 #              SUMMARY              #
