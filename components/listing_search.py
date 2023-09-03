@@ -113,7 +113,10 @@ def get_listing_info():
                 # 'rentZestimate' 열이 없을 때의 처리. 필요하다면 경고 메시지를 출력하거나 다른 처리를 할 수 있습니다.
                 print("'rentZestimate' column not found in df_filtered.")
 
-            df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
+            if 'price_to_rent_ratio' in df_filtered.columns:
+                df_filtered['price_to_rent_ratio'].fillna(np.nan, inplace=True)
+            else:
+                df_filtered['price_to_rent_ratio'] = np.nan
 
             df_filtered['zipcode'] = df_filtered['zipcode'].astype(str)
             df_filtered['zpid'] = df_filtered['zpid'].astype(str)
