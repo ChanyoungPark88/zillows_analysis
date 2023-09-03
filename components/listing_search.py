@@ -1,12 +1,24 @@
-# Module imports
-from library.libraries import *
+"""
+Module for retrieving and processing property listing information.
 
-# Function imports
-from function.functions import *
+This module fetches property listing details from a given URL,
+processes the data, and uploads it to Google Cloud Storage.
+"""
+from library.libraries import st, pd, np
+from function.functions import get_listings, listings_save_to_db, gcs_connect, file_upload_to_gcs
 
 
 def get_listing_info():
-    # Display the title for the web app
+    """
+    Retrieve property listings from a given URL, process the data,
+    and upload to Google Cloud Storage.
+
+    Parameters:
+    - None
+
+    Returns:
+    - None
+    """
     st.title("Listings Search 🔍")
 
     # Initialize session state variables if not present
@@ -72,7 +84,7 @@ def get_listing_info():
             df_filtered = df_filtered[~df_filtered['price'].str.contains(
                 'From', na=False)]
             df_filtered['price'] = df_filtered['price'].str.replace(
-                '\$|,', '', regex=True)
+                r'\$|,', '', regex=True)
 
             df_filtered['original_price'] = df_filtered['price']
 
@@ -80,35 +92,45 @@ def get_listing_info():
                 df_filtered['price'] = df_filtered['price'].str.replace(
                     '[^0-9]', '', regex=True).astype(int)
 
-            except ValueError as e:
-                raise e
+            except ValueError as error_message:
+                raise error_message
 
             assert df_filtered['price'].dtype == 'int64'
 
             mask1_price = df_filtered['price'].notnull()
-            mask1_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
+            mask1_rent = (
+                'rentZestimate' in df_filtered.columns
+                and df_filtered['rentZestimate'].notnull()
             )
 
             if mask1_rent.any():
                 mask1 = mask1_price & mask1_rent
-                df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
-                                                                                'price'] / df_filtered.loc[mask1, 'rentZestimate']
+                df_filtered.loc[mask1, 'price_to_rent_ratio'] = (
+                    df_filtered.loc[mask1, 'price'] /
+                    df_filtered.loc[mask1, 'rentZestimate']
+                )
+
             else:
                 # 'rentZestimate' 열이 없을 때의 처리. 필요하다면 경고 메시지를 출력하거나 다른 처리를 할 수 있습니다.
                 print("'rentZestimate' column not found in df_filtered.")
 
             mask2_price = df_filtered['price'].notnull()
-            mask2_priceChange = False
+            mask2_price_change = False
             if 'priceChange' in df_filtered.columns:
-                mask2_priceChange = df_filtered['priceChange'].notnull()
+                mask2_price_change = df_filtered['priceChange'].notnull()
 
-            mask2_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
+            mask2_rent = (
+                'rentZestimate' in df_filtered.columns and
+                df_filtered['rentZestimate'].notnull()
             )
 
             if mask2_rent.any():
-                mask2 = mask2_price & mask2_priceChange & mask2_rent
+                mask2 = mask2_price & mask2_price_change & mask2_rent
                 df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
-                    df_filtered.loc[mask2, 'price'] + df_filtered.loc[mask2, 'priceChange']) / df_filtered.loc[mask2, 'rentZestimate']
+                    df_filtered.loc[mask2, 'price'] +
+                    df_filtered.loc[mask2, 'priceChange']
+                ) / df_filtered.loc[mask2, 'rentZestimate']
+
             else:
                 # 'rentZestimate' 열이 없을 때의 처리. 필요하다면 경고 메시지를 출력하거나 다른 처리를 할 수 있습니다.
                 print("'rentZestimate' column not found in df_filtered.")

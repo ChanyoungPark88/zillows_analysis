@@ -1,12 +1,23 @@
-# Module imports
-from library.libraries import *
-
-# Function imports
-from function.functions import *
+"""
+This module provides functions and user interface elements to retrieve property details
+from either a unique identifier or a full address, and then process, store, and display the data.
+"""
+from library.libraries import st, pd
+from function.functions import (
+    get_properties, preprocess_dataframe, properties_save_to_db, file_upload_to_gcs, gcs_connect
+)
 
 
 def get_property_info():
+    """
+    Retrieve property details based on either a unique identifier (zpid) or a full address.
 
+    Parameters:
+    None
+
+    Returns:
+    None
+    """
     # Set the title for the Streamlit app
     st.title("Property Detail Search 🔍")
 
@@ -61,7 +72,7 @@ def get_property_info():
             # Save the data to the database and get relevant info
             data_for_mongo = {
                 "description": "Property data for ObjectId generation"}
-            object_id, filename = properties_save_to_db(data_for_mongo, zpid)
+            _, filename = properties_save_to_db(data_for_mongo, zpid)
 
             # Connect to Google Cloud Storage
             storage_client = gcs_connect()

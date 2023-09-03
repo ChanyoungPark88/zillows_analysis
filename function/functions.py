@@ -19,7 +19,12 @@ BUCKET_NAME = os.environ.get('BUCKET_NAME')
 
 
 def gcs_connect():
-    """Connect to Google Cloud Storage using the provided environment variable."""
+    """
+    Connect to Google Cloud Storage using the provided environment variable.
+
+    Returns:
+    storage_client(storage.Client): A Google Cloud Storage client object or None if an error occurs.
+    """
     # KEY Loading & Decoding
     key_content_encoded = os.environ.get('GOOGLE_CLOUD_KEY_CONTENTS')
     if not key_content_encoded:
@@ -39,7 +44,15 @@ def gcs_connect():
 
 
 def preprocess_dataframe(data_frame):
-    """Preprocess the DataFrame by selecting the required columns."""
+    """
+    Preprocess the DataFrame by selecting the required columns.
+
+    Parameters:
+    - data_frame (DataFrame): The data containing property details.
+
+    Returns:
+    DataFrame: A DataFrame containing only the required columns.
+    """
     required_columns = ['zpid', 'streetAddress', 'city', 'state', 'zipcode', 'country',
                         'latitude', 'longitude', 'homeStatus', 'homeType', 'price', 'currency',
                         'bedrooms', 'bathrooms', 'livingArea', 'yearBuilt', 'zestimate',
@@ -57,7 +70,15 @@ def preprocess_dataframe(data_frame):
 
 
 def clean_price(value):
-    """Clean the price value by removing unwanted characters and handling special cases."""
+    """
+    Clean the price value by removing unwanted characters and handling special cases.
+
+    Parameters:
+    - value (str or int or float): The price value to be cleaned.
+
+    Returns:
+    float or None: The cleaned price value.
+    """
     if not isinstance(value, str):
         return value
     if "From" in value:
@@ -67,15 +88,31 @@ def clean_price(value):
 
 
 def fix_json_string(string):
-    """Fix the JSON string by replacing single quotes with double quotes
-    and handling special formatting."""
+    """
+    Fix the JSON string by replacing single quotes with double quotes
+    and handling special formatting.
+
+    Parameters:
+    - string (str): The JSON string to be fixed.
+
+    Returns:
+    str: The fixed JSON string.
+    """
     string = string.replace("'", '"')
     string = re.sub(r'(?<=[{,:])\s*(\w+)\s*(?=[,:}\]])', r'"\1"', string)
     return string
 
 
 def inspect_object_columns(data_frame):
-    """Inspect columns with object data type and display their unique values."""
+    """
+    Inspect columns with object data type and display their unique values.
+
+    Parameters:
+    - data_frame (DataFrame): The data containing property details.
+
+    Returns:
+    None
+    """
     for column in data_frame.columns:
         if data_frame[column].dtype == 'object':
             unique_values = data_frame[column].unique()
@@ -84,8 +121,16 @@ def inspect_object_columns(data_frame):
 
 
 def process_object_columns(data_frame):
-    """Process columns with object data type to handle 'None' values
-    and convert strings containing numbers."""
+    """
+    Process columns with object data type to handle 'None' values
+    and convert strings containing numbers.
+
+    Parameters:
+    - data_frame (DataFrame): The data containing property details.
+
+    Returns:
+    None
+    """
     for column in data_frame.columns:
         if data_frame[column].dtype == 'object':
             # 'None'을 NaN으로 변환
@@ -96,7 +141,15 @@ def process_object_columns(data_frame):
 
 
 def get_listings(listing_url):
-    """Retrieve listing data from the API using the provided URL."""
+    """
+    Retrieve listing data from the API using the provided URL.
+
+    Parameters:
+    - listing_url (str): The URL of the property listing.
+
+    Returns:
+    Response: A Response object containing the retrieved data.
+    """
     url = "https://app.scrapeak.com/v1/scrapers/zillow/listing"
     querystring = {
         "api_key": API_KEY,
@@ -106,7 +159,16 @@ def get_listings(listing_url):
 
 
 def get_properties(zpid=None, address=None):
-    """Retrieve property data from the API using the provided ZPID or address."""
+    """
+    Retrieve property data from the API using the provided ZPID or address.
+
+    Parameters:
+    - zpid (str, optional): The ZPID of the property.
+    - address (str, optional): The address of the property.
+
+    Returns:
+    Response: A Response object containing the retrieved data.
+    """
     url = "https://app.scrapeak.com/v1/scrapers/zillow/property"
     querystring = {
         "api_key": API_KEY,
@@ -121,7 +183,15 @@ def get_properties(zpid=None, address=None):
 
 
 def listings_save_to_db(data):
-    """Save the Listing Metadata to MongoDB."""
+    """
+    Save the Listing Metadata to MongoDB.
+
+    Parameters:
+    - data (dict): The data containing listing metadata.
+
+    Returns:
+    tuple: A tuple containing the object ID and filename.
+    """
     mongo_url = os.environ.get('MONGO_URL')
     db_name = os.environ.get('DB_NAME')
     collection_name = os.environ.get('LISTING_COLLECTION')
@@ -148,7 +218,16 @@ def listings_save_to_db(data):
 
 
 def properties_save_to_db(data, zpid):
-    """Save the Property Metadata to MongoDB."""
+    """
+    Save the Property Metadata to MongoDB.
+
+    Parameters:
+    - data (dict): The data containing property metadata.
+    - zpid (str): The ZPID of the property.
+
+    Returns:
+    tuple: A tuple containing the object ID and filename.
+    """
     mongo_url = os.environ.get('MONGO_URL')
     db_name = os.environ.get('DB_NAME')
     collection_name = os.environ.get('PROPERTY_COLLECTION')
@@ -178,9 +257,19 @@ def properties_save_to_db(data, zpid):
     return object_id, filename
 
 
-# File Upload to GCS bucket
 def file_upload_to_gcs(filename, storage_client, prefix, bucket_name=BUCKET_NAME):
-    """Upload a file to a Google Cloud Storage bucket."""
+    """
+    Upload a file to a Google Cloud Storage bucket.
+
+    Parameters:
+    - filename (str): The name of the file to upload.
+    - storage_client (storage.Client): The Google Cloud Storage client.
+    - prefix (str): The folder prefix in the bucket.
+    - bucket_name (str, optional): The name of the bucket. Defaults to BUCKET_NAME.
+
+    Returns:
+    str: A message indicating the status of the upload.
+    """
     # Get the bucket name
     bucket = storage_client.get_bucket(bucket_name)
 
@@ -195,9 +284,19 @@ def file_upload_to_gcs(filename, storage_client, prefix, bucket_name=BUCKET_NAME
     return f"Uploaded {filename} to {bucket_name}/{prefix}."
 
 
-# File Download from GCS bucket
 def download_file_from_gcs(filename, storage_client, prefix, bucket_name=BUCKET_NAME):
-    """Download a file from a Google Cloud Storage bucket."""
+    """
+    Download a file from a Google Cloud Storage bucket.
+
+    Parameters:
+    - filename (str): The name of the file to download.
+    - storage_client (storage.Client): The Google Cloud Storage client.
+    - prefix (str): The folder prefix in the bucket.
+    - bucket_name (str, optional): The name of the bucket. Defaults to BUCKET_NAME.
+
+    Returns:
+    DataFrame or None: A DataFrame containing the downloaded data or None if the file doesn't exist.
+    """
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(f"{prefix}/{filename}")
 
@@ -210,9 +309,18 @@ def download_file_from_gcs(filename, storage_client, prefix, bucket_name=BUCKET_
     return data_frame
 
 
-# Retrieve File List from GCS bucket
 def list_files_in_gcs(storage_client, prefix, bucket_name=BUCKET_NAME):
-    """List all files in a specific prefix of a Google Cloud Storage bucket."""
+    """
+    List all files in a specific prefix of a Google Cloud Storage bucket.
+
+    Parameters:
+    - storage_client (storage.Client): The Google Cloud Storage client.
+    - prefix (str): The folder prefix in the bucket.
+    - bucket_name (str, optional): The name of the bucket. Defaults to BUCKET_NAME.
+
+    Returns:
+    list: A list of filenames in the specified prefix.
+    """
     bucket = storage_client.get_bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
     return [blob.name.replace(f"{prefix}/", "") for blob in blobs]

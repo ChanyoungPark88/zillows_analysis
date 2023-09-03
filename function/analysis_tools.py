@@ -122,7 +122,6 @@ def show_property_summary(data_frame):
 #             CHARTS                #
 #####################################
 
-# Plotly Express Version
 def show_listing_charts(data_frame):
     """
     Display charts related to property listings.
