@@ -12,7 +12,6 @@ from components.property_detail import get_property_info
 st.set_page_config(
     page_title="Zillow Analysis Tool",
     page_icon="🏘️",
-    layout="wide",
 )
 
 
