@@ -89,7 +89,7 @@ def get_listing_info():
             mask1_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
             )
 
-            if mask1_rent:
+            if mask1_rent.any():
                 mask1 = mask1_price & mask1_rent
                 df_filtered.loc[mask1, 'price_to_rent_ratio'] = df_filtered.loc[mask1,
                                                                                 'price'] / df_filtered.loc[mask1, 'rentZestimate']
@@ -105,7 +105,7 @@ def get_listing_info():
             mask2_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
             )
 
-            if mask2_rent:
+            if mask2_rent.any():
                 mask2 = mask2_price & mask2_priceChange & mask2_rent
                 df_filtered.loc[mask2, 'price_to_rent_ratio'] = (
                     df_filtered.loc[mask2, 'price'] + df_filtered.loc[mask2, 'priceChange']) / df_filtered.loc[mask2, 'rentZestimate']
