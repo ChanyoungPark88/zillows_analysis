@@ -44,7 +44,7 @@ def data_analystic():
                 show_listing_charts(df)
                 show_map_and_data(df, selected_file)
             else:
-                show_property_metrics(df)
+                # show_property_metrics(df)
                 show_property_summary(df)
                 show_property_charts(df)
                 show_map_and_data(df, selected_file)
