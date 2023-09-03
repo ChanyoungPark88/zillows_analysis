@@ -99,20 +99,22 @@ def show_property_charts(df):
 
         tax_hist_list = df['taxHistory'].iloc[0]
         tax_hist_df = pd.DataFrame(tax_hist_list)
-        fig = px.line(tax_hist_df, x="time", y="taxPaid",
-                      title="Historical Line Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        st.write(tax_hist_df)
+        st.write(tax_hist_df.head())
 
-        df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
-        df['priceHistory'] = df['priceHistory'].apply(json.loads)
+        # fig = px.line(tax_hist_df, x="time", y="taxPaid",
+        #               title="Historical Line Chart")
+        # st.plotly_chart(fig, use_container_width=True)
+        # st.write(tax_hist_df)
 
-        price_hist_list = df['priceHistory'].iloc[0]
-        price_hist_df = pd.DataFrame(price_hist_list)
-        fig = px.line(price_hist_df, x="date", y="price",
-                      title="Historical Price Line Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        st.write(price_hist_df)
+        # df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
+        # df['priceHistory'] = df['priceHistory'].apply(json.loads)
+
+        # price_hist_list = df['priceHistory'].iloc[0]
+        # price_hist_df = pd.DataFrame(price_hist_list)
+        # fig = px.line(price_hist_df, x="date", y="price",
+        #               title="Historical Price Line Chart")
+        # st.plotly_chart(fig, use_container_width=True)
+        # st.write(price_hist_df)
 
 
 #####################################
