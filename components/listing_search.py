@@ -56,10 +56,13 @@ def get_listing_info():
                 col for col in required_columns if col in df_sale_listings.columns]
             df_merged = df_sale_listings[existing_columns]
             df_filtered = df_merged.loc[:, ~df_merged.columns.duplicated()]
-
+            df_filtered = df_filtered.copy()
             df_filtered.loc[:, 'streetName'] = df_filtered['streetAddress']
-            df_filtered.loc[:, 'homeDetailUrl'] = "https://www.zillow.com" + \
-                df_filtered['homeDetailUrl']
+            if 'homeDetailUrl' in df_filtered.columns:
+                df_filtered.loc[:, 'homeDetailUrl'] = "https://www.zillow.com" + \
+                    df_filtered['homeDetailUrl']
+            else:
+                print("'homeDetailUrl' column not found in df_filtered.")
 
             if 'listing_sub_type.is_FSBA' in df_sale_listings.columns:
                 df_filtered['is_FSBA'] = df_sale_listings['listing_sub_type.is_FSBA']
