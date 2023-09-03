@@ -115,6 +115,7 @@ def get_listing_info():
             file_upload_to_gcs(filename, storage_client, prefix='listings')
 
             # Display a success message with the results
+            st.write(e)
             st.markdown(
                 f"""
                 Successfully retrieved data! Go to the analytics tab to view results.
