@@ -98,8 +98,9 @@ def show_property_charts(df):
         df['taxHistory'] = df['taxHistory'].apply(json.loads)
 
         tax_hist_list = df['taxHistory'].iloc[0]
-        tax_hist_df = pd.DataFrame(tax_hist_list)
-        st.write(tax_hist_df.head())
+        st.write(tax_hist_list)
+        # tax_hist_df = pd.DataFrame(tax_hist_list)
+        # st.write(tax_hist_df.head())
 
         # fig = px.line(tax_hist_df, x="time", y="taxPaid",
         #               title="Historical Line Chart")
