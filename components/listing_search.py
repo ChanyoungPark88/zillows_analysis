@@ -121,7 +121,9 @@ def get_listing_info():
             df_filtered['zipcode'] = df_filtered['zipcode'].astype(str)
             df_filtered['zpid'] = df_filtered['zpid'].astype(str)
 
-            df_filtered = df_filtered[required_columns]
+            existing_required_columns = [
+                col for col in required_columns if col in df_filtered.columns]
+            df_filtered = df_filtered[existing_required_columns]
 
             # Prepare data for database saving and get a unique identifier
             data_for_mongo = {
