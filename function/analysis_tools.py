@@ -98,24 +98,35 @@ def show_property_charts(df):
         df['taxHistory'] = df['taxHistory'].apply(json.loads)
 
         tax_hist_list = df['taxHistory'].iloc[0]
-        st.write(tax_hist_list)
-        # tax_hist_df = pd.DataFrame(tax_hist_list)
-        # st.write(tax_hist_df.head())
+        if tax_hist_list:  # 값이 있으면 실행
+            tax_hist_df = pd.DataFrame(tax_hist_list)
+            if 'time' in tax_hist_df.columns:  # 'time' 열이 있는지 확인
+                fig = px.line(tax_hist_df, x="time", y="taxPaid",
+                              title="Historical Line Chart")
+                st.plotly_chart(fig, use_container_width=True)
+                st.write(tax_hist_df)
+            else:
+                st.warning(
+                    "'time' column not found in 'tax_hist_df'. Cannot display chart.")
+        else:
+            st.warning("'taxHistory' is empty. No data to display.")
 
-        # fig = px.line(tax_hist_df, x="time", y="taxPaid",
-        #               title="Historical Line Chart")
-        # st.plotly_chart(fig, use_container_width=True)
-        # st.write(tax_hist_df)
+        df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
+        df['priceHistory'] = df['priceHistory'].apply(json.loads)
 
-        # df['priceHistory'] = df['priceHistory'].apply(fix_json_string)
-        # df['priceHistory'] = df['priceHistory'].apply(json.loads)
-
-        # price_hist_list = df['priceHistory'].iloc[0]
-        # price_hist_df = pd.DataFrame(price_hist_list)
-        # fig = px.line(price_hist_df, x="date", y="price",
-        #               title="Historical Price Line Chart")
-        # st.plotly_chart(fig, use_container_width=True)
-        # st.write(price_hist_df)
+        price_hist_list = df['priceHistory'].iloc[0]
+        if price_hist_list:  # 값이 있으면 실행
+            price_hist_df = pd.DataFrame(price_hist_list)
+            if 'date' in price_hist_df.columns:  # 'date' 열이 있는지 확인
+                fig = px.line(price_hist_df, x="date", y="price",
+                              title="Historical Price Line Chart")
+                st.plotly_chart(fig, use_container_width=True)
+                st.write(price_hist_df)
+            else:
+                st.warning(
+                    "'date' column not found in 'price_hist_df'. Cannot display chart.")
+        else:
+            st.warning("'priceHistory' is empty. No data to display.")
 
 
 #####################################
