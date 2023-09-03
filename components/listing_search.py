@@ -74,7 +74,9 @@ def get_listing_info():
             df_filtered['original_price'] = df_filtered['price']
 
             try:
-                df_filtered['price'] = df_filtered['price'].astype(int)
+                df_filtered['price'] = df_filtered['price'].str.replace(
+                    '[^0-9]', '', regex=True).astype(int)
+
             except ValueError as e:
                 raise e
 
