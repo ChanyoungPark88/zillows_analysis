@@ -9,6 +9,12 @@ from components.analystics import data_analystic
 from components.listing_search import get_listing_info
 from components.property_detail import get_property_info
 
+st.set_page_config(
+    page_title="Zillow Analysis Tool",
+    page_icon="🏘️",
+    layout="wide",
+)
+
 
 def main():
     """
