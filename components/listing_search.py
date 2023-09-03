@@ -98,7 +98,10 @@ def get_listing_info():
                 print("'rentZestimate' column not found in df_filtered.")
 
             mask2_price = df_filtered['price'].notnull()
-            mask2_priceChange = df_filtered['priceChange'].notnull()
+            mask2_priceChange = False
+            if 'priceChange' in df_filtered.columns:
+                mask2_priceChange = df_filtered['priceChange'].notnull()
+
             mask2_rent = 'rentZestimate' in df_filtered.columns and df_filtered['rentZestimate'].notnull(
             )
 
