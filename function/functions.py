@@ -460,13 +460,13 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
         "filterState": {
             "ah": {"value": True},
             "sort": {"value": "globalrelevanceex"},
-            "tow": {"value": False},
-            "mf": {"value": False},
-            "con": {"value": False},
-            "land": {"value": False},
-            "apa": {"value": False},
-            "manu": {"value": False},
-            "apco": {"value": False}
+            # "tow": {"value": False},
+            # "mf": {"value": False},
+            # "con": {"value": False},
+            # "land": {"value": False},
+            # "apa": {"value": False},
+            # "manu": {"value": False},
+            # "apco": {"value": False}
         },
         "isListVisible": True,
         "mapZoom": 11
