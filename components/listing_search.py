@@ -60,13 +60,13 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, state_id, city_lat, city_lng, region_id)
-                    st.write(zillow_url)
+                    # st.write(zillow_url)
 
     # If Run button is pressed
     if st.button("Run", type="secondary"):
         # Get listings data from external source/API
         result = get_listings(listing_url=zillow_url)
-        st.write(result.json())
+        # st.write(result.json())
 
         # If API request is successful
         if result.json()['is_success']:
