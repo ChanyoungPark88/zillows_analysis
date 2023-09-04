@@ -381,7 +381,7 @@ def get_states_from_usa(data_frame):
     Returns:
     List: A list of unique states.
     """
-    return data_frame["state_name"].unique().tolist()
+    return data_frame["StateName"].unique().tolist()
 
 
 def get_provinces_from_canada(data_frame):
