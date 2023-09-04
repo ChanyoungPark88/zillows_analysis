@@ -473,8 +473,14 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
         "mapZoom": 11
     }
     encoded_query = urllib.parse.urlencode(
-        {"searchQueryState": search_query_state})
-    encoded_query = encoded_query.replace("+", "%20")  # 공백을 %20로 변경
+        {"searchQueryState": json.dumps(search_query_state)})
+
+    # usersSearchTerm 부분만을 위한 특별 처리
+    encoded_query = encoded_query.replace("+", " ")  # 모든 '+' 기호를 공백으로 변경
+    users_search_term = f"{city} {state}".replace(" ", "%20")
+    encoded_query = encoded_query.replace(
+        f"{city} {state}", users_search_term)  # usersSearchTerm 부분만 %20으로 변경
+
     encoded_query = encoded_query.replace("%3A", ":").replace("%7B", "{").replace(
         "%7D", "}").replace("%2C", ",").replace("%5B", "[").replace("%5D", "]").replace("%22", "\"")
 
