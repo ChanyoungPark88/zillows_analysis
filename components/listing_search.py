@@ -55,7 +55,7 @@ def get_listing_info():
                                            == selected_city].iloc[0]
                     city_lat = city_data['Latitude']
                     city_lng = city_data['Longitude']
-                    state_id = city_data['StateId']
+                    state_id = city_data['StateID']
                     region_id = city_data['RegionID']
 
                     zillow_url = generate_zillow_url(
