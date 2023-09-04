@@ -32,10 +32,18 @@ def show_listing_metrics(data_frame):
     col1.metric('Total', len(data_frame))
     col2.metric('Avg Sale Price',
                 f"${int(data_frame['price'].mean()):,}".split(',')[0] + 'K')
-    col3.metric('Avg Est Value',
-                f"${int(data_frame['zestimate'].mean()):,}".split(',')[0] + 'K')
-    col4.metric('Avg Est Rent',
-                f"${int(data_frame['rentZestimate'].mean()):,}".split(',')[0] + 'K')
+
+    if 'zestimate' in data_frame.columns:
+        col3.metric('Avg Est Value',
+                    f"${int(data_frame['zestimate'].mean()):,}".split(',')[0] + 'K')
+    else:
+        col3.metric('Avg Est Value', 'N/A')
+
+    if 'rentZestimate' in data_frame.columns:
+        col4.metric('Avg Est Rent',
+                    f"${int(data_frame['rentZestimate'].mean()):,}".split(',')[0] + 'K')
+    else:
+        col4.metric('Avg Est Rent', 'N/A')
 
 
 def show_property_metrics(data_frame):
