@@ -4,7 +4,7 @@ specific use cases involving Google Cloud Storage, MongoDB, and property data ma
 """
 from library.libraries import (
     os, base64, json, storage, URLError, re, np, st, datetime,
-    MongoClient, requests, pd, io, timedelta
+    MongoClient, requests, pd, io, timedelta, urllib
 )
 
 API_KEY = os.environ.get('API_KEY')
@@ -433,56 +433,52 @@ def generate_zillow_url(city, state_or_province, lat, lng, region_id, region_typ
     - state_or_province (str): Name of the state or province.
     - lat (float): Latitude of the city's center.
     - lng (float): Longitude of the city's center.
+    - region_id (int): The ID of the region (city).
+    - region_type (str): The type of the region (e.g. "city").
 
     Returns:
     - str: A URL string for Zillow search based on the given parameters.
     """
     base_url = "https://www.zillow.com"
 
-    # 대략적인 지도의 경계값을 계산합니다 (예: +/-0.5도)
+    # Calculate approximate boundaries for the map (e.g. +/-0.5 degrees)
     north = lat + 0.5
     south = lat - 0.5
     east = lng + 0.5
     west = lng - 0.5
 
-    # 도시 이름에서 공백을 '-'로 대체
+    # Replace spaces in the city name with '-'
     formatted_city = city.replace(" ", "-").lower()
     formatted_state_or_province = state_or_province.lower()
 
     if region_type == "city":
         region_type_value = 6
     else:
-        region_type_value = 6  # 기본 값이라고 가정
+        # Assuming default value
+        region_type_value = 6
 
-    # URL 섹션을 별도로 구성합니다
+    # Construct individual sections of the URL
     url_path = f"{base_url}/{formatted_city}-{formatted_state_or_province}/"
-    query_pagination = "%7B%22pagination%22%3A%7B%7D%2C"
-    query_user_term = (
-        f"%22usersSearchTerm%22%3A%22{formatted_city}%2C%20"
-        f"{formatted_state_or_province}%22%2C"
+    query_pagination = '{"pagination":{},'
+    query_user_term = f'"usersSearchTerm":"{formatted_city}, {formatted_state_or_province}",'
+    query_map_bounds = (
+        f'"mapBounds":{{"north":{north},"east":{east},"south":{south},"west":{west}}},'
     )
-    query_map_bounds = (f"%22mapBounds%22%3A%7B%22north%22%3A{north}%2C%22east%22%3A{east}%2C"
-                        f"%22south%22%3A{south}%2C%22west%22%3A{west}%7D%2C")
     query_region = (
-        f"%22regionSelection%22%3A%5B%7B%22regionId%22%3A{region_id}%2C"
-        f"%22regionType%22%3A{region_type_value}%7D%5D%2C")
-    query_map_vis = "%22isMapVisible%22%3Atrue%2C"
+        f'"regionSelection":[{{"regionId":{region_id},"regionType":{region_type_value}}}],'
+    )
+    query_map_vis = '"isMapVisible":true,'
     query_filter_state = (
-        "%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22globalrelevanceex%22%7D%2C"
-        "%22ah%22%3A%7B%22value%22%3Atrue%7D%7D%2C"
+        '"filterState":{{"sort":{{"value":"globalrelevanceex"}},"ah":{{"value":true}}}},'
     )
-    query_list_vis = "%22isListVisible%22%3Atrue%7D"
+    query_list_vis = '"isListVisible":true}'
 
-    # 섹션을 결합하여 최종 URL을 생성합니다
-    url = (
-        f"{url_path}?searchQueryState="
-        f"{query_pagination}"
-        f"{query_user_term}"
-        f"{query_map_bounds}"
-        f"{query_region}"
-        f"{query_map_vis}"
-        f"{query_filter_state}"
-        f"{query_list_vis}"
+    # Combine sections to generate the final URL
+    search_query_state = (
+        query_pagination + query_user_term + query_map_bounds +
+        query_region + query_map_vis + query_filter_state + query_list_vis
     )
+
+    url = f"{url_path}?searchQueryState={urllib.parse.quote(search_query_state)}"
 
     return url
