@@ -425,6 +425,14 @@ def get_cities_from_province(data_frame, province_name):
     return data_frame[data_frame["province_name"] == province_name]["city"].tolist()
 
 
+def default(obj):
+    """Default JSON serializer."""
+    if isinstance(obj, np.int64):
+        return int(obj)
+    raise TypeError(
+        'Object of type {} is not JSON serializable'.format(type(obj).__name__))
+
+
 def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
     """
     Generate a Zillow search URL based on the given parameters.
@@ -473,7 +481,7 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
         "mapZoom": 11
     }
     # search_query_state를 JSON 문자열로 변환
-    json_string = json.dumps(search_query_state)
+    json_string = json.dumps(search_query_state, default=default)
 
     # 전체 JSON 문자열 인코딩
     encoded_query = urllib.parse.quote(json_string)
