@@ -447,7 +447,7 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
 
     search_query_state = {
         "pagination": {},
-        "usersSearchTerm": f"{city} {state}",
+        "usersSearchTerm": f"{city}, {state}",
         "mapBounds": {
             "north": lat + 0.5,
             "east": lng + 0.5,
@@ -471,7 +471,7 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
             "apco": {"value": False}
         },
         "isListVisible": True,
-        "mapZoom": 9
+        "mapZoom": 11
     }
 
     encoded_query = urllib.parse.quote(
