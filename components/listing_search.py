@@ -44,12 +44,14 @@ def get_listing_info():
             provinces = ["Select a province"] + \
                 sorted(get_provinces_from_canada(data_frame))
             selected_province = st.selectbox("Select a province", provinces)
+            st.write(selected_province)
 
             if selected_province != "Select a province":
                 cities = ["Select a city"] + \
                     sorted(get_cities_from_province(
                         data_frame, selected_province))
                 selected_city = st.selectbox("Select a city", cities)
+                st.write(selected_city)
 
                 if selected_city != "Select a city":
                     city_data = data_frame[data_frame["city"]
@@ -60,6 +62,7 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, province_id, city_lat, city_lng)
+                    st.write(zillow_url)
 
     elif selected_country_name == "United States":
         file_name = "uscities_selected.csv"
@@ -68,11 +71,13 @@ def get_listing_info():
             states = ["Select a state"] + \
                 sorted(get_states_from_usa(data_frame))
             selected_state = st.selectbox("Select a state", states)
+            st.write(selected_state)
 
             if selected_state != "Select a state":
                 cities = ["Select a city"] + \
                     sorted(get_cities_from_state(data_frame, selected_state))
                 selected_city = st.selectbox("Select a city", cities)
+                st.write(selected_city)
 
                 if selected_city != "Select a city":
                     city_data = data_frame[data_frame["city"]
@@ -83,6 +88,7 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, state_id, city_lat, city_lng)
+                    st.write(zillow_url)
 
     # If Run button is pressed
     if st.button("Run", type="secondary"):
