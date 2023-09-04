@@ -51,7 +51,7 @@ def get_listing_info():
                     sorted(get_cities_from_province(
                         data_frame, selected_province))
                 selected_city = st.selectbox("Select a city", cities)
-                st.write(selected_city, cities[selected_city])
+                st.write(selected_city)
 
                 if selected_city != "Select a city":
                     city_data = data_frame[data_frame["city"]
@@ -77,7 +77,7 @@ def get_listing_info():
                 cities = ["Select a city"] + \
                     sorted(get_cities_from_state(data_frame, selected_state))
                 selected_city = st.selectbox("Select a city", cities)
-                st.write(selected_city, cities[selected_city])
+                st.write(selected_city)
 
                 if selected_city != "Select a city":
                     city_data = data_frame[data_frame["city"]
