@@ -60,7 +60,7 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, province_id, city_lat, city_lng)
-                    st.write(zillow_url)
+
     elif selected_country_name == "United States":
         file_name = "uscities_selected.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
@@ -83,7 +83,7 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, state_id, city_lat, city_lng)
-                    st.write(zillow_url)
+
     # If Run button is pressed
     if st.button("Run", type="secondary"):
         # Get listings data from external source/API
