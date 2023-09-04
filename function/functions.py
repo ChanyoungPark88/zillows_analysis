@@ -432,7 +432,7 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
 
     search_query_state = {
         "pagination": {},
-        "userssearchterm": f"{city} {state}",
+        "userssearchterm": f"{city}, {state}",
         "mapbounds": {
             "west": lng - 0.5,
             "east": lng + 0.5,
