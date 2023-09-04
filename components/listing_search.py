@@ -66,12 +66,13 @@ def get_listing_info():
     if st.button("Run", type="secondary"):
         # Get listings data from external source/API
         result = get_listings(listing_url=zillow_url)
-        st.write(result)
+        # st.write(result)
 
-        # # If API request is successful
-        # if result.json()['is_success']:
-        #     num_of_properties = result.json(
-        #     )['data']['categoryTotals']['cat1']['totalResultCount']
+        # If API request is successful
+        if result.json()['is_success']:
+            num_of_properties = result.json(
+            )['data']['categoryTotals']['cat1']['totalResultCount']
+            st.write(num_of_properties)
 
         #     df_sale_listings = pd.json_normalize(
         #         result.json()['data']['cat1']['searchResults']['mapResults'])
