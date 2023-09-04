@@ -455,9 +455,12 @@ def generate_zillow_url(city, state_or_province, lat, lng, region_id, region_typ
         region_type_value = 6  # 기본 값이라고 가정
 
     # URL 섹션을 별도로 구성합니다
-    url_path = f"{base_url}/{city.lower()}-{state_or_province.lower()}/"
+    url_path = f"{base_url}/{formatted_city}-{formatted_state_or_province}/"
     query_pagination = "%7B%22pagination%22%3A%7B%7D%2C"
-    query_user_term = f"%22usersSearchTerm%22%3A%22{city}%2C%20{state_or_province}%22%2C"
+    query_user_term = (
+        f"%22usersSearchTerm%22%3A%22{formatted_city}%2C%20"
+        f"{formatted_state_or_province}%22%2C"
+    )
     query_map_bounds = (f"%22mapBounds%22%3A%7B%22north%22%3A{north}%2C%22east%22%3A{east}%2C"
                         f"%22south%22%3A{south}%2C%22west%22%3A{west}%7D%2C")
     query_region = (

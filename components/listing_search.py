@@ -8,7 +8,6 @@ from library.libraries import st, pd, np
 from function.functions import (
     get_listings, listings_save_to_db,
     gcs_connect, file_upload_to_gcs,
-    get_provinces_from_canada, get_cities_from_province,
     get_states_from_usa, get_cities_from_state,
     generate_zillow_url, download_location_file_from_gcs
 )
