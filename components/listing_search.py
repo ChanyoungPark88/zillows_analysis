@@ -27,7 +27,7 @@ def get_listing_info():
     """
     st.title("Listings Search 🔍")
 
-    country_list = ["Canada", "United States"]
+    country_list = ["United States"]
     selected_country_name = st.selectbox(
         "Select a country", ["Select a country"] + country_list)
 
@@ -37,45 +37,17 @@ def get_listing_info():
 
     zillow_url = None
 
-    if selected_country_name == "Canada":
-        file_name = "canadacities_selected.csv"
+    if selected_country_name == "United States":
+        file_name = "merged_usacities_data.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
         if data_frame is not None:
-            provinces = ["Select a province"] + \
-                sorted(get_provinces_from_canada(data_frame))
-            selected_province = st.selectbox("Select a province", provinces)
-            st.write(selected_province)
-
-            if selected_province != "Select a province":
-                cities = ["Select a city"] + \
-                    sorted(get_cities_from_province(
-                        data_frame, selected_province))
-                selected_city = st.selectbox("Select a city", cities)
-                st.write(selected_city)
-
-                if selected_city != "Select a city":
-                    city_data = data_frame[data_frame["city"]
-                                           == selected_city].iloc[0]
-                    city_lat = city_data['lat']
-                    city_lng = city_data['lng']
-                    province_id = city_data['province_id']
-
-                    zillow_url = generate_zillow_url(
-                        selected_city, province_id, city_lat, city_lng)
-                    st.write(zillow_url)
-
-    elif selected_country_name == "United States":
-        file_name = "uscities_selected.csv"
-        data_frame = download_location_file_from_gcs(file_name, storage_client)
-        if data_frame is not None:
-            states = ["Select a state"] + \
-                sorted(get_states_from_usa(data_frame))
+            states = ["Select a state"] + get_states_from_usa(data_frame)
             selected_state = st.selectbox("Select a state", states)
             st.write(selected_state)
 
             if selected_state != "Select a state":
                 cities = ["Select a city"] + \
-                    sorted(get_cities_from_state(data_frame, selected_state))
+                    get_cities_from_state(data_frame, selected_state)
                 selected_city = st.selectbox("Select a city", cities)
                 st.write(selected_city)
 
@@ -85,9 +57,11 @@ def get_listing_info():
                     city_lat = city_data['lat']
                     city_lng = city_data['lng']
                     state_id = city_data['state_id']
+                    region_id = city_data['RegionID']
+                    region_type = city_data['RegionType']
 
                     zillow_url = generate_zillow_url(
-                        selected_city, state_id, city_lat, city_lng)
+                        selected_city, state_id, city_lat, city_lng, region_id, region_type)
                     st.write(zillow_url)
 
     # If Run button is pressed
