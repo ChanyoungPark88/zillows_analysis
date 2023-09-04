@@ -424,61 +424,58 @@ def get_cities_from_province(data_frame, province_name):
     return data_frame[data_frame["province_name"] == province_name]["city"].tolist()
 
 
-def generate_zillow_url(city, state_or_province, lat, lng, region_id, region_type):
+def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
     """
     Generate a Zillow search URL based on the given parameters.
 
     Args:
     - city (str): Name of the city.
-    - state_or_province (str): Name of the state or province.
-    - lat (float): Latitude of the city's center.
-    - lng (float): Longitude of the city's center.
-    - region_id (int): The ID of the region (city).
-    - region_type (str): The type of the region (e.g. "city").
+    - state (str): State abbreviation.
+    - lat (float): Latitude of the desired location.
+    - lng (float): Longitude of the desired location.
+    - region_id (int): Zillow's region ID for the desired location.
+    - region_type_value (int, optional): Zillow's region type value. Default is 6 for city.
 
     Returns:
-    - str: A URL string for Zillow search based on the given parameters.
+    - str: A Zillow search URL based on the given parameters.
     """
+    import urllib.parse
+
     base_url = "https://www.zillow.com"
-
-    # Calculate approximate boundaries for the map (e.g. +/-0.5 degrees)
-    north = lat + 0.5
-    south = lat - 0.5
-    east = lng + 0.5
-    west = lng - 0.5
-
-    # Replace spaces in the city name with '-'
     formatted_city = city.replace(" ", "-").lower()
-    formatted_state_or_province = state_or_province.lower()
+    formatted_state = state.lower()
 
-    if region_type == "city":
-        region_type_value = 6
-    else:
-        # Assuming default value
-        region_type_value = 6
+    search_query_state = {
+        "pagination": {},
+        "usersSearchTerm": f"{city} {state}",
+        "mapBounds": {
+            "north": lat + 0.5,
+            "east": lng + 0.5,
+            "south": lat - 0.5,
+            "west": lng - 0.5
+        },
+        "regionSelection": [{
+            "regionId": region_id,
+            "regionType": region_type_value
+        }],
+        "isMapVisible": True,
+        "filterState": {
+            "ah": {"value": True},
+            "sort": {"value": "globalrelevanceex"},
+            "tow": {"value": False},
+            "mf": {"value": False},
+            "con": {"value": False},
+            "land": {"value": False},
+            "apa": {"value": False},
+            "manu": {"value": False},
+            "apco": {"value": False}
+        },
+        "isListVisible": True,
+        "mapZoom": 9
+    }
 
-    # Construct individual sections of the URL
-    url_path = f"{base_url}/{formatted_city}-{formatted_state_or_province}/houses/"
-    query_pagination = '{"pagination":{},'
-    query_user_term = f'"usersSearchTerm":"{formatted_city}, {formatted_state_or_province}",'
-    query_map_bounds = (
-        f'"mapBounds":{{"north":{north},"east":{east},"south":{south},"west":{west}}},'
-    )
-    query_region = (
-        f'"regionSelection":[{{"regionId":{region_id},"regionType":{region_type_value}}}],'
-    )
-    query_map_vis = '"isMapVisible":true,'
-    query_filter_state = (
-        '"filterState":{{"sort":{{"value":"globalrelevanceex"}},"ah":{{"value":true}}}},'
-    )
-    query_list_vis = '"isListVisible":true}'
-
-    # Combine sections to generate the final URL
-    search_query_state = (
-        query_pagination + query_user_term + query_map_bounds +
-        query_region + query_map_vis + query_filter_state + query_list_vis
-    )
-
-    url = f"{url_path}?searchQueryState={urllib.parse.quote(search_query_state)}"
+    encoded_query = urllib.parse.quote(
+        str(search_query_state).replace("'", "\""))
+    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchQueryState={encoded_query}"
 
     return url
