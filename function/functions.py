@@ -426,25 +426,39 @@ def get_cities_from_province(data_frame, province_name):
 
 
 def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
+    """
+    Generate a Zillow search URL based on the given parameters.
+
+    Args:
+    - city (str): Name of the city.
+    - state (str): State abbreviation.
+    - lat (float): Latitude of the desired location.
+    - lng (float): Longitude of the desired location.
+    - region_id (int): Zillow's region ID for the desired location.
+    - region_type_value (int, optional): Zillow's region type value. Default is 6 for city.
+
+    Returns:
+    - str: A Zillow search URL based on the given parameters.
+    """
     base_url = "https://www.zillow.com"
     formatted_city = city.replace(" ", "-").lower()
     formatted_state = state.lower()
 
     search_query_state = {
         "pagination": {},
-        "userssearchterm": f"{city}, {state}",
-        "mapbounds": {
+        "usersSearchTerm": f"{city} {state}",
+        "mapBounds": {
             "west": lng - 0.5,
             "east": lng + 0.5,
             "south": lat - 0.5,
             "north": lat + 0.5
         },
-        "regionselection": [{
-            "regionid": region_id,
-            "regiontype": region_type_value
+        "regionSelection": [{
+            "regionId": region_id,
+            "regionType": region_type_value
         }],
-        "ismapvisible": True,
-        "filterstate": {
+        "isMapVisible": True,
+        "filterState": {
             "ah": {"value": True},
             "sort": {"value": "globalrelevanceex"},
             "tow": {"value": False},
@@ -455,14 +469,12 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
             "manu": {"value": False},
             "apco": {"value": False}
         },
-        "islistvisible": True,
-        "mapzoom": 11
+        "isListVisible": True,
+        "mapZoom": 11
     }
 
-    str_query = str(search_query_state).replace("'", "\"").replace(
-        "True", "true").replace("False", "false").replace(" ", "")
-    encoded_query = urllib.parse.quote(str_query)
-
-    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchquerystate={encoded_query}"
+    encoded_query = urllib.parse.quote(
+        str(search_query_state).replace("'", "\""))
+    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchQueryState={encoded_query}"
 
     return url
