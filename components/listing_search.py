@@ -42,13 +42,13 @@ def get_listing_info():
         if data_frame is not None:
             states = ["Select a state"] + get_states_from_usa(data_frame)
             selected_state = st.selectbox("Select a state", states)
-            st.write(selected_state)
+            # st.write(selected_state)
 
             if selected_state != "Select a state":
                 cities = ["Select a city"] + \
                     get_cities_from_state(data_frame, selected_state)
                 selected_city = st.selectbox("Select a city", cities)
-                st.write(selected_city)
+                # st.write(selected_city)
 
                 if selected_city != "Select a city":
                     city_data = data_frame[data_frame["city"]
