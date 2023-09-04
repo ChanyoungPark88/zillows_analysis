@@ -439,8 +439,6 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
     Returns:
     - str: A Zillow search URL based on the given parameters.
     """
-    import urllib.parse
-
     base_url = "https://www.zillow.com"
     formatted_city = city.replace(" ", "-").lower()
     formatted_state = state.lower()
