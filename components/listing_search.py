@@ -40,14 +40,11 @@ def get_listing_info():
     if selected_country_name == "Canada":
         file_name = "canadacities_selected.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
-        # st.write(data_frame)
         if data_frame is not None:
-            # 주 선택 드롭다운 생성
             provinces = ["Select a province"] + \
                 sorted(get_provinces_from_canada(data_frame))
             selected_province = st.selectbox("Select a province", provinces)
 
-            # 선택된 주에 해당하는 도시 선택 드롭다운 생성
             if selected_province != "Select a province":
                 cities = ["Select a city"] + \
                     sorted(get_cities_from_province(
@@ -63,18 +60,15 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, province_id, city_lat, city_lng)
-
+                    st.write(zillow_url)
     elif selected_country_name == "United States":
         file_name = "uscities_selected.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
-        # st.write(data_frame)
         if data_frame is not None:
-            # 주(State) 선택 드롭다운 생성
             states = ["Select a state"] + \
                 sorted(get_states_from_usa(data_frame))
             selected_state = st.selectbox("Select a state", states)
 
-            # 선택된 주(State)에 해당하는 도시 선택 드롭다운 생성
             if selected_state != "Select a state":
                 cities = ["Select a city"] + \
                     sorted(get_cities_from_state(data_frame, selected_state))
@@ -89,17 +83,7 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, state_id, city_lat, city_lng)
-
-    # Container for entering the web link
-    # with st.container():
-    #     st.markdown("## Enter Web Link 🌐")
-    #     listing_url = st.text_input(
-    #         'url',
-    #         label_visibility=st.session_state.visibility,
-    #         disabled=st.session_state.disabled,
-    #         placeholder='https://www.zillow.com/...'
-    #     )
-
+                    st.write(zillow_url)
     # If Run button is pressed
     if st.button("Run", type="secondary"):
         # Get listings data from external source/API
