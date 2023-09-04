@@ -310,7 +310,7 @@ def download_file_from_gcs(filename, storage_client, prefix, bucket_name=BUCKET_
     return data_frame
 
 
-def download_location_file_from_gcs(filename, storage_client, bucket_name=BUCKET_NAME):
+def download_location_file_from_gcs(filename, storage_client, bucket_name=BUCKET_NAME2):
     """
     Download a file from a Google Cloud Storage bucket.
 
