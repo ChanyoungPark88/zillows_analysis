@@ -432,7 +432,8 @@ def default(obj):
     if isinstance(obj, np.int64):
         return int(obj)
     raise TypeError(
-        'Object of type {} is not JSON serializable'.format(type(obj).__name__))
+        f'Object of type {type(obj).__name__} is not JSON serializable'
+    )
 
 
 def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
