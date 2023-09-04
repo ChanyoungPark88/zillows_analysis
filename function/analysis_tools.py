@@ -142,17 +142,37 @@ def show_listing_charts(data_frame):
     """
     data_frame = data_frame.copy()
     with st.expander('Charts', expanded=True):
-        fig = px.box(data_frame, x="price", title="Sales Price Box Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.histogram(data_frame, x="zestimate",
-                           title="Estimate Value Histogram Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.histogram(data_frame, x="rentZestimate",
-                           title="Rent Estimate Value Histogram Chart")
-        st.plotly_chart(fig, use_container_width=True)
-        fig = px.box(data_frame, x="price_to_rent_ratio",
-                     title="Price to Rent Ratio Box Chart")
-        st.plotly_chart(fig, use_container_width=True)
+
+        if 'price' in data_frame.columns:
+            fig = px.box(data_frame, x="price", title="Sales Price Box Chart")
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.warning("Column 'price' missing. Cannot display "
+                       "Sales Price Box Chart.")
+
+        if 'zestimate' in data_frame.columns:
+            fig = px.histogram(data_frame, x="zestimate",
+                               title="Estimate Value Histogram Chart")
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.warning("Column 'zestimate' missing. Cannot display "
+                       "Estimate Value Histogram Chart.")
+
+        if 'rentZestimate' in data_frame.columns:
+            fig = px.histogram(data_frame, x="rentZestimate",
+                               title="Rent Estimate Value Histogram Chart")
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.warning("Column 'rentZestimate' missing. Cannot display "
+                       "Rent Estimate Value Histogram Chart.")
+
+        if 'price_to_rent_ratio' in data_frame.columns:
+            fig = px.box(data_frame, x="price_to_rent_ratio",
+                         title="Price to Rent Ratio Box Chart")
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.warning("Column 'price_to_rent_ratio' missing. Cannot display "
+                       "Price to Rent Ratio Box Chart.")
 
 
 def show_property_charts(data_frame):
