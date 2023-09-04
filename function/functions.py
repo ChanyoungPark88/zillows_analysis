@@ -445,8 +445,12 @@ def generate_zillow_url(city, state_or_province, lat, lng):
     east = lng + 0.5
     west = lng - 0.5
 
+    # 도시 이름에서 공백을 '-'로 대체
+    formatted_city = city.replace(" ", "-").lower()
+    formatted_state_or_province = state_or_province.lower()
+
     # URL 섹션을 별도로 구성합니다
-    url_path = f"{base_url}/{city.lower()}-{state_or_province.lower()}/"
+    url_path = f"{base_url}/{formatted_city}-{formatted_state_or_province}/"
     query_pagination = "%7B%22pagination%22%3A%7B%7D%2C"
     query_map_bounds = (f"%22mapBounds%22%3A%7B%22north%22%3A{north}%2C%22east%22%3A{east}%2C"
                         f"%22south%22%3A{south}%2C%22west%22%3A{west}%7D%2C")
