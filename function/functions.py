@@ -157,9 +157,6 @@ def get_listings(listing_url):
         "url": listing_url
     }
     return requests.request("GET", url, params=querystring, headers=HEADERS, timeout=20)
-    response = requests.request(
-        "GET", url, params=querystring, headers=HEADERS, timeout=10)
-    return response
 
 
 def get_properties(zpid=None, address=None):
@@ -184,9 +181,6 @@ def get_properties(zpid=None, address=None):
     if address is not None:
         querystring['address'] = address
     return requests.request("GET", url, params=querystring, headers=HEADERS, timeout=20)
-    response = requests.request(
-        "GET", url, params=querystring, headers=HEADERS, timeout=10)
-    return response
 
 
 def listings_save_to_db(data):

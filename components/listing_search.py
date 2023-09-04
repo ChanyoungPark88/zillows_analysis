@@ -27,12 +27,6 @@ def get_listing_info():
     """
     st.title("Listings Search 🔍")
 
-    # Initialize session state variables if not present
-    if "visibility" not in st.session_state:
-        st.session_state.visibility = "visible"
-        st.session_state.disabled = False
-        st.session_state.placeholder = "Enter value"
-
     country_list = ["Canada", "United States"]
     selected_country_name = st.selectbox(
         "Select a country", ["Select a country"] + country_list)
@@ -41,7 +35,9 @@ def get_listing_info():
     if not storage_client:
         st.error("Failed to connect to Google Cloud Storage.")
 
-    elif selected_country_name == "Canada":
+    zillow_url = None
+
+    if selected_country_name == "Canada":
         file_name = "canadacities_selected.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
         if data_frame is not None:
@@ -66,7 +62,6 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, province_id, city_lat, city_lng)
-                    st.write(f"Zillow URL: {zillow_url}")
 
     elif selected_country_name == "United States":
         file_name = "uscities_selected.csv"
@@ -92,22 +87,21 @@ def get_listing_info():
 
                     zillow_url = generate_zillow_url(
                         selected_city, state_id, city_lat, city_lng)
-                    st.write(f"Zillow URL: {zillow_url}")
 
     # Container for entering the web link
-    with st.container():
-        st.markdown("## Enter Web Link 🌐")
-        listing_url = st.text_input(
-            'url',
-            label_visibility=st.session_state.visibility,
-            disabled=st.session_state.disabled,
-            placeholder='https://www.zillow.com/...'
-        )
+    # with st.container():
+    #     st.markdown("## Enter Web Link 🌐")
+    #     listing_url = st.text_input(
+    #         'url',
+    #         label_visibility=st.session_state.visibility,
+    #         disabled=st.session_state.disabled,
+    #         placeholder='https://www.zillow.com/...'
+    #     )
 
     # If Run button is pressed
     if st.button("Run", type="secondary"):
         # Get listings data from external source/API
-        result = get_listings(listing_url=listing_url)
+        result = get_listings(listing_url=zillow_url)
 
         # If API request is successful
         if result.json()['is_success']:
