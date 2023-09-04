@@ -166,9 +166,8 @@ def get_listing_info():
                 mask2_price_change = df_filtered['priceChange'].notnull()
 
             mask2_rent = (
-                'rentZestimate' in df_filtered.columns and
                 df_filtered['rentZestimate'].notnull()
-            )
+            ) if 'rentZestimate' in df_filtered.columns else pd.Series([False] * len(df_filtered))
 
             if mask2_rent.any():
                 mask2 = mask2_price & mask2_price_change & mask2_rent
