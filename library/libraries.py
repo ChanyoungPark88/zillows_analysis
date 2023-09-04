@@ -16,7 +16,7 @@ import io
 import re
 import json
 import base64
-import urllib.parse as urllib
+import urllib.parse
 
 # External libraries
 from datetime import datetime, timedelta
