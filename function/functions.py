@@ -44,6 +44,25 @@ def gcs_connect():
         return None
 
 
+def safe_int_conversion(value):
+    """
+    Safely convert the value to an integer.
+
+    Attempts to convert the provided value to an integer. If the value cannot be
+    converted to an integer, it returns the original value to avoid ValueError.
+
+    Parameters:
+    - value (mixed): The value to convert.
+
+    Returns:
+    int or mixed: Converted integer or the original value if conversion fails.
+    """
+    try:
+        return int(value)
+    except ValueError:
+        return value
+
+
 def preprocess_dataframe(data_frame):
     """
     Preprocess the DataFrame by selecting the required columns.

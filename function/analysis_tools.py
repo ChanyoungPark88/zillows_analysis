@@ -5,7 +5,7 @@ of external libraries for data manipulation and visualization, and utility
 functions for data cleaning and processing.
 """
 from library.libraries import st, px, pd, json
-from function.functions import clean_price, fix_json_string
+from function.functions import clean_price, fix_json_string, safe_int_conversion
 
 #####################################
 #              METRICS              #
@@ -251,10 +251,10 @@ def show_map_and_data(data_frame, selected_file):
         st.subheader("Dataset")
 
         # st.write(data_frame.dtypes)
-        data_frame['zipcode'] = data_frame['zipcode'].astype(
-            int).apply(lambda x: f"{x}")
-        data_frame['zpid'] = data_frame['zpid'].astype(
-            int).apply(lambda x: f"{x}")
+        data_frame['zipcode'] = data_frame['zipcode'].apply(
+            safe_int_conversion).apply(lambda x: f"{x}")
+        data_frame['zpid'] = data_frame['zpid'].apply(
+            safe_int_conversion).apply(lambda x: f"{x}")
 
         st.write(data_frame)
 
