@@ -2,7 +2,7 @@
 
 ## 1. Project objective
 
-The objective of the project is to select a city in the United States and retrieve housing information in order to analyze properties.
+The objective of the project is to select a city in the United States and retrieve housing information in order to analyze properties. The foundational data is scraped from Zillow. All housing information within the area is obtained through the Search Listing API, while detailed information on specific properties is sourced from the Property Details API.
 
 ## 2. Used API
 
