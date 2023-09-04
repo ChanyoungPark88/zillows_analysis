@@ -156,7 +156,13 @@ def get_listings(listing_url):
         "api_key": API_KEY,
         "url": listing_url
     }
+<<<<<<< HEAD
     return requests.request("GET", url, params=querystring, headers=HEADERS, timeout=20)
+=======
+    response = requests.request(
+        "GET", url, params=querystring, headers=HEADERS, timeout=10)
+    return response
+>>>>>>> 925055bef0e750ecc8374e5c2cef2c5707b0814e
 
 
 def get_properties(zpid=None, address=None):
@@ -180,7 +186,13 @@ def get_properties(zpid=None, address=None):
         querystring['zpid'] = zpid
     if address is not None:
         querystring['address'] = address
+<<<<<<< HEAD
     return requests.request("GET", url, params=querystring, headers=HEADERS, timeout=20)
+=======
+    response = requests.request(
+        "GET", url, params=querystring, headers=HEADERS, timeout=10)
+    return response
+>>>>>>> 925055bef0e750ecc8374e5c2cef2c5707b0814e
 
 
 def listings_save_to_db(data):
