@@ -403,13 +403,14 @@ def get_cities_from_state(data_frame, state_name):
     Retrieve cities for the specified state.
 
     Parameters:
-    - df (DataFrame): DataFrame containing the data of cities in the USA.
+    - data_frame (DataFrame): DataFrame containing the data of cities in the USA.
     - state_name (str): Name of the state to retrieve cities for.
 
     Returns:
     List: A list of cities for the specified state.
     """
-    return data_frame[data_frame["state_name"] == state_name]["city"].tolist()
+    sorted_dataframe = data_frame.sort_values(by="SizeRank")
+    return sorted_dataframe[data_frame["StateName"] == state_name]["City"].tolist()
 
 
 def get_cities_from_province(data_frame, province_name):
