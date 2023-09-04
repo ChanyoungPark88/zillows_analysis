@@ -472,18 +472,22 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
         "isListVisible": True,
         "mapZoom": 11
     }
-    encoded_query = urllib.parse.urlencode(
-        {"searchQueryState": json.dumps(search_query_state)})
+    # search_query_state를 JSON 문자열로 변환
+    json_string = json.dumps(search_query_state)
 
-    # usersSearchTerm 부분만을 위한 특별 처리
-    encoded_query = encoded_query.replace("+", " ")  # 모든 '+' 기호를 공백으로 변경
-    users_search_term = f"{city} {state}".replace(" ", "%20")
+    # 전체 JSON 문자열 인코딩
+    encoded_query = urllib.parse.quote(json_string)
+
+    # usersSearchTerm 부분만 따로 처리
+    users_search_term_encoded = urllib.parse.quote(
+        f"{city} {state}", safe='')
+    users_search_term_part = f"usersSearchTerm\":\"{city} {state}\""
+    encoded_users_search_term_part = f"usersSearchTerm\":\"{users_search_term_encoded}\""
+
+    # 원래 URL에 usersSearchTerm 값을 다시 넣음
     encoded_query = encoded_query.replace(
-        f"{city} {state}", users_search_term)  # usersSearchTerm 부분만 %20으로 변경
+        users_search_term_part, encoded_users_search_term_part)
 
-    encoded_query = encoded_query.replace("%3A", ":").replace("%7B", "{").replace(
-        "%7D", "}").replace("%2C", ",").replace("%5B", "[").replace("%5D", "]").replace("%22", "\"")
-
-    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?{encoded_query}"
+    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchQueryState={encoded_query}"
 
     return url
