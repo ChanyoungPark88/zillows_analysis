@@ -472,9 +472,12 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
         "isListVisible": True,
         "mapZoom": 11
     }
+    encoded_query = urllib.parse.urlencode(
+        {"searchQueryState": search_query_state})
+    encoded_query = encoded_query.replace("+", "%20")  # 공백을 %20로 변경
+    encoded_query = encoded_query.replace("%3A", ":").replace("%7B", "{").replace(
+        "%7D", "}").replace("%2C", ",").replace("%5B", "[").replace("%5D", "]").replace("%22", "\"")
 
-    encoded_query = urllib.parse.quote(
-        str(search_query_state).replace("'", "\""))
-    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchQueryState={encoded_query}"
+    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?{encoded_query}"
 
     return url
