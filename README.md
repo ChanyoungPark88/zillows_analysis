@@ -2,7 +2,7 @@
 
 ## Used API
 
-"""
+```
 Zillow Scraper API(https://app.scrapeak.com/)
 
 Search Listing `/listing`
@@ -19,4 +19,4 @@ Property Details `/property`
 | api_key   | API_KEY          | Yes        | String  |
 | zpid      | zpid or property | Yes        | Integer |
 
-"""
+```
