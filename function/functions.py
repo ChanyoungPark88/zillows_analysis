@@ -458,7 +458,7 @@ def generate_zillow_url(city, state_or_province, lat, lng, region_id, region_typ
         region_type_value = 6
 
     # Construct individual sections of the URL
-    url_path = f"{base_url}/{formatted_city}-{formatted_state_or_province}/"
+    url_path = f"{base_url}/{formatted_city}-{formatted_state_or_province}/houses/"
     query_pagination = '{"pagination":{},'
     query_user_term = f'"usersSearchTerm":"{formatted_city}, {formatted_state_or_province}",'
     query_map_bounds = (
