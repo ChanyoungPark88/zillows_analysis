@@ -2,6 +2,7 @@
 This module provides functionalities related to data processing and handling for
 specific use cases involving Google Cloud Storage, MongoDB, and property data management.
 """
+import urllib.parse
 from library.libraries import (
     os, base64, json, storage, URLError, re, np, st, datetime,
     MongoClient, requests, pd, io, timedelta, urllib
@@ -445,35 +446,38 @@ def generate_zillow_url(city, state, lat, lng, region_id, region_type_value=6):
 
     search_query_state = {
         "pagination": {},
-        "usersSearchTerm": f"{city}, {state}",
-        "mapBounds": {
-            "north": lat + 0.5,
+        "userssearchterm": f"{city}, {state}",
+        "mapbounds": {
+            "west": lng - 0.5,
             "east": lng + 0.5,
             "south": lat - 0.5,
-            "west": lng - 0.5
+            "north": lat + 0.5
         },
-        "regionSelection": [{
-            "regionId": region_id,
-            "regionType": region_type_value
+        "regionselection": [{
+            "regionid": region_id,
+            "regiontype": region_type_value
         }],
-        "isMapVisible": True,
-        "filterState": {
+        "ismapvisible": True,
+        "filterstate": {
             "ah": {"value": True},
             "sort": {"value": "globalrelevanceex"},
-            # "tow": {"value": False},
-            # "mf": {"value": False},
-            # "con": {"value": False},
-            # "land": {"value": False},
-            # "apa": {"value": False},
-            # "manu": {"value": False},
-            # "apco": {"value": False}
+            "tow": {"value": False},
+            "mf": {"value": False},
+            "con": {"value": False},
+            "land": {"value": False},
+            "apa": {"value": False},
+            "manu": {"value": False},
+            "apco": {"value": False}
         },
-        "isListVisible": True,
-        "mapZoom": 11
+        "islistvisible": True,
+        "mapzoom": 11
     }
 
+    str_query = str(search_query_state).replace("'", "\"").replace(
+        "True", "true").replace("False", "false")
     encoded_query = urllib.parse.quote(
-        str(search_query_state).replace("'", "\""))
-    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchQueryState={encoded_query}"
+        str_query, safe='{}[],:"').replace(' ', '')
+
+    url = f"{base_url}/{formatted_city}-{formatted_state}/houses/?searchquerystate={encoded_query}"
 
     return url
