@@ -51,11 +51,11 @@ def get_listing_info():
                 # st.write(selected_city)
 
                 if selected_city != "Select a city":
-                    city_data = data_frame[data_frame["city"]
+                    city_data = data_frame[data_frame["City"]
                                            == selected_city].iloc[0]
-                    city_lat = city_data['lat']
-                    city_lng = city_data['lng']
-                    state_id = city_data['state_id']
+                    city_lat = city_data['Latitude']
+                    city_lng = city_data['Longitude']
+                    state_id = city_data['StateId']
                     region_id = city_data['RegionID']
 
                     zillow_url = generate_zillow_url(
