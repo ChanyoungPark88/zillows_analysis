@@ -40,55 +40,55 @@ def get_listing_info():
     if selected_country_name == "Canada":
         file_name = "canadacities_selected.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
-        st.write(data_frame)
-        # if data_frame is not None:
-        #     # 주 선택 드롭다운 생성
-        #     provinces = ["Select a province"] + \
-        #         sorted(get_provinces_from_canada(data_frame))
-        #     selected_province = st.selectbox("Select a province", provinces)
+        # st.write(data_frame)
+        if data_frame is not None:
+            # 주 선택 드롭다운 생성
+            provinces = ["Select a province"] + \
+                sorted(get_provinces_from_canada(data_frame))
+            selected_province = st.selectbox("Select a province", provinces)
 
-        #     # 선택된 주에 해당하는 도시 선택 드롭다운 생성
-        #     if selected_province != "Select a province":
-        #         cities = ["Select a city"] + \
-        #             sorted(get_cities_from_province(
-        #                 data_frame, selected_province))
-        #         selected_city = st.selectbox("Select a city", cities)
+            # 선택된 주에 해당하는 도시 선택 드롭다운 생성
+            if selected_province != "Select a province":
+                cities = ["Select a city"] + \
+                    sorted(get_cities_from_province(
+                        data_frame, selected_province))
+                selected_city = st.selectbox("Select a city", cities)
 
-        #         if selected_city != "Select a city":
-        #             city_data = data_frame[data_frame["city"]
-        #                                    == selected_city].iloc[0]
-        #             city_lat = city_data['lat']
-        #             city_lng = city_data['lng']
-        #             province_id = city_data['province_id']
+                if selected_city != "Select a city":
+                    city_data = data_frame[data_frame["city"]
+                                           == selected_city].iloc[0]
+                    city_lat = city_data['lat']
+                    city_lng = city_data['lng']
+                    province_id = city_data['province_id']
 
-        #             zillow_url = generate_zillow_url(
-        #                 selected_city, province_id, city_lat, city_lng)
+                    zillow_url = generate_zillow_url(
+                        selected_city, province_id, city_lat, city_lng)
 
     elif selected_country_name == "United States":
         file_name = "uscities_selected.csv"
         data_frame = download_location_file_from_gcs(file_name, storage_client)
-        st.write(data_frame)
-        # if data_frame is not None:
-        #     # 주(State) 선택 드롭다운 생성
-        #     states = ["Select a state"] + \
-        #         sorted(get_states_from_usa(data_frame))
-        #     selected_state = st.selectbox("Select a state", states)
+        # st.write(data_frame)
+        if data_frame is not None:
+            # 주(State) 선택 드롭다운 생성
+            states = ["Select a state"] + \
+                sorted(get_states_from_usa(data_frame))
+            selected_state = st.selectbox("Select a state", states)
 
-        #     # 선택된 주(State)에 해당하는 도시 선택 드롭다운 생성
-        #     if selected_state != "Select a state":
-        #         cities = ["Select a city"] + \
-        #             sorted(get_cities_from_state(data_frame, selected_state))
-        #         selected_city = st.selectbox("Select a city", cities)
+            # 선택된 주(State)에 해당하는 도시 선택 드롭다운 생성
+            if selected_state != "Select a state":
+                cities = ["Select a city"] + \
+                    sorted(get_cities_from_state(data_frame, selected_state))
+                selected_city = st.selectbox("Select a city", cities)
 
-        #         if selected_city != "Select a city":
-        #             city_data = data_frame[data_frame["city"]
-        #                                    == selected_city].iloc[0]
-        #             city_lat = city_data['lat']
-        #             city_lng = city_data['lng']
-        #             state_id = city_data['state_id']
+                if selected_city != "Select a city":
+                    city_data = data_frame[data_frame["city"]
+                                           == selected_city].iloc[0]
+                    city_lat = city_data['lat']
+                    city_lng = city_data['lng']
+                    state_id = city_data['state_id']
 
-        #             zillow_url = generate_zillow_url(
-        #                 selected_city, state_id, city_lat, city_lng)
+                    zillow_url = generate_zillow_url(
+                        selected_city, state_id, city_lat, city_lng)
 
     # Container for entering the web link
     # with st.container():
