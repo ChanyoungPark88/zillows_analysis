@@ -2,12 +2,12 @@
 
 ## 1. Project objective
 
-The objective of the project is to select a city in the United States and retrieve housing information in order to analyze properties. The foundational data is scraped from Zillow. All housing information within the area is obtained through the Search Listing API, while detailed information on specific properties is sourced from the Property Details API.
+The goal of the project is to select a city in the United States and retrieve housing information to analyze properties. The foundational data is scraped from Zillow. All housing information within the area is obtained through the Search Listing API, while detailed information on specific properties is sourced from the Property Details API.
 
 ## 2. Technical Stack
 
 - Programming Language
-  - Python: The primary language used for overall logic and data processing.
+  - Python: The primary language used for the main logic and data handling.
 - Web Framework & Library
   - Streamlit: A Python library used to construct the frontend of the web application.
 - Data Analysis & Processing
@@ -49,16 +49,33 @@ Zillow Scraper API(https://app.scrapeak.com/)
 Users can select the desired feature from the sidebar:
 
 - Listing
-  - Users can select a country, state, and city via dropdown menus.
+  - Users can select a state and city via dropdown menus.
   - Upon pressing the "Run" button, users can fetch a list of housing options available in the chosen area.
 - Property
-  - Users can input either the "zpid" or the full address.
+  - Users can enter the 'zpid' or address.
   - This allows users to retrieve detailed information about a specific property.
 - Analysis
   - Users can view insights derived from the data obtained in both the "Listing" and "Property" sections.
   - This feature provides analysis based on specific criteria, offering a deeper understanding of the housing market trends and specifics.
 
-## 4. Challenges & Solutions
+## 4. Project Challenges & Solutions
+
+Every project starts with a simple idea.
+
+- Challenge 1: At first, I used a YouTube example that showed real estate info using Streamlit and API. But I wanted to copy the advanced features from a YouTuber's app. It wasn't easy.
+  - Solution 1: I looked closely at the YouTuber's app and listed the important features. I used Pandas to clean the data from the API. Now, only the needed info is displayed to users.
+
+While showing data, I felt we needed more.
+
+- Challenge 2: While creating the website, I thought users should save and use their data safely.
+  - Solution 2: To save data well, I chose MongoDB. For giving files to users, I used GCS. There was a problem with API keys. I fixed it with Streamlit's environment and base64. I checked GCS's guide to solve file upload problems.
+
+There was one last step for users' convenience.
+
+- Challenge 3: Even after making most of the app, users had to copy and paste the Zillow URL every time. It was not convenient.
+  - Solution 3: To address this, I combined sample datasets from Zillow and SimpleData. I made one dataset. With this, the app creates URLs using state and city info by itself.
+
+With these challenges, my project grew. Now, it boasts numerous features, making it user-friendly.
 
 ## 5. Performance Optimization & Security Measures
 
