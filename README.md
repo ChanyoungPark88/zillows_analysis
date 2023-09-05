@@ -78,8 +78,8 @@ My project got better with each challenge
 
 ## 6. Screenshots & Demo Video
 
-![Search Listings](https://drive.google.com/file/d/12ExOBg8CU8Y7OHQ-7qGaJ4BLhrLhtSom/view?usp=share_link)
+![Search Listings](https://drive.google.com/uc?export=view&id=12ExOBg8CU8Y7OHQ-7qGaJ4BLhrLhtSom)
 
-![Property Details](https://drive.google.com/file/d/1S6mAbBk-pG906kldpPc6XNRKJoi6xE1s/view?usp=share_link)
+![Property Details](https://drive.google.com/uc?export=view&id=1S6mAbBk-pG906kldpPc6XNRKJoi6xE1s)
 
 ## 7. Learning Points from the Project
