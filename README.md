@@ -26,6 +26,18 @@ The objective of the project is to select a city in the United States and retrie
 
 ## 3. Key Features
 
+Users can select the desired feature from the sidebar:
+
+- Listing
+  - Users can select a country, state, and city via dropdown menus.
+  - Upon pressing the "Run" button, users can fetch a list of housing options available in the chosen area.
+- Property
+  - Users can input either the "zpid" or the full address.
+  - This allows users to retrieve detailed information about a specific property.
+- Analysis
+  - Users can view insights derived from the data obtained in both the "Listing" and "Property" sections.
+  - This feature provides analysis based on specific criteria, offering a deeper understanding of the housing market trends and specifics.
+
 ## 4. Challenges & Solutions
 
 ## 5. Performance Optimization & Security Measures
