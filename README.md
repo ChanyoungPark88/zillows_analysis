@@ -78,4 +78,7 @@ My project got better with each challenge
 
 ## 6. Screenshots & Demo Video
 
+![Search Listings](https://storage.cloud.google.com/myproject-screenshots/Screen%20Recording%202023-09-04%20at%208.11.29%20PM.gif)
+![Property Details](https://storage.cloud.google.com/myproject-screenshots/Screen%20Recording%202023-09-04%20at%208.21.40%20PM.gif)
+
 ## 7. Learning Points from the Project
