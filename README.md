@@ -23,6 +23,26 @@ The objective of the project is to select a city in the United States and retrie
   - URllib: Used for URL encoding and processing.
   - Base64: Used for data encoding and decoding.
   - os.environ: Used for loading environment variables.
+- API
+  - Zillow Scraper API: A public API by Scrapeak, enabling data extraction of Listings and Property details directly from Zillow.
+
+### 2.1 Used API
+
+Zillow Scraper API(https://app.scrapeak.com/)
+
+#### 2.1.1 Search Listing `/listing`
+
+| Parameter | Description                                                           | Isrequired | Type   |
+| --------- | --------------------------------------------------------------------- | ---------- | ------ |
+| api_key   | API_KEY                                                               | Yes        | String |
+| url       | The URL of the listing page<br> with the 'searchQueryState' parameter | Yes        | String |
+
+#### 2.2.1 Property Details `/property`
+
+| Parameter | Description      | Isrequired | Type    |
+| --------- | ---------------- | ---------- | ------- |
+| api_key   | API_KEY          | Yes        | String  |
+| zpid      | zpid or property | Yes        | Integer |
 
 ## 3. Key Features
 
@@ -45,21 +65,3 @@ Users can select the desired feature from the sidebar:
 ## 6. Screenshots & Demo Video
 
 ## 7. Learning Points from the Project
-
-## 2. Used API
-
-Zillow Scraper API(https://app.scrapeak.com/)
-
-### 2.1. Search Listing `/listing`
-
-| Parameter | Description                                                           | Isrequired | Type   |
-| --------- | --------------------------------------------------------------------- | ---------- | ------ |
-| api_key   | API_KEY                                                               | Yes        | String |
-| url       | The URL of the listing page<br> with the 'searchQueryState' parameter | Yes        | String |
-
-### 2.2. Property Details `/property`
-
-| Parameter | Description      | Isrequired | Type    |
-| --------- | ---------------- | ---------- | ------- |
-| api_key   | API_KEY          | Yes        | String  |
-| zpid      | zpid or property | Yes        | Integer |
