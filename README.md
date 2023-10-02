@@ -98,3 +98,9 @@ Users can:
 ## 6. Screenshots & Demo Video
 
 ## 7. Learning Points from the Project
+
+- **Importance of Data Processing and Refinement**: I learned to efficiently handle only the necessary data using Pandas. Especially while refining unnecessary or missing information from the data acquired from the API, I deeply understood the significance of data management.
+
+- **User-Centric Design and Enhancement**: Instead of requiring users to input the Zillow URL directly, I automated its generation within the application, significantly enhancing the user experience.
+
+- **Organic Integration of Tools and Techniques**: Through the combined use of diverse technologies and tools (API, MongoDB, Google Cloud Service), I learned how to effectively implement and integrate essential features of the application. By understanding the characteristics of each technology and connecting them in an optimal way, I increased the efficiency of the project.
