@@ -59,14 +59,19 @@ Users can:
 
 ## 4. Project Challenges & Solutions
 
-- Challenge 1: At first, I followed a YouTube example. But I wanted to add more features.
-  - Solution 1: I reviewed the application demonstrated in the YouTube tutorial and adopted the best features from it. I utilized Pandas to display only relevant information.
-- Challenge 2: I wanted users to save and use their data safely.
-  - Solution 2: I used MongoDB to save data. I employed GCS to allow users to download files. I had a problem with API keys but fixed it using Streamlit and base64.
-- Challenge 3: Users had to type the Zillow URL every time.
-  - Solution 3: I combined data from the Zillow and the SimpleData. The app now makes URLs using state and city info.
+### 4-1. Automating URL generation for API usage
 
-My project got better with each challenge
+- **Situation**: I needed specific filtered URLs for API usage and wanted to automate a task that was previously done manually.
+  - **Task**: My goal was to create a mechanism where users wouldn't have to type the entire Zillow URL every time.
+  - **Action**: I decided to parameterize the country and state information using a dropdown menu. By analyzing the URL pattern, I developed a feature that would update only the necessary information and auto-generate the URL.
+  - **Result**: Users can now easily obtain a filtered URL by simply selecting the country and state from the dropdown, enhancing the user experience.
+
+### 4-2. Displaying essential information on the website using Pandas
+
+- **Situation**: I wanted to present important information on the website utilizing Pandas.
+  - **Task**: To achieve this, I believed there was a need to load the actual files on the platform.
+  - **Action**: I opted to use Google Cloud Service and MongoDB. Data scraped via the URL was processed by Pandas and then saved as files in cloud storage. Meanwhile, metadata for displaying the file list was stored in MongoDB, facilitating a seamless upload and download process for the files.
+  - **Result**: I successfully integrated Pandas, Google Cloud Service, and MongoDB, providing users with a seamless way to view, upload, and download essential data on the website.
 
 ## 5. Performance Optimization & Security Measures
 
