@@ -80,6 +80,13 @@ Users can:
   - **Action**: Using Pandas, I conducted an analysis of the table columns. I then developed Python functions to handle null values and other post-processing needs.
   - **Result**: The dataset was successfully cleaned, with all redundancies removed and null values addressed, making it more streamlined for further analysis.
 
+### 4-4. Managing Access Keys for APIs, MongoDB, and Google Cloud Service
+
+- **Situation**: To utilize the API, MongoDB, and Google Cloud Service, specific access keys were required. Directly embedding these keys in the code presented a security risk.
+  - **Task**: I needed a method to securely manage and utilize these access keys without compromising their confidentiality.
+  - **Action**: I opted to implement these keys as parameters within the Streamlit web platform. Furthermore, to enhance security, I encoded the keys, ensuring they couldn't be easily deciphered.
+  - **Result**: The integration of access keys became secure and manageable without posing any threat to the system's security.
+
 ## 5. Performance Optimization & Security Measures
 
 - Better Performance
