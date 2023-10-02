@@ -73,6 +73,13 @@ Users can:
   - **Action**: I opted to use Google Cloud Service and MongoDB. Data scraped via the URL was processed by Pandas and then saved as files in cloud storage. Meanwhile, metadata for displaying the file list was stored in MongoDB, facilitating a seamless upload and download process for the files.
   - **Result**: I successfully integrated Pandas, Google Cloud Service, and MongoDB, providing users with a seamless way to view, upload, and download essential data on the website.
 
+### 4-3. Data Post-processing for Scraped Data
+
+- **Situation**: The data I scraped through the API contained many tables that appeared redundant or unnecessary for analysis. There were issues with duplicate tables and data entries with null values.
+  - **Task**: I aimed to efficiently handle these redundancies and clean the data to be ready for analysis.
+  - **Action**: Using Pandas, I conducted an analysis of the table columns. I then developed Python functions to handle null values and other post-processing needs.
+  - **Result**: The dataset was successfully cleaned, with all redundancies removed and null values addressed, making it more streamlined for further analysis.
+
 ## 5. Performance Optimization & Security Measures
 
 - Better Performance
